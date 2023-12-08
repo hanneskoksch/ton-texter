@@ -1,3 +1,4 @@
+import AuthCard from "@/components/Auth";
 import {
   Card,
   CardHeader,
@@ -41,6 +42,8 @@ export default function Home() {
           </Link>
         </CardFooter>
       </Card>
+
+      <AuthCard/>
     </div>
   );
 }
