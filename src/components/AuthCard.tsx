@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import AuthForm from "@/app/auth-form"; 
+import AuthForm from "@/components/AuthForm"; 
 
 const AuthCard = () => {
   return (

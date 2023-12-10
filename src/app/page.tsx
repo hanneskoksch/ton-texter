@@ -1,4 +1,4 @@
-import AuthCard from "@/components/Auth";
+import AuthCard from "@/components/AuthCard";
 import {
   Card,
   CardHeader,
