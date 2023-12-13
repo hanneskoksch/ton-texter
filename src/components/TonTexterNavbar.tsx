@@ -27,8 +27,7 @@ function TonTexterNavbar() {
           <Button
             as={LinkNextUI}
             color="primary"
-            href="/"
-            target="_blank"
+            href="/auth/login"
             variant="bordered"
             size="sm"
           >
@@ -39,8 +38,7 @@ function TonTexterNavbar() {
           <Button
             as={LinkNextUI}
             color="primary"
-            href="/"
-            target="_blank"
+            href="/auth/signup"
             variant="solid"
             size="sm"
           >
