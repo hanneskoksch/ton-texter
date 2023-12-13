@@ -8,6 +8,7 @@ import {
   Link as LinkNextUI,
 } from "@nextui-org/react";
 import Link from "next/link";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 function TonTexterNavbar() {
   return (
@@ -20,12 +21,16 @@ function TonTexterNavbar() {
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem>
+          <ThemeSwitcher />
+        </NavbarItem>
+        <NavbarItem>
           <Button
             as={LinkNextUI}
             color="primary"
             href="/"
             target="_blank"
             variant="bordered"
+            size="sm"
           >
             Login
           </Button>
@@ -37,6 +42,7 @@ function TonTexterNavbar() {
             href="/"
             target="_blank"
             variant="solid"
+            size="sm"
           >
             Registrieren
           </Button>
