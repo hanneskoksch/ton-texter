@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
+import TonTexterNavbar from "@/components/TonTexterNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,10 @@ export default function RootLayout({
     <html lang="de">
       <head />
       <body className={inter.className}>
-        <Providers>{children} </Providers>
+        <Providers>
+          <TonTexterNavbar />
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );
