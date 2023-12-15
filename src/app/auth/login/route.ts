@@ -17,5 +17,5 @@ export async function POST(request: Request) {
     password,
   })
 
-  return NextResponse.redirect('/dashboard', { status: 301 })
+  return NextResponse.redirect(`${requestUrl.origin}/dashboard`, { status: 301 })
 }
