@@ -34,8 +34,8 @@ export default function AccountForm({ session }: { session: Session | null }) {
         setFullname(data.full_name);
         setUsername(data.username);
       }
-    } catch (error) {
-      alert("Error loading user data!");
+    } catch (error:any) {
+      alert("Error loading user data!" + error.message);
     } finally {
       setLoading(false);
     }
@@ -62,8 +62,8 @@ export default function AccountForm({ session }: { session: Session | null }) {
       });
       if (error) throw error;
       alert("Profile updated!");
-    } catch (error) {
-      alert("Error updating the data!");
+    } catch (error :any) {
+      alert("Error updating the data!" + error.message);
     } finally {
       setLoading(false);
     }
