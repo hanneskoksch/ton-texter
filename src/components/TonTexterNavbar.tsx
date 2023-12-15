@@ -9,13 +9,23 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/lib/database.types";
+import { cookies } from 'next/headers'
 
-function TonTexterNavbar() {
+async function TonTexterNavbar() {
+  // check if we have a user session (logged in) with supabase
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  const userIsLoggedIn = session !== null;
+ 
   return (
     <Navbar isBordered>
       <NavbarBrand>
         <Link href="/">
-          {/* <TonTexterLogo /> */}
           <p className="font-bold text-lg text-inherit ">Ton-Texter</p>
         </Link>
       </NavbarBrand>
@@ -23,28 +33,40 @@ function TonTexterNavbar() {
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={LinkNextUI}
-            color="primary"
-            href="/auth/login"
-            variant="bordered"
-            size="sm"
-          >
-            Login
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={LinkNextUI}
-            color="primary"
-            href="/auth/signup"
-            variant="solid"
-            size="sm"
-          >
-            Registrieren
-          </Button>
-        </NavbarItem>
+        {userIsLoggedIn ? (
+          <NavbarItem>
+              <form action="/auth/signout" method="post">
+              <Button type="submit" color="danger">
+                Sign out
+              </Button>
+            </form>
+          </NavbarItem>
+        ) : (
+          <>
+            <NavbarItem>
+              <Button
+                as={LinkNextUI}
+                color="primary"
+                href="/auth/login"
+                variant="bordered"
+                size="sm"
+              >
+                Login
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={LinkNextUI}
+                color="primary"
+                href="/auth/signup"
+                variant="solid"
+                size="sm"
+              >
+                Registrieren
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   );

@@ -1,6 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { Database } from '@/../types/supabase' 
+import { Database } from '@/lib/database.types' 
 import AccountForm from './AccountForm'
 
 export default async function Dashboard() {
