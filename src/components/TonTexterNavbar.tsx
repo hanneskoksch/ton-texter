@@ -11,17 +11,17 @@ import Link from "next/link";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/lib/database.types";
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
 
 async function TonTexterNavbar() {
   // check if we have a user session (logged in) with supabase
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
-  } = await supabase.auth.getSession()
+  } = await supabase.auth.getSession();
 
   const userIsLoggedIn = session !== null;
- 
+
   return (
     <Navbar isBordered>
       <NavbarBrand>
@@ -35,7 +35,7 @@ async function TonTexterNavbar() {
         </NavbarItem>
         {userIsLoggedIn ? (
           <NavbarItem>
-              <form action="/auth/signout" method="post">
+            <form action="/auth/signout" method="post">
               <Button type="submit" color="danger">
                 Sign out
               </Button>
@@ -47,7 +47,7 @@ async function TonTexterNavbar() {
               <Button
                 as={LinkNextUI}
                 color="primary"
-                href="/auth/login"
+                href="/login"
                 variant="bordered"
                 size="sm"
               >
@@ -58,7 +58,7 @@ async function TonTexterNavbar() {
               <Button
                 as={LinkNextUI}
                 color="primary"
-                href="/auth/signup"
+                href="/signup"
                 variant="solid"
                 size="sm"
               >
