@@ -20,6 +20,21 @@ export default function AccountForm({ session }: { session: Session | null }) {
     try {
       setLoading(true);
 
+      console.log("user?.id", user?.id);
+
+      // set supabase session
+      if (!user) {
+        // get access_token and refresh_token from url
+        const url = window.location.href;
+        const access_token = url.split("access_token=")[1].split("&")[0];
+        const refresh_token = url.split("refresh_token=")[1].split("&")[0];
+
+        await supabase.auth.setSession({
+          access_token,
+          refresh_token,
+        });
+      }
+
       const { data, error, status } = await supabase
         .from("profiles")
         .select(`full_name, username`)
