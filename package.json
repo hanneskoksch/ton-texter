@@ -11,6 +11,8 @@
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.0",
+    "@supabase/ssr": "^0.0.10",
+    "@supabase/supabase-js": "^2.39.1",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.15",
     "lucide-react": "^0.294.0",
