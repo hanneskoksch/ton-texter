@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
-import TonTexterNavbar from "@/components/TonTexterNavbar";
+import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
