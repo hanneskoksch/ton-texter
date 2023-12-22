@@ -2,6 +2,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Button, Input } from "@nextui-org/react";
 export default function Login({
   searchParams,
 }: {
@@ -38,26 +39,28 @@ export default function Login({
           className="flex flex-col justify-center flex-1 w-full gap-2 animate-in text-foreground"
           action={signUp}
         >
-          <label className="text-md" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-            name="email"
-            placeholder="you@example.com"
-            required
-          />
-          <label className="text-md" htmlFor="password">
-            Passwort
-          </label>
-          <input
-            className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-          />
-          <button className="p-2 text-white bg-primary">Registrieren</button>
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Input
+              name="email"
+              type="email"
+              label="E-Mail"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Input
+              name="password"
+              type="password"
+              label="Passwort"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <Button className="mt-4 p-2 text-white bg-primary" type="submit">
+            Registrieren
+          </Button>
 
           {searchParams?.message && (
             <p className="p-4 mt-4 text-center bg-foreground/10 text-foreground">
