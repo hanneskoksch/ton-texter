@@ -10,17 +10,17 @@ const Footer = () => {
       <nav className="flex justify-center">
         <ul className="flex space-x-4">
           <li>
-            <Link href="/impressum" className="text-sm">
+            <Link href="/legal/imprint" className="text-sm">
               Impressum
             </Link>
           </li>
           <li>
-            <Link href="/datenschutz" className="text-sm">
+            <Link href="/legal/data-privacy" className="text-sm">
               Datenschutz
             </Link>
           </li>
           <li>
-            <Link href="/nutzungsbedingungen" className="text-sm">
+            <Link href="/legal/terms-of-use" className="text-sm">
               Nutzungsbedingungen
             </Link>
           </li>
