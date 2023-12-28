@@ -97,14 +97,9 @@ const UploadToS3 = () => {
         <div className="mt-4">
           <p className="text-lg">Selected File: {file.name}</p>
           <Spacer y={1} />
-          <Button disabled={uploading} onClick={handleUpload}>
+          <Button disabled={uploading} onClick={handleUpload} isLoading={uploading}>
             {uploading ? 'Uploading...' : 'Upload to AWS S3'}
           </Button>
-          {uploading && (
-            <div className="mt-2">
-              <CircularProgress aria-label="Loading..." />
-            </div>
-          )}
         </div>
       )}
     </div>
