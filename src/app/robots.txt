@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /api     # Prevent indexing of API routes

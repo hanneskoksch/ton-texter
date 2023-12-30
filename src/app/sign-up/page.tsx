@@ -3,6 +3,12 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getURL } from "@/lib/utils";
 import { Button, Input } from "@nextui-org/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Registrieren',
+};
+
 export default function Login({
   searchParams,
 }: {
