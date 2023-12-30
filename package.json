@@ -10,10 +10,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.481.0",
+    "@aws-sdk/s3-request-presigner": "^3.484.0",
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.4",
-    "@aws-sdk/client-s3": "^3.481.0",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.0",
     "@supabase/ssr": "^0.0.10",

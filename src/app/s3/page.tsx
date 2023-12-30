@@ -45,6 +45,8 @@ const UploadToS3 = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      // TODO: Replace with user id once this is in dashboard
+      formData.append("userId", "91a765c3-222f-463e-b4bd-4b37f4eb8ca8");
 
       const response = await fetch("/api/s3/uploadFile", {
         method: "POST",
