@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     const fileName = `${randomUUID()}.${file.name.split(".").pop()}`;
     const Body = (await file.arrayBuffer()) as Buffer;
 
+    // Upload file to S3
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET!,
       Key: fileName,
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
     const response = await client.send(command);
 
     if (response.$metadata.httpStatusCode === 200) {
+      // Get presigned url for the file
       const s3url = await createPresignedUrlWithClient({
         region: process.env.S3_REGION!,
         accessKeyId: process.env.S3_ACCESS_KEY_ID!,
@@ -46,9 +48,6 @@ export async function POST(req: NextRequest) {
         bucket: process.env.S3_BUCKET!,
         key: fileName,
       });
-
-      console.log("Presigned URL with client");
-      console.log(s3url);
 
       // Create a new transcript in the database
       const newTranscript = await db.transcript.create({
@@ -62,10 +61,11 @@ export async function POST(req: NextRequest) {
       if (!newTranscript) {
         throw new Error("Failed to create transcript");
       }
+    } else {
+      throw new Error("Failed to upload file");
     }
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ success: false, error });
   }
 }
