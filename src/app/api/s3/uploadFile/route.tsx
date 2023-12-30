@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false });
     }
 
+    // Create S3 client
     const client = new S3Client({
       region: process.env.S3_REGION!,
       credentials: {
@@ -42,9 +43,7 @@ export async function POST(req: NextRequest) {
     if (response.$metadata.httpStatusCode === 200) {
       // Get presigned url for the file
       const s3url = await createPresignedUrlWithClient({
-        region: process.env.S3_REGION!,
-        accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        client,
         bucket: process.env.S3_BUCKET!,
         key: fileName,
       });
@@ -71,25 +70,14 @@ export async function POST(req: NextRequest) {
 }
 
 const createPresignedUrlWithClient = ({
-  region,
-  accessKeyId,
-  secretAccessKey,
+  client,
   bucket,
-  key,
+  key
 }: {
-  region: string;
-  accessKeyId: string;
-  secretAccessKey: string;
+  client: S3Client;
   bucket: string;
   key: string;
 }) => {
-  const client = new S3Client({
-    region: region,
-    credentials: {
-      accessKeyId: accessKeyId,
-      secretAccessKey: secretAccessKey,
-    },
-  });
   const command = new GetObjectCommand({ Bucket: bucket, Key: key });
   return getSignedUrl(client, command, { expiresIn: 3600 });
 };
