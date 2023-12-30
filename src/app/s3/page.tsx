@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, CircularProgress, Spacer } from "@nextui-org/react";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { Button, Spacer } from "@nextui-org/react";
 
 const UploadToS3 = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -43,26 +42,22 @@ const UploadToS3 = () => {
     if (!file) return;
     setUploading(true);
 
-    const client = new S3Client({
-      region: process.env.NEXT_PUBLIC_S3_REGION!,
-      credentials: {
-        accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY!,
-      },
-    });
-
-    const command = new PutObjectCommand({
-      Bucket: process.env.NEXT_PUBLIC_S3_BUCKET!,
-      Key: file.name,
-      Body: file,
-    });
-
     try {
-      const response = await client.send(command);
-      console.log("File uploaded successfully:", response);
-      setFile(null);
-      setUploadSuccess(true);
-      setUploadError(false);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/s3/uploadFile", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        setFile(null);
+        setUploadSuccess(true);
+        setUploadError(false);
+      } else {
+        throw new Error("Failed to upload file");
+      }
     } catch (error) {
       console.error("Error uploading file:", error);
       setUploadError(true);
