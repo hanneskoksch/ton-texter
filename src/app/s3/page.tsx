@@ -1,7 +1,7 @@
-"use client"
-import { useState } from 'react';
-import { Button, CircularProgress, Spacer } from '@nextui-org/react';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+"use client";
+import { useState } from "react";
+import { Button, CircularProgress, Spacer } from "@nextui-org/react";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const UploadToS3 = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -58,47 +58,63 @@ const UploadToS3 = () => {
     });
 
     try {
-    const response = await client.send(command);
-    console.log('File uploaded successfully:', response);
-    setFile(null);
-    setUploadSuccess(true);
-    setUploadError(false); 
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    setUploadError(true);
-    setUploadSuccess(false); 
-  } finally {
-    setUploading(false);
-  }
+      const response = await client.send(command);
+      console.log("File uploaded successfully:", response);
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setUploadError(true);
+      setUploadSuccess(false);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center m-4">
       <div
-        className={`border-dashed border-4 ${highlighted ? 'border-blue-500' : 'border-gray-400'} p-6 text-center cursor-pointer`}
+        className={`border-dashed border-4 ${
+          highlighted ? "border-blue-500" : "border-gray-400"
+        } p-6 text-center cursor-pointer`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
       >
         <input
-          id='fileInput'
+          id="fileInput"
           type="file"
           className="hidden"
           onChange={handleFileChange}
         />
         <p className="text-lg">Drag & Drop a file here or</p>
-        <Button className='m-4' color="primary" onClick={() => document.getElementById('fileInput')?.click()}>
+        <Button
+          className="m-4"
+          color="primary"
+          onClick={() => document.getElementById("fileInput")?.click()}
+        >
           Click to Browse
         </Button>
       </div>
-      {uploadSuccess && <p className="text-green-600 m-4">File uploaded successfully!</p>}
-      {uploadError && <p className="text-red-600 m-4">Error uploading file. Please try again.</p>}
+      {uploadSuccess && (
+        <p className="text-green-600 m-4">File uploaded successfully!</p>
+      )}
+      {uploadError && (
+        <p className="text-red-600 m-4">
+          Error uploading file. Please try again.
+        </p>
+      )}
       {file && (
         <div className="mt-4">
           <p className="text-lg">Selected File: {file.name}</p>
           <Spacer y={1} />
-          <Button disabled={uploading} onClick={handleUpload} isLoading={uploading}>
-            {uploading ? 'Uploading...' : 'Upload to AWS S3'}
+          <Button
+            disabled={uploading}
+            onClick={handleUpload}
+            isLoading={uploading}
+          >
+            {uploading ? "Uploading..." : "Upload to AWS S3"}
           </Button>
         </div>
       )}
