@@ -59,7 +59,6 @@ const UploadToS3 = () => {
         throw new Error("Failed to upload file");
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
       setUploadError(true);
       setUploadSuccess(false);
     } finally {
