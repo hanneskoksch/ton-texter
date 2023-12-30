@@ -12,15 +12,18 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
+  id    String @id @unique // matches supabase auth user id
   email String @unique
   name  String
 
   Transcript Transcript[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Transcript {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(cuid())
   filename String
   preview  String?
 
@@ -33,7 +36,7 @@ model Transcript {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id])
 }
 
