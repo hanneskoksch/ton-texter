@@ -1,7 +1,12 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 
 export default async function Home() {
   const supabase = createClient();

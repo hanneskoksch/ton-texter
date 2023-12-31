@@ -2,6 +2,11 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button, Input } from "@nextui-org/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Login',
+};
 
 export default function Login({
   searchParams,
