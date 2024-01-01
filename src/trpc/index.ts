@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "./trpc";
+import { privateProcedure, publicProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
@@ -36,6 +36,15 @@ export const appRouter = router({
     }
 
     return { success: true };
+  }),
+  getUserTranscriptions: privateProcedure.query(async ({ ctx }) => {
+    const { userId } = ctx;
+
+    return await db.transcript.findMany({
+      where: {
+        userId,
+      },
+    });
   }),
 });
 
