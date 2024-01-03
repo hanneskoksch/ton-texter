@@ -58,7 +58,7 @@ function Dashboard() {
                 </Link>
 
                 <div className="px-6 mt-4 flex place-items-center py-2 gap-6 text-xs text-default-500 justify-between">
-                  {format(new Date(file.createdAt), "MMM yyyy")}
+                  {format(new Date(file.createdAt), "MM.dd.yyyy - HH:mm")}
 
                   <Button size="sm" color="danger" onClick={() => {}}>
                     <Trash className="h-4 w-4" />
