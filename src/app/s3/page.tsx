@@ -84,33 +84,33 @@ const UploadToS3 = () => {
           className="hidden"
           onChange={handleFileChange}
         />
-        <p className="text-lg">Drag & Drop a file here or</p>
+        <p className="text-lg">Datei hier ablegen oder</p>
         <Button
           className="m-4"
           color="primary"
           onClick={() => document.getElementById("fileInput")?.click()}
         >
-          Click to Browse
+          Datei auswählen
         </Button>
       </div>
       {uploadSuccess && (
-        <p className="text-green-600 m-4">File uploaded successfully!</p>
+        <p className="text-green-600 m-4">Datei erfolgreich hochgeladen!</p>
       )}
       {uploadError && (
         <p className="text-red-600 m-4">
-          Error uploading file. Please try again.
+          Fehler beim Hochladen der Datei. Bitte versuche es erneut.
         </p>
       )}
       {file && (
         <div className="mt-4">
-          <p className="text-lg">Selected File: {file.name}</p>
+          <p className="text-lg">Ausgewählte Datei: {file.name}</p>
           <Spacer y={1} />
           <Button
             disabled={uploading}
             onClick={handleUpload}
             isLoading={uploading}
           >
-            {uploading ? "Uploading..." : "Upload to AWS S3"}
+            {uploading ? "Hochladen..." : "Hochladen"}
           </Button>
         </div>
       )}
