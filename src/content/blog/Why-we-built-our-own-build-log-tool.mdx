@@ -1,0 +1,22 @@
+---
+title: "Why we built our own build log tool"
+date: "2023-12-03"
+author: "Hannes"
+authorGithub: "hanneskoksch"
+---
+
+Going with Vercel to build and deploy our app brought many advantages. One of the biggest would be the automatic CI/CD setup of our Next.js application. With that, we could immediately focus on developing the actual application code and didn't have to struggle with any kind of pipeline setup at the beginning.
+
+
+
+Though Vercel offers a 20 $ (per user per month) pro plan for teams, within the scope of this project we never planned to leave the generous free plan. While the free plan probably completely satisfies the needs of solo developers, it becomes more difficult when working with it in teams:
+
+The Preview builds of individual branches or pull requests behind an authentication layer that checks if the build belongs to you or your team weren't that much of a problem. While we of course couldn't all make use of them, we always could just build and test the branches locally.
+
+One big problem though was the build pipeline. With the Vercel bot automatically commenting on the PRs, you could tell if a build was successful or not, but in the case of the ladder, you couldn't tell why. Clicking on the inspect link just forwarded you to the same authentication layer that, in case that project is not connected to your Vercel account, didn't show you any useful information.
+
+Therefore we needed a solution so all team members would be able to check why their branches may have failed to build. This solution came in the form of the Vercel API and Vercel account access tokens. With that, in the very initial phase of our project, we developed a small tool that allowed everyone to anonymously check its build logs. The tool "Ton Texter Logs" was born.
+
+Technically, we are using just yet another Next.js application, also deployed on Vercel, that fetches the builds and their logs on the server side. With that, the access token used for the API calls is not exposed to clients visiting the tool site.
+
+While this looks like an out-of-scope side project, it was a welcoming opportunity for me to get to know the functioning of Next.js 14 and the UI library NextUI.
