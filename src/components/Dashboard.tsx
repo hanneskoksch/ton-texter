@@ -40,22 +40,16 @@ function Dashboard() {
                 className="divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg mb-4
                 "
               >
-                <Link
-                  href={file.audioUrl!}
-                  target="_blank"
-                  className="flex flex-col gap-2"
-                >
-                  <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
-                    <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3">
-                        <h3 className="truncate text-lg font-medium text-default-900">
-                          {file.filename}
-                        </h3>
-                      </div>
+                <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
+                  <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+                  <div className="flex-1 truncate">
+                    <div className="flex items-center space-x-3">
+                      <h3 className="truncate text-lg font-medium text-default-900">
+                        {file.filename}
+                      </h3>
                     </div>
                   </div>
-                </Link>
+                </div>
 
                 <div className="px-6 mt-4 flex place-items-center py-2 gap-6 text-xs text-default-500 justify-between">
                   {format(new Date(file.createdAt), "MM.dd.yyyy - HH:mm")}
