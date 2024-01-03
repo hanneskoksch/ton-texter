@@ -18,7 +18,7 @@ function Dashboard() {
           Meine Transkripte
         </h1>
 
-        <Button>Open Upload-Modal</Button>
+        <Button>Datei hochladen</Button>
         {/* 
         todo: implement upload modal
         see https://nextui.org/docs/components/modal
