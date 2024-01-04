@@ -24,7 +24,7 @@ export default function Home() {
             <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
               Benutze dein Transkript in Minuten
             </h2>
-            <p className="mt4 text-lg text-default-600">
+            <p className="mt-4 text-lg text-default-600">
               Das Arbeiten mit Transkripten war noch nie so einfach wie mit
               Ton-Texter.
             </p>
@@ -85,14 +85,14 @@ export default function Home() {
             <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
               Das Team hinter Ton-Texter
             </h2>
-            <p className="mt4 text-lg text-default-600 mb-12">
+            <p className="mt-4 text-lg text-default-600 mb-12">
               Wir sind ein kleines Team aus Berlin, das sich auf die Entwicklung
               von Software für die Videoproduktion spezialisiert hat.
             </p>
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-5xl mb-60 items-center sm:items-start flex flex-col gap-8 sm:flex-row p-10">
+      <div className="mx-auto max-w-5xl mb-60 items-center sm:items-start flex flex-col gap-8 sm:flex-row p-10 text-center">
         <div>
           <Image
             width={500}
@@ -136,11 +136,11 @@ export default function Home() {
             <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
               Unsere Motivation
             </h2>
-            <p className="mt4 text-lg text-default-600">
+            <p className="mt-4 text-lg text-default-600">
               Videoproduktion ist unsere Leidenschaft.
             </p>
           </div>
-          <p className="mt-6 max-w-prose text-default-700 sm:text-xl mx-auto">
+          <p className="mt-6 max-w-prose text-default-700 sm:text-xl mx-auto sm:text-center">
             Wir haben Ton-Texter entwickelt, um die Videoproduktion zu
             vereinfachen. Unsere Vision ist es, dass jeder Videoproduzent
             Ton-Texter verwendet, um seine Videos zu erstellen. Wir glauben,
