@@ -1,3 +1,4 @@
+import Dashboard from "@/components/Dashboard";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
@@ -5,7 +6,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
+  title: "Dashboard",
 };
 
 export default async function Home() {
@@ -28,12 +29,8 @@ export default async function Home() {
   if (!dbUser) redirect("/auth-callback?origin=dashboard");
 
   return (
-    <MaxWidthWrapper className="flex flex-col items-center justify-center mb-12 text-center mt-28 sm:mt-40">
-      <p className="mb-6 text-lg text-default-700">User is logged in:</p>
-      <p className="text-lg text-default-400">UserId</p>
-      <p className="mb-6 text-lg text-default-700">{user.id}</p>
-      <p className="text-lg text-default-400">Email</p>
-      <p className="mb-6 text-lg text-default-700">{user.email}</p>
+    <MaxWidthWrapper>
+      <Dashboard />
     </MaxWidthWrapper>
   );
 }
