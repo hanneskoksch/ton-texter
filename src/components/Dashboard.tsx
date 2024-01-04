@@ -38,7 +38,7 @@ function Dashboard({ userId }: { userId: string }) {
                 <ModalBody>
                   <FileUpload userId={userId} />
                 </ModalBody>
-                <ModalFooter/>
+                <ModalFooter />
               </>
             )}
           </ModalContent>

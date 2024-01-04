@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Limit the file name to 200 characters
-    let originalFilename = file.name
+    let originalFilename = file.name;
     if (file.name.length > 200) {
       originalFilename = file.name.substring(0, 200);
     }
