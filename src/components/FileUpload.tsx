@@ -33,10 +33,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
   const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
-    if (droppedFile) {
+    if (droppedFile && isAudioFile(droppedFile)) {
       setFile(droppedFile);
       setUploadSuccess(false);
       setUploadError(false);
+    } else {
+      setFile(null);
+      setUploadSuccess(false);
+      setUploadError(true);
     }
     setHighlighted(false);
   };
