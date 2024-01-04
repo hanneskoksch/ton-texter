@@ -7,7 +7,6 @@ interface FileUploadProps {
 }
 
 function isAudioFile(file: File) {
-  console.log(file.type);
   return file.type.startsWith("audio/");
 }
 
