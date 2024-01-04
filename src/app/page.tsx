@@ -1,5 +1,4 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Link from "next/link";
 import { Image } from "@nextui-org/react";
 
 export default function Home() {
@@ -93,36 +92,64 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="sm:flex space-x-10 mx-auto max-w-5xl mb-60 px-4">
+      <div className="mx-auto max-w-5xl mb-60 items-center sm:items-start flex flex-col gap-8 sm:flex-row p-10">
         <div>
           <Image
             width={500}
             alt="NextUI hero Image"
+            className="mb-2"
             src="/images/team/Hannes.jpg"
           />
-          Hannes Human
-          <br />
-         Abteilung Internet & Telemedien
+          <p>Hannes Human</p>
+          <p className="text-default-500 text-sm">
+            Abteilung Internet & Telemedien
+          </p>
         </div>
         <div>
           <Image
             width={500}
             alt="NextUI hero Image"
+            className="mb-2"
             src="/images/team/Niko.jpg"
           />
-          Niko Naturbursche
-          <br />
-          Chief of Cloud Operations
+          <p>Niko Naturbursche</p>
+          <p className="text-default-500 text-sm">Chief of Cloud Operations</p>
         </div>
         <div>
           <Image
             width={500}
             alt="NextUI hero Image"
+            className="mb-2"
             src="/images/team/Torben.jpg"
           />
-          Torben Taubenschlag
-          <br />
-          Principal Engineer of Cutting-Edge Storage Solutions
+          <p>Torben Taubenschlag</p>
+          <p className="text-default-500 text-sm">
+            Principal Engineer of Cutting-Edge Storage Solutions
+          </p>
+        </div>
+      </div>
+
+      {/* Motivation section */}
+      <div className="mx-auto mb-80 mt-32 max-w-5xl sm:mt-56">
+        <div className="mb-12 px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl sm:text-center mb-10">
+            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
+              Unsere Motivation
+            </h2>
+            <p className="mt4 text-lg text-default-600">
+              Videoproduktion ist unsere Leidenschaft.
+            </p>
+          </div>
+          <p className="mt-6 max-w-prose text-default-700 sm:text-xl mx-auto">
+            Wir haben Ton-Texter entwickelt, um die Videoproduktion zu
+            vereinfachen. Unsere Vision ist es, dass jeder Videoproduzent
+            Ton-Texter verwendet, um seine Videos zu erstellen. Wir glauben,
+            dass jede Videoproduktion mit Ton-Texter einen deutlichen
+            Qualitätssprung machen kann.
+            <br />
+            <br />
+            Ton-Texter bietet den entscheidenden Konkurenzvorteil.
+          </p>
         </div>
       </div>
     </>
