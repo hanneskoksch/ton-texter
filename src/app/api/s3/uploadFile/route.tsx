@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Limit the file name to 200 characters
-    let originalFilename = file.name;
+    let originalFilename = file.name.replace(/\.[^/.]+$/, ""); // remove extension
     if (file.name.length > 200) {
       originalFilename = file.name.substring(0, 200);
     }
@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ success: false, error });
+    console.log(error);
+    return NextResponse.error();
   }
 }
