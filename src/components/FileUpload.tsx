@@ -87,7 +87,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
     <div className="flex flex-col items-center justify-center m-4">
       <div
         className={`border-dashed border-4 ${
-          highlighted ? "border-blue-500" : "border-gray-400"
+          highlighted ? "border-primary" : "border-default"
         } p-6 text-center cursor-pointer`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
@@ -109,10 +109,10 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         </Button>
       </div>
       {uploadSuccess && (
-        <p className="text-green-600 m-4">Datei erfolgreich hochgeladen!</p>
+        <p className="text-success m-4">Datei erfolgreich hochgeladen!</p>
       )}
       {uploadError && (
-        <p className="text-red-600 m-4">
+        <p className="text-danger m-4">
           {!file
             ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
             : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}
