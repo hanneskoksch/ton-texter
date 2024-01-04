@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const file = data.get("file") as File;
 
     if (!file || !userId || file.type.startsWith("audio/")) {
-      return NextResponse.json({ success: false });
+      return NextResponse.error();
     }
 
     // Create S3 client
