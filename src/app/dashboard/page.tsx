@@ -1,4 +1,4 @@
-import Dashboard from "@/components/Dashboard";
+import Dashboard from "@/components/dashboard/Dashboard";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";

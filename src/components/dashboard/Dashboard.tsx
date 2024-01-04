@@ -2,10 +2,11 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import { Ghost, Trash } from "lucide-react";
+import { Ghost } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
+import TranscriptStatusChip from "./TranscriptStatusChip";
+import { TranscriptStatus } from "@prisma/client";
 
 function Dashboard() {
   const { data: transcripts, isLoading } =
@@ -43,20 +44,59 @@ function Dashboard() {
                 <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
                   <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
                   <div className="flex-1 truncate">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 justify-between">
                       <h3 className="truncate text-lg font-medium text-default-900">
-                        {file.filename}
+                        {file.originalFilename}
                       </h3>
+                      <TranscriptStatusChip transcriptStatus={file.status} />
                     </div>
                   </div>
                 </div>
 
                 <div className="px-6 mt-4 flex place-items-center py-2 gap-6 text-xs text-default-500 justify-between">
                   {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
-
-                  <Button size="sm" color="danger" onClick={() => {}}>
-                    <Trash className="h-4 w-4" />
-                  </Button>
+                  <div className="">
+                    {file.status === TranscriptStatus.SUCCESS ? (
+                      <>
+                        <Button
+                          className="ml-2"
+                          size="sm"
+                          color="primary"
+                          variant="flat"
+                          onClick={() => {}}
+                        >
+                          .docx
+                        </Button>
+                        <Button
+                          className="ml-2"
+                          size="sm"
+                          color="primary"
+                          variant="flat"
+                          onClick={() => {}}
+                        >
+                          .srt
+                        </Button>
+                        <Button
+                          className="ml-2"
+                          size="sm"
+                          color="primary"
+                          variant="flat"
+                          onClick={() => {}}
+                        >
+                          .txt
+                        </Button>
+                      </>
+                    ) : null}
+                    <Button
+                      className="ml-2"
+                      size="sm"
+                      color="danger"
+                      variant="flat"
+                      onClick={() => {}}
+                    >
+                      Löschen
+                    </Button>
+                  </div>
                 </div>
               </li>
             ))}
