@@ -23,11 +23,10 @@ model User {
 }
 
 model Transcript {
-  id       String  @id @default(cuid())
-  filename String
-  preview  String?
-
-  audioUrl String?
+  id               String  @id @default(cuid())
+  filename         String
+  originalFilename String
+  preview          String?
 
   status            TranscriptStatus @default(PENDING)
   transcriptUrlDoxc String?

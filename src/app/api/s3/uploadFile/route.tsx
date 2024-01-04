@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  S3Client,
-  PutObjectCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 import { db } from "@/db";
 
@@ -27,8 +22,16 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Limit the file name to 200 characters
+    let originalFilename = file.name;
+    if (file.name.length > 200) {
+      originalFilename = file.name.substring(0, 200);
+    }
+
     // create file name with a random uuid and the file extension
-    const fileName = `${randomUUID()}.${file.name.split(".").pop()}`;
+    const fileName = `${originalFilename}-${randomUUID()}.${file.name
+      .split(".")
+      .pop()}`;
     const Body = (await file.arrayBuffer()) as Buffer;
 
     // Upload file to S3
@@ -41,18 +44,11 @@ export async function POST(req: NextRequest) {
     const response = await client.send(command);
 
     if (response.$metadata.httpStatusCode === 200) {
-      // Get presigned url for the file
-      const s3url = await createPresignedUrlWithClient({
-        client,
-        bucket: process.env.S3_BUCKET!,
-        key: fileName,
-      });
-
       // Create a new transcript in the database
       const newTranscript = await db.transcript.create({
         data: {
           filename: fileName,
-          audioUrl: s3url,
+          originalFilename: originalFilename,
           userId: userId,
         },
       });
@@ -68,16 +64,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error });
   }
 }
-
-const createPresignedUrlWithClient = ({
-  client,
-  bucket,
-  key
-}: {
-  client: S3Client;
-  bucket: string;
-  key: string;
-}) => {
-  const command = new GetObjectCommand({ Bucket: bucket, Key: key });
-  return getSignedUrl(client, command, { expiresIn: 3600 });
-};
