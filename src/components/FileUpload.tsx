@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { Button, Spacer } from "@nextui-org/react";
 
-const UploadToS3 = () => {
+interface FileUploadProps {
+  userId: string;
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
+  
   const [file, setFile] = useState<File | null>(null);
   const [highlighted, setHighlighted] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -45,8 +50,7 @@ const UploadToS3 = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      // TODO: Replace with user id once this is in dashboard
-      formData.append("userId", "91a765c3-222f-463e-b4bd-4b37f4eb8ca8");
+      formData.append("userId", userId);
 
       const response = await fetch("/api/s3/uploadFile", {
         method: "POST",
@@ -102,10 +106,11 @@ const UploadToS3 = () => {
         </p>
       )}
       {file && (
-        <div className="mt-4">
-          <p className="text-lg">Ausgewählte Datei: {file.name}</p>
+        <div className="mt-4 flex flex-col items-center">
+          <p className="text-md mb-2">Ausgewählte Datei: {file.name}</p>
           <Spacer y={1} />
           <Button
+            color="primary"
             disabled={uploading}
             onClick={handleUpload}
             isLoading={uploading}
@@ -118,4 +123,4 @@ const UploadToS3 = () => {
   );
 };
 
-export default UploadToS3;
+export default FileUpload;

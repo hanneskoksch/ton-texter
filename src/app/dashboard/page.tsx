@@ -30,7 +30,7 @@ export default async function Home() {
 
   return (
     <MaxWidthWrapper>
-      <Dashboard />
+      <Dashboard userId={user.id} />
     </MaxWidthWrapper>
   );
 }
