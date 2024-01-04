@@ -1,15 +1,17 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
-import { Button } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { Ghost, Download } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
 import TranscriptStatusChip from "./TranscriptStatusChip";
 import { TranscriptStatus } from "@prisma/client";
 import { useState } from "react";
+import FileUpload from "../FileUpload";
 
-function Dashboard() {
+function Dashboard({ userId }: { userId: string }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
@@ -38,11 +40,22 @@ function Dashboard() {
           Meine Transkripte
         </h1>
 
-        <Button>Datei hochladen</Button>
-        {/* 
-        todo: implement upload modal
-        see https://nextui.org/docs/components/modal
-         */}
+        <Button onPress={onOpen}>Datei hochladen</Button>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {() => (
+              <>
+                <ModalHeader className="flex justify-center">
+                  Datei hochladen
+                </ModalHeader>
+                <ModalBody>
+                  <FileUpload userId={userId} />
+                </ModalBody>
+                <ModalFooter />
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
 
       {/* display all user files */}

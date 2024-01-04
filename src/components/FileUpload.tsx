@@ -2,7 +2,15 @@
 import { useState } from "react";
 import { Button, Spacer } from "@nextui-org/react";
 
-const UploadToS3 = () => {
+interface FileUploadProps {
+  userId: string;
+}
+
+function isAudioFile(file: File) {
+  return file.type.startsWith("audio/");
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
   const [file, setFile] = useState<File | null>(null);
   const [highlighted, setHighlighted] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -11,20 +19,28 @@ const UploadToS3 = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
+    if (selectedFile && isAudioFile(selectedFile)) {
       setFile(selectedFile);
       setUploadSuccess(false);
       setUploadError(false);
+    } else {
+      setFile(null);
+      setUploadSuccess(false);
+      setUploadError(true);
     }
   };
 
   const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
-    if (droppedFile) {
+    if (droppedFile && isAudioFile(droppedFile)) {
       setFile(droppedFile);
       setUploadSuccess(false);
       setUploadError(false);
+    } else {
+      setFile(null);
+      setUploadSuccess(false);
+      setUploadError(true);
     }
     setHighlighted(false);
   };
@@ -45,8 +61,7 @@ const UploadToS3 = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      // TODO: Replace with user id once this is in dashboard
-      formData.append("userId", "91a765c3-222f-463e-b4bd-4b37f4eb8ca8");
+      formData.append("userId", userId);
 
       const response = await fetch("/api/s3/uploadFile", {
         method: "POST",
@@ -72,7 +87,7 @@ const UploadToS3 = () => {
     <div className="flex flex-col items-center justify-center m-4">
       <div
         className={`border-dashed border-4 ${
-          highlighted ? "border-blue-500" : "border-gray-400"
+          highlighted ? "border-primary" : "border-default"
         } p-6 text-center cursor-pointer`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
@@ -94,18 +109,22 @@ const UploadToS3 = () => {
         </Button>
       </div>
       {uploadSuccess && (
-        <p className="text-green-600 m-4">Datei erfolgreich hochgeladen!</p>
+        <p className="text-success m-4">Datei erfolgreich hochgeladen!</p>
       )}
       {uploadError && (
-        <p className="text-red-600 m-4">
-          Fehler beim Hochladen der Datei. Bitte versuche es erneut.
+        <p className="text-danger m-4">
+          {!file
+            ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
+            : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}
         </p>
       )}
+
       {file && (
-        <div className="mt-4">
-          <p className="text-lg">Ausgewählte Datei: {file.name}</p>
+        <div className="mt-4 flex flex-col items-center">
+          <p className="text-md mb-2">Ausgewählte Datei: {file.name}</p>
           <Spacer y={1} />
           <Button
+            color="primary"
             disabled={uploading}
             onClick={handleUpload}
             isLoading={uploading}
@@ -118,4 +137,4 @@ const UploadToS3 = () => {
   );
 };
 
-export default UploadToS3;
+export default FileUpload;
