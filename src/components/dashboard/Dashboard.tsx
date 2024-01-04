@@ -2,12 +2,32 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import { Ghost, Trash } from "lucide-react";
+import { Ghost, Download } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
+import TranscriptStatusChip from "./TranscriptStatusChip";
+import { TranscriptStatus } from "@prisma/client";
+import { useState } from "react";
 
 function Dashboard() {
+  const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
+    string | null
+  >(null);
+
+  const utils = trpc.useUtils();
+
+  const { mutate: deleteFile } = trpc.deleteTranscript.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+    },
+    onMutate({ id }) {
+      setCurrentlyDeletingFile(id);
+    },
+    onSettled() {
+      setCurrentlyDeletingFile(null);
+    },
+  });
+
   const { data: transcripts, isLoading } =
     trpc.getUserTranscriptions.useQuery();
 
@@ -43,20 +63,55 @@ function Dashboard() {
                 <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
                   <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
                   <div className="flex-1 truncate">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 justify-between">
                       <h3 className="truncate text-lg font-medium text-default-900">
-                        {file.filename}
+                        {file.originalFilename}
                       </h3>
+                      <TranscriptStatusChip transcriptStatus={file.status} />
                     </div>
                   </div>
                 </div>
 
-                <div className="px-6 mt-4 flex place-items-center py-2 gap-6 text-xs text-default-500 justify-between">
+                <div className="px-6 mt-4 flex items-center py-2 text-xs text-default-500 justify-between">
                   {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
-
-                  <Button size="sm" color="danger" onClick={() => {}}>
-                    <Trash className="h-4 w-4" />
-                  </Button>
+                  <div className="space-x-2 justify-center flex">
+                    {file.status === TranscriptStatus.SUCCESS ? (
+                      <>
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
+                          onClick={() => {}}
+                        >
+                          .docx
+                        </Button>
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
+                          onClick={() => {}}
+                        >
+                          .srt
+                        </Button>
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
+                          onClick={() => {}}
+                        >
+                          .txt
+                        </Button>
+                      </>
+                    ) : null}
+                    <Button
+                      color="danger"
+                      variant="flat"
+                      isLoading={currentlyDeletingFile === file.id}
+                      onClick={() => deleteFile({ id: file.id })}
+                    >
+                      Löschen
+                    </Button>
+                  </div>
                 </div>
               </li>
             ))}
