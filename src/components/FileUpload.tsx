@@ -6,8 +6,12 @@ interface FileUploadProps {
   userId: string;
 }
 
+function isAudioFile(file: File) {
+  console.log(file.type);
+  return file.type.startsWith("audio/");
+}
+
 const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
-  
   const [file, setFile] = useState<File | null>(null);
   const [highlighted, setHighlighted] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -16,10 +20,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
+    if (selectedFile && isAudioFile(selectedFile)) {
       setFile(selectedFile);
       setUploadSuccess(false);
       setUploadError(false);
+    } else {
+      setFile(null);
+      setUploadSuccess(false);
+      setUploadError(true);
     }
   };
 
@@ -102,9 +110,12 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
       )}
       {uploadError && (
         <p className="text-red-600 m-4">
-          Fehler beim Hochladen der Datei. Bitte versuche es erneut.
+          {!file
+            ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
+            : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}
         </p>
       )}
+
       {file && (
         <div className="mt-4 flex flex-col items-center">
           <p className="text-md mb-2">Ausgewählte Datei: {file.name}</p>
