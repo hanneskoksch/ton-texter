@@ -2,13 +2,32 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@nextui-org/react";
-import { Ghost } from "lucide-react";
+import { Ghost, Download } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
 import TranscriptStatusChip from "./TranscriptStatusChip";
 import { TranscriptStatus } from "@prisma/client";
+import { useState } from "react";
 
 function Dashboard() {
+  const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
+    string | null
+  >(null);
+
+  const utils = trpc.useUtils();
+
+  const { mutate: deleteFile } = trpc.deleteTranscript.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+    },
+    onMutate({ id }) {
+      setCurrentlyDeletingFile(id);
+    },
+    onSettled() {
+      setCurrentlyDeletingFile(null);
+    },
+  });
+
   const { data: transcripts, isLoading } =
     trpc.getUserTranscriptions.useQuery();
 
@@ -53,34 +72,31 @@ function Dashboard() {
                   </div>
                 </div>
 
-                <div className="px-6 mt-4 flex place-items-center py-2 gap-6 text-xs text-default-500 justify-between">
+                <div className="px-6 mt-4 flex items-center py-2 text-xs text-default-500 justify-between">
                   {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
-                  <div className="">
+                  <div className="space-x-2 justify-center flex">
                     {file.status === TranscriptStatus.SUCCESS ? (
                       <>
                         <Button
-                          className="ml-2"
-                          size="sm"
                           color="primary"
                           variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
                           onClick={() => {}}
                         >
                           .docx
                         </Button>
                         <Button
-                          className="ml-2"
-                          size="sm"
                           color="primary"
                           variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
                           onClick={() => {}}
                         >
                           .srt
                         </Button>
                         <Button
-                          className="ml-2"
-                          size="sm"
                           color="primary"
                           variant="flat"
+                          startContent={<Download className="h-4 w-4" />}
                           onClick={() => {}}
                         >
                           .txt
@@ -88,11 +104,10 @@ function Dashboard() {
                       </>
                     ) : null}
                     <Button
-                      className="ml-2"
-                      size="sm"
                       color="danger"
                       variant="flat"
-                      onClick={() => {}}
+                      isLoading={currentlyDeletingFile === file.id}
+                      onClick={() => deleteFile({ id: file.id })}
                     >
                       Löschen
                     </Button>

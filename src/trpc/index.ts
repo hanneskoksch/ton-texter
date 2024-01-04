@@ -2,6 +2,7 @@ import { privateProcedure, publicProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
+import { z } from "zod";
 
 /**
  * This is the router that will be used by the server.
@@ -46,6 +47,33 @@ export const appRouter = router({
       },
     });
   }),
+  deleteTranscript: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const file = await db.transcript.findFirst({
+        where: {
+          id: input.id,
+          userId,
+        },
+      });
+
+      if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+      await db.transcript.delete({
+        where: {
+          id: input.id,
+          userId,
+        },
+      });
+      // todo: also delete related file(s) from s3 storage
+      return file;
+    }),
 });
 
 // Export type router type signature,
