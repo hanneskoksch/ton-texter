@@ -1,31 +1,49 @@
-import BlogArticleThumbnail from "@/components/BlogArticleThumbnail";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Metadata } from "next";
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
-import { bundleMDX } from "mdx-bundler";
+import { getBlogPosts } from "./blog";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Blog",
+  description:
+    "Lies mehr über unsere Software-Design-Entscheidungen und was uns sonst noch im Projekt beschäftigt hat.",
 };
 
-export default async function Home() {
-  const paths = readdirSync(join(process.cwd(), "src/content/blog"));
-  const filenames = paths.map((path) => path.replace(/\.mdx/, ""));
-
-  //   const mdxSource = readFileSync(paths, "utf8");
-  //   const bundleResult = await bundleMDX({ source: mdxSource });
+export default function BlogPage() {
+  let allBlogs = getBlogPosts();
 
   return (
-    <MaxWidthWrapper className="flex flex-col items-center justify-center mb-12 text-center mt-28 sm:mt-40">
-      <h1 className="text-4xl m-4">Blog</h1>
-      <div className="md:grid md:grid-cols-3 md:gap-10">
-        {filenames.map((fileName) => (
-          <div key={"1"}>
-            <BlogArticleThumbnail urlTitle={fileName} />
-          </div>
+    <div className="mt-16">
+      <h1 className="font-medium text-2xl mb-2 tracking-tighter">Unser Blog</h1>
+      <p className="mb-8 text-default-500">
+        Lies mehr über unsere Software-Design-Entscheidungen und was uns sonst
+        noch im Projekt beschäftigt hat.
+      </p>
+      {allBlogs
+        .sort((a, b) => {
+          if (
+            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
+          ) {
+            return -1;
+          }
+          return 1;
+        })
+        .map((post) => (
+          <Link
+            key={post.slug}
+            className="flex flex-col space-y-1 mb-4"
+            href={`/blog/${post.slug}`}
+          >
+            <div className="w-full flex flex-col">
+              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+                {post.metadata.title}
+              </p>
+              <p className="text-default-500">
+                {new Date(post.metadata.publishedAt).toLocaleDateString("de")} •
+                von {post.metadata.author}
+              </p>
+            </div>
+          </Link>
         ))}
-      </div>
-    </MaxWidthWrapper>
+    </div>
   );
 }

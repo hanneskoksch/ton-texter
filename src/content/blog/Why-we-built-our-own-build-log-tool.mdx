@@ -1,6 +1,6 @@
 ---
 title: "Why we built our own build log tool"
-date: "2023-12-03"
+publishedAt: "2023-12-03"
 author: "Hannes"
 authorGithub: "hanneskoksch"
 ---
@@ -17,6 +17,7 @@ One big problem though was the build pipeline. With the Vercel bot automatically
 
 Therefore we needed a solution so all team members would be able to check why their branches may have failed to build. This solution came in the form of the Vercel API and Vercel account access tokens. With that, in the very initial phase of our project, we developed a small tool that allowed everyone to anonymously check its build logs. The tool "Ton Texter Logs" was born.
 
+## Technical setup
 Technically, we are using just yet another Next.js application, also deployed on Vercel, that fetches the builds and their logs on the server side. With that, the access token used for the API calls is not exposed to clients visiting the tool site.
 
 While this looks like an out-of-scope side project, it was a welcoming opportunity for me to get to know the functioning of Next.js 14 and the UI library NextUI.
