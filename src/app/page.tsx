@@ -148,7 +148,7 @@ export default function Home() {
             Qualitätssprung machen kann.
             <br />
             <br />
-            Ton-Texter bietet den entscheidenden Konkurenzvorteil.
+            Ton-Texter bietet den entscheidenden Konkurrenzvorteil.
           </p>
         </div>
       </div>
