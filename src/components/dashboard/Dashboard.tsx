@@ -1,7 +1,15 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { Ghost, Download } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
@@ -32,6 +40,29 @@ function Dashboard({ userId }: { userId: string }) {
 
   const { data: transcripts, isLoading } =
     trpc.getUserTranscriptions.useQuery();
+
+  const handleDownload = async (fileName: string) => {
+    if (!fileName) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("fileName", fileName);
+
+      const response = await fetch("/api/s3/downloadFile", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const { url } = await response.json();
+        window.open(url, "_blank");
+      } else {
+        throw new Error("Failed to download file");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <main className="mx-auto md:p-10">
@@ -94,7 +125,9 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {}}
+                          onClick={() => {
+                            handleDownload(file.filename);
+                          }}
                         >
                           .docx
                         </Button>
@@ -102,7 +135,9 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {}}
+                          onClick={() => {
+                            handleDownload(file.filename);
+                          }}
                         >
                           .srt
                         </Button>
@@ -110,7 +145,9 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {}}
+                          onClick={() => {
+                            handleDownload(file.filename);
+                          }}
                         >
                           .txt
                         </Button>
