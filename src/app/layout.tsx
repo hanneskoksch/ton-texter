@@ -24,11 +24,14 @@ export default function RootLayout({
     <html lang="de">
       <head />
       <body className={inter.className}>
+      <div className="flex flex-col min-h-screen">
         <Providers>
           <TonTexterNavbar />
-          <main>{children}</main>
-          <Footer />
+          <main className="flex-1">{children}</main>
         </Providers>
+        <Footer />
+
+        </div>
       </body>
     </html>
   );
