@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button, Link as LinkNextUI } from "@nextui-org/react";
+import LogoutButton from "./LogoutButton";
 export default async function AuthButton() {
   const supabase = createClient();
 
@@ -18,12 +19,10 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <form action={signOut}>
-        <Button type="submit" color="danger" size="sm">
-          Logout
-        </Button>
-      </form>
+      <Button color="primary" size="sm" as={LinkNextUI} href="/dashboard">
+        Dashboard
+      </Button>
+      <LogoutButton signOut={signOut} />
     </div>
   ) : (
     <div>
