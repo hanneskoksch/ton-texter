@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       const newTranscript = await db.transcript.create({
         data: {
           filename: fileNameWithUuid,
-          originalFilename: `${fileName}${fileExtension}}`,
+          originalFilename: `${fileName}${fileExtension}`,
           userId: userId,
         },
       });
