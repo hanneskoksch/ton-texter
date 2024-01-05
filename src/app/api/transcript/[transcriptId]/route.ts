@@ -30,31 +30,20 @@ export async function POST(request: NextRequest, { params }: PageProps) {
   }
 
   // Get status id from body
-  const transcriptStatusId: number | undefined = body.status;
+  const transcriptStatusString: string | undefined = body.status;
 
   // If no status id provided, return 400
-  if (!transcriptStatusId) {
+  if (transcriptStatusString === undefined) {
     return new Response("No status provided.", { status: 400 });
   }
 
-  // Get status from status id
-  let transcriptStatus;
-  switch (transcriptStatusId) {
-    case 0:
-      transcriptStatus = TranscriptStatus.PENDING;
-      break;
-    case 1:
-      transcriptStatus = TranscriptStatus.PROCESSING;
-      break;
-    case 2:
-      transcriptStatus = TranscriptStatus.FAILED;
-      break;
-    case 3:
-      transcriptStatus = TranscriptStatus.SUCCESS;
-      break;
-    default:
-      return new Response("Invalid status provided.", { status: 400 });
+  // Check if status is valid
+  if (!(transcriptStatusString in TranscriptStatus)) {
+    return new Response("Invalid status provided.", { status: 400 });
   }
+
+  // Convert status to enum
+  const transcriptStatus = transcriptStatusString as TranscriptStatus;
 
   // Get transcript id from params
   const transcriptId = params.transcriptId;
