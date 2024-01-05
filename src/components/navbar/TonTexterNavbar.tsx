@@ -4,6 +4,7 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  Link as NextUILink,
 } from "@nextui-org/react";
 import Link from "next/link";
 import ThemeSwitcher from "../ThemeSwitcher";
@@ -18,7 +19,13 @@ function TonTexterNavbar() {
           <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
         </Link>
       </NavbarBrand>
-      <NavbarContent className="gap-4 sm:flex" justify="center">
+      <NavbarContent className="gap-4 sm:flex" justify="start">
+        <NavbarItem>
+          <NextUILink href="/blog">Blog</NextUILink>
+        </NavbarItem>
+     
+      </NavbarContent>
+      <NavbarContent className="gap-4 sm:flex" justify="end">
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
