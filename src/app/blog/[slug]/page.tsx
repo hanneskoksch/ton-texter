@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 interface PageProps {
   params: {
@@ -28,7 +29,9 @@ const Page = async ({ params }: PageProps) => {
         />
         <p>{new Date(post.metadata.publishedAt).toLocaleDateString("de")}</p>
       </div>
-      <article className="prose dark:prose-invert">{post.content}</article>
+      <article className="prose dark:prose-invert">
+        <MDXRemote source={post.content} />
+      </article>
     </div>
   );
 };
