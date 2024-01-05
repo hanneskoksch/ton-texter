@@ -3,8 +3,10 @@ import path from "path";
 
 type Metadata = {
   title: string;
+  description: string;
   publishedAt: string;
   author: string;
+  authorRole: string;
   authorGithub: string;
   summary: string;
   image?: string;

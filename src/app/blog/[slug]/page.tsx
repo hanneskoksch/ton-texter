@@ -22,7 +22,7 @@ const Page = async ({ params }: PageProps) => {
       <div className="flex justify-center gap-12 py-6 pt-4 items-center">
         <User
           name={post.metadata.author}
-          description="Product Designer"
+          description={post.metadata.authorRole}
           avatarProps={{
             src: `https://github.com/${post.metadata.authorGithub}.png?size=50`,
           }}
