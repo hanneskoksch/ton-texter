@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -23,7 +23,9 @@ function TonTexterNavbar() {
           <ThemeSwitcher />
         </NavbarItem>
         <NavbarItem>
-          <AuthButton />
+          <Suspense>
+            <AuthButton />
+          </Suspense>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
