@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { CustomMDX } from "@/app/blog/mdx";
 
 interface PageProps {
   params: {
@@ -33,7 +33,7 @@ const Page = async ({ params }: PageProps) => {
           <p>{new Date(post.metadata.publishedAt).toLocaleDateString("de")}</p>
         </div>
 
-        <MDXRemote source={post.content} />
+        <CustomMDX source={post.content} />
       </article>
     </>
   );
