@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { readFileSync, readdirSync } from "fs";
+import { readFileSync } from "fs";
 import { join } from "path";
 import { bundleMDX } from "mdx-bundler";
-import { Card, CardBody } from "@nextui-org/react";
+import { format } from "date-fns";
 
 async function BlogArticleThumbnail({ urlTitle }: { urlTitle: string }) {
   const filePath = join(process.cwd(), "src/content/blog", `${urlTitle}.mdx`);
@@ -18,7 +18,9 @@ async function BlogArticleThumbnail({ urlTitle }: { urlTitle: string }) {
             {bundleResult.matter.content.substring(0, 200)}...
           </p>
           <div className="flex justify-between">
-            <p className="text-sm">{bundleResult.matter.data.date}</p>
+            <p className="text-sm">
+              {format(new Date(bundleResult.matter.data.date), "dd.MM.yyyy")}
+            </p>
             <p className="text-sm">von {bundleResult.matter.data.author}</p>
           </div>
         </div>
