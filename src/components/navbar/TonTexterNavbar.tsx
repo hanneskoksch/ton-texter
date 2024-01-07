@@ -7,7 +7,6 @@ import {
   Link as NextUILink,
 } from "@nextui-org/react";
 import Link from "next/link";
-import ThemeSwitcher from "../ThemeSwitcher";
 import AuthButton from "./AuthButton";
 
 function TonTexterNavbar() {
@@ -23,12 +22,8 @@ function TonTexterNavbar() {
         <NavbarItem>
           <NextUILink href="/blog">Blog</NextUILink>
         </NavbarItem>
-     
       </NavbarContent>
       <NavbarContent className="gap-4 sm:flex" justify="end">
-        <NavbarItem>
-          <ThemeSwitcher />
-        </NavbarItem>
         <NavbarItem>
           <Suspense>
             <AuthButton />
