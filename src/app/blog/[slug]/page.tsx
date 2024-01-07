@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { format } from "date-fns";
 
 interface PageProps {
   params: {
@@ -27,7 +28,7 @@ const Page = async ({ params }: PageProps) => {
             src: `https://github.com/${post.metadata.authorGithub}.png?size=50`,
           }}
         />
-        <p>{new Date(post.metadata.publishedAt).toLocaleDateString("de")}</p>
+        <p>{format(new Date(post.metadata.publishedAt), "dd.MM.yyyy")}</p>
       </div>
       <article className="prose dark:prose-invert">
         <MDXRemote source={post.content} />

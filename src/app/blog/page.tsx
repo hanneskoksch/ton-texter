@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getBlogPosts } from "./blog";
 import Link from "next/link";
+import { format } from "date-fns";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -38,7 +39,7 @@ export default function BlogPage() {
                 {post.metadata.title}
               </p>
               <p className="text-default-500">
-                {new Date(post.metadata.publishedAt).toLocaleDateString("de")} •
+                {format(new Date(post.metadata.publishedAt), "dd.MM.yyyy")} •
                 von {post.metadata.author}
               </p>
             </div>
