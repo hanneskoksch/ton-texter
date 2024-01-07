@@ -9,14 +9,15 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
+  Tooltip,
 } from "@nextui-org/react";
 import { Ghost, Download } from "lucide-react";
 import { Skeleton } from "@nextui-org/react";
 import { format } from "date-fns";
-import TranscriptStatusChip from "./TranscriptStatusChip";
 import { TranscriptStatus } from "@prisma/client";
 import { useState } from "react";
 import FileUpload from "../FileUpload";
+import TranscriptStatusAvatar from "./TranscriptStatusAvatar";
 
 function Dashboard({ userId }: { userId: string }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -105,13 +106,24 @@ function Dashboard({ userId }: { userId: string }) {
                 "
               >
                 <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                  <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+                  <TranscriptStatusAvatar transcriptStatus={file.status} />
                   <div className="flex-1 truncate">
-                    <div className="flex items-center space-x-3 justify-between">
+                    <div>
                       <h3 className="truncate text-lg font-medium text-default-900">
                         {file.originalFilename}
                       </h3>
-                      <TranscriptStatusChip transcriptStatus={file.status} />
+                      <Tooltip
+                        placement="bottom-start"
+                        content={
+                          <article className="prose dark:prose-invert">
+                            {file.preview}
+                          </article>
+                        }
+                      >
+                        <p className="truncate italic text-default-600 ">
+                          {file.preview}
+                        </p>
+                      </Tooltip>
                     </div>
                   </div>
                 </div>
