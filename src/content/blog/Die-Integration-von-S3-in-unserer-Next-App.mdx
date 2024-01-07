@@ -3,11 +3,8 @@ title: "Die Integration von S3 in unserer Next.js App"
 description: "Eine Anleitung zur Implementierung von S3"
 publishedAt: "2024-01-05"
 author: "Torben"
-authorRole: "Principal Engineer of Cutting-Edge Storage Solutions"
 authorGithub: "torbenziegler"
 ---
-
-# Die Integration von S3 in unserer Next.js App
 
 In diesem Blogbeitrag behandeln wir die Integration von [S3 (Simple Storage Service)](https://aws.amazon.com/de/s3/) in unserer Next.js-App, die dazu dient, die Verwaltung von Audiodateien und Transkripten für unsere Ton-Texter-Benutzer zu ermöglichen.
 
@@ -21,23 +18,20 @@ Bei der Konfiguration in der AWS Web Konsole oder per Code mit Terraform ist es 
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*",
-                "s3-object-lambda:*"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:*", "s3-object-lambda:*"],
+      "Resource": "*"
+    }
+  ]
 }
 ```
 
 Sobald die Gruppe erstellt ist, folgt die Erstellung eines neuen Benutzers oder die Auswahl eines bestehenden Benutzers, der dieser Gruppe hinzugefügt wird. Dieser Schritt ermöglicht uns, die IAM-Credentials zu generieren, die später in der Next.js-Applikation verwendet werden, um die [AWS SDK v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/) für die Interaktion mit S3 zu nutzen.
 
-Damit ist das IAM-Setup abgeschlossen. Mit den generierten Credentials kann nun ein S3-Bucket erstellt und konfiguriert werden. 
+Damit ist das IAM-Setup abgeschlossen. Mit den generierten Credentials kann nun ein S3-Bucket erstellt und konfiguriert werden.
 
 # S3 Konfiguration
 
@@ -51,22 +45,18 @@ Es ist wichtig zu überlegen, welche Operationen mit den Buckets durchgeführt w
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "1",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::account-number:user/username"
-            },
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": "arn:aws:s3:::bucket-name/*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "1",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::account-number:user/username"
+      },
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::bucket-name/*"
+    }
+  ]
 }
 ```
 
@@ -78,28 +68,18 @@ Für diese Konfiguration wird eine weitere JSON-Datei definiert, die die CORS-Ei
 
 ```json
 [
-    {
-        "AllowedHeaders": [
-            "*"
-        ],
-        "AllowedMethods": [
-            "POST",
-            "GET",
-            "DELETE"
-        ],
-        "AllowedOrigins": [
-            "*"
-        ],
-        "ExposeHeaders": [
-            "ETag"
-        ]
-    }
+  {
+    "AllowedHeaders": ["*"],
+    "AllowedMethods": ["POST", "GET", "DELETE"],
+    "AllowedOrigins": ["*"],
+    "ExposeHeaders": ["ETag"]
+  }
 ]
 ```
 
 # S3 in Aktion
 
-Die Implementierung wird durch die Verwendung der AWS SDK v3 und der ausführlichen [Dokumentation](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html) mit Beispielen und konkreten  Anwendungsszenarien erleichtert.
+Die Implementierung wird durch die Verwendung der AWS SDK v3 und der ausführlichen [Dokumentation](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html) mit Beispielen und konkreten Anwendungsszenarien erleichtert.
 
 Um beispielsweise eine Datei hochzuladen, muss lediglich ein S3 Client mit den zuvor generierten IAM-Credentials erstellt werden. Jede Interaktion erfolgt über "Commands". Der Prozess bleibt dabei stets gleich. Es wird der entsprechende Command ausgetauscht, je nachdem, welche Aktion durchgeführt werden soll.
 
