@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { CustomMDX } from "@/app/blog/mdx";
 import { format } from "date-fns";
 
 interface PageProps {
@@ -18,22 +18,25 @@ const Page = async ({ params }: PageProps) => {
   }
 
   return (
-    <div className="mt-4 pt-4 ">
-      <h1 className="pt-2 pb-10 text-2xl text-center">{post.metadata.title}</h1>
-      <div className="flex justify-center gap-12 py-6 pt-4 items-center">
-        <User
-          name={post.metadata.author}
-          description={post.metadata.authorRole}
-          avatarProps={{
-            src: `https://github.com/${post.metadata.authorGithub}.png?size=50`,
-          }}
-        />
-        <p>{format(new Date(post.metadata.publishedAt), "dd.MM.yyyy")}</p>
-      </div>
+    <>
       <article className="prose dark:prose-invert">
-        <MDXRemote source={post.content} />
+        <h1 className="font-semibold text-4xl tracking-tighter mt-6 mb-8">
+          {post.metadata.title}
+        </h1>
+        <div className="flex gap-3">
+          <User
+            name={post.metadata.author}
+            avatarProps={{
+              src: `https://github.com/${post.metadata.authorGithub}.png?size=50`,
+            }}
+          />
+          <p>•</p>
+          <p>{format(new Date(post.metadata.publishedAt), "dd.MM.yyyy")}</p>
+        </div>
+
+        <CustomMDX source={post.content} />
       </article>
-    </div>
+    </>
   );
 };
 
