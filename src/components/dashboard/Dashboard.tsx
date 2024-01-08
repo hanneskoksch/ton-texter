@@ -42,28 +42,11 @@ function Dashboard({ userId }: { userId: string }) {
   const { data: transcripts, isLoading } =
     trpc.getUserTranscriptions.useQuery();
 
-  const handleDownload = async (fileName: string) => {
-    if (!fileName) return;
-
-    try {
-      const formData = new FormData();
-      formData.append("fileName", fileName);
-
-      const response = await fetch("/api/s3/downloadFile", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const { url } = await response.json();
-        window.open(url, "_blank");
-      } else {
-        throw new Error("Failed to download file");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { mutate: transcriptDownload } = trpc.donwloadTranscript.useMutation({
+    onSuccess: (transcriptDownload) => {
+      window.open(transcriptDownload, "_blank");
+    },
+  });
 
   return (
     <main className="mx-auto md:p-10">
@@ -138,7 +121,7 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            handleDownload(file.filename);
+                            transcriptDownload({ fileName: file.filename });
                           }}
                         >
                           .docx
@@ -148,7 +131,7 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            handleDownload(file.filename);
+                            transcriptDownload({ fileName: file.filename });
                           }}
                         >
                           .srt
@@ -158,7 +141,7 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            handleDownload(file.filename);
+                            transcriptDownload({ fileName: file.filename });
                           }}
                         >
                           .txt

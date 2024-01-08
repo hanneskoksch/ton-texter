@@ -3,6 +3,8 @@ import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
+import { S3Client } from "@aws-sdk/client-s3";
+import { createPresignedUrlWithClient } from "@/lib/s3/utils";
 
 /**
  * This is the router that will be used by the server.
@@ -73,6 +75,45 @@ export const appRouter = router({
       });
       // todo: also delete related file(s) from s3 storage
       return file;
+    }),
+  donwloadTranscript: privateProcedure
+    .input(
+      z.object({
+        fileName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Verify that user really owns the file
+      const { userId } = ctx;
+      const file = await db.transcript.findFirst({
+        where: {
+          filename: input.fileName,
+          userId,
+        },
+      });
+      if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+      // Create S3 client
+      const client = new S3Client({
+        region: process.env.S3_REGION!,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+      });
+
+      let s3Url: string;
+      try {
+        // Create presigned url
+        s3Url = await createPresignedUrlWithClient({
+          client: client,
+          bucket: process.env.S3_BUCKET!,
+          key: input.fileName,
+        });
+      } catch (error) {
+        throw new TRPCError({ code: "NOT_FOUND", cause: error });
+      }
+      return s3Url;
     }),
 });
 
