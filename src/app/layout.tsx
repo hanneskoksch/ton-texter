@@ -26,13 +26,13 @@ export default function RootLayout({
     <html lang="de">
       <head />
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen">
-          <Providers>
+        <Providers>
+          <div className="flex flex-col min-h-screen">
             <TonTexterNavbar />
             <main className="flex-1">{children}</main>
-          </Providers>
-          <Footer />
-        </div>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );

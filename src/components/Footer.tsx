@@ -1,13 +1,17 @@
 import { Divider, Link } from "@nextui-org/react";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Footer = () => {
   return (
-    <footer className="py-4 mt-auto bottom-0 left-0 w-full">
-      <Divider className="my-4" />
-      <div className="flex justify-center text-sm mb-2">
+    <footer className="py-6 mt-auto bottom-0 left-0 w-full">
+      <Divider className="my-6" />
+      <div className="flex justify-center text-sm mb-4">
         &copy; 2024 Ton-Texter
       </div>
-      <nav className="flex justify-center">
+      <div className="flex justify-center items-center mb-4">
+        <ThemeSwitcher />
+      </div>
+      <nav className="flex justify-center mb-4">
         <ul className="flex space-x-4">
           <li>
             <Link href="/legal/imprint" className="text-sm">

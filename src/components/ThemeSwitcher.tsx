@@ -16,16 +16,23 @@ export default function ThemeSwitcher() {
   if (!mounted) return null;
 
   return (
-    <Button
-      isIconOnly
-      variant="light"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
-    </Button>
+    <div className="flex space-x-1">
+      <Button
+        isIconOnly
+        size="sm"
+        variant={theme === "light" ? "flat" : "light"}
+        onClick={() => setTheme("light")}
+      >
+        <Sun className="h-4 w-4" />
+      </Button>
+      <Button
+        isIconOnly
+        size="sm"
+        variant={theme === "dark" ? "flat" : "light"}
+        onClick={() => setTheme("dark")}
+      >
+        <Moon className="h-4 w-4" />
+      </Button>
+    </div>
   );
 }
