@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
+import { format } from "date-fns";
 
 interface PageProps {
   params: {
@@ -30,7 +31,7 @@ const Page = async ({ params }: PageProps) => {
             }}
           />
           <p>•</p>
-          <p>{new Date(post.metadata.publishedAt).toLocaleDateString("de")}</p>
+          <p>{format(new Date(post.metadata.publishedAt), "dd.MM.yyyy")}</p>
         </div>
 
         <CustomMDX source={post.content} />
