@@ -22,22 +22,24 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Limit the file name to 200 characters
-    let originalFilename = file.name;
-    if (file.name.length > 200) {
-      originalFilename = file.name.substring(0, 200);
+    // separate filename from file extension
+    const indexOfLastDot = file.name.lastIndexOf(".");
+    let fileName = file.name.slice(0, indexOfLastDot);
+    const fileExtension = file.name.slice(indexOfLastDot);
+
+    // reduce length of filename to 200 characters
+    if (fileName.length > 200) {
+      fileName = fileName.substring(0, 200);
     }
 
     // create file name with a random uuid and the file extension
-    const fileName = `${originalFilename}-${randomUUID()}.${file.name
-      .split(".")
-      .pop()}`;
+    const fileNameWithUuid = `${fileName}-${randomUUID()}.${fileExtension}`;
     const Body = (await file.arrayBuffer()) as Buffer;
 
     // Upload file to S3
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET!,
-      Key: fileName,
+      Key: fileNameWithUuid,
       Body,
     });
 
@@ -47,8 +49,8 @@ export async function POST(req: NextRequest) {
       // Create a new transcript in the database
       const newTranscript = await db.transcript.create({
         data: {
-          filename: fileName,
-          originalFilename: originalFilename,
+          filename: fileNameWithUuid,
+          originalFilename: `${fileName}${fileExtension}`,
           userId: userId,
         },
       });
