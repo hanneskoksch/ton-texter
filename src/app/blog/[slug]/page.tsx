@@ -19,7 +19,7 @@ const Page = async ({ params }: PageProps) => {
   return (
     <>
       <article className="prose dark:prose-invert">
-        <h1 className="font-semibold text-4xl tracking-tighter mt-2 mb-8">
+        <h1 className="font-semibold text-4xl tracking-tighter mt-6 mb-8">
           {post.metadata.title}
         </h1>
         <div className="flex gap-3">
