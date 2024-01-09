@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     // create file name with a random uuid and the file extension
-    const fileNameWithUuid = `${fileName}-${randomUUID()}.${fileExtension}`;
+    const fileNameWithUuid = `${fileName}-${randomUUID()}${fileExtension}`;
     const Body = (await file.arrayBuffer()) as Buffer;
 
     // Upload file to S3
