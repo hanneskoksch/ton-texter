@@ -154,9 +154,6 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            console.log(
-                              `${removeFileExtension(file.filename)}.docx`
-                            );
                             transcriptDownload({
                               fileName: `${removeFileExtension(
                                 file.filename
