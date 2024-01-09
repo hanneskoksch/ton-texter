@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,31 +9,24 @@ datasource db {
 }
 
 model User {
-  id    String @id @unique // matches supabase auth user id
-  email String @unique
-  name  String
-
+  id         String       @id @unique
+  email      String       @unique
+  name       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   Transcript Transcript[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Transcript {
-  id               String  @id @default(cuid())
+  id               String           @id @default(cuid())
   filename         String
   originalFilename String
   preview          String?
-
-  status            TranscriptStatus @default(PENDING)
-  transcriptUrlDoxc String?
-  transcriptUrlTxt  String?
-  transcriptUrlSrt  String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  status           TranscriptStatus @default(PENDING)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  userId           String
+  user             User             @relation(fields: [userId], references: [id])
 }
 
 enum TranscriptStatus {
