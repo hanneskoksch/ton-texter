@@ -48,6 +48,11 @@ function Dashboard({ userId }: { userId: string }) {
     },
   });
 
+  const removeFileExtension = (fileName: string): string =>
+    fileName.includes(".")
+      ? fileName.slice(0, fileName.lastIndexOf("."))
+      : fileName;
+
   return (
     <main className="mx-auto md:p-10">
       <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
@@ -121,7 +126,11 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            transcriptDownload({ fileName: file.filename });
+                            transcriptDownload({
+                              fileName: `${removeFileExtension(
+                                file.filename
+                              )}.docx`,
+                            });
                           }}
                         >
                           .docx
@@ -131,7 +140,11 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            transcriptDownload({ fileName: file.filename });
+                            transcriptDownload({
+                              fileName: `${removeFileExtension(
+                                file.filename
+                              )}.srt`,
+                            });
                           }}
                         >
                           .srt
@@ -141,7 +154,14 @@ function Dashboard({ userId }: { userId: string }) {
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
-                            transcriptDownload({ fileName: file.filename });
+                            console.log(
+                              `${removeFileExtension(file.filename)}.docx`
+                            );
+                            transcriptDownload({
+                              fileName: `${removeFileExtension(
+                                file.filename
+                              )}.txt`,
+                            });
                           }}
                         >
                           .txt
