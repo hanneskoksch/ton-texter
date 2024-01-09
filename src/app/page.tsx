@@ -1,3 +1,4 @@
+import { CompareSlider } from "@/components/compareSlider/CompareSlider";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Image } from "@nextui-org/react";
 
@@ -5,17 +6,29 @@ export default function Home() {
   return (
     <>
       <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">
-        <p className="text-4xl mb-6 text-zinc-700">Mehr Power im Schnitt:</p>
+        <p className="text-4xl mb-6 text-default-700">Mehr Power im Schnitt:</p>
         <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
           Magie des{" "}
           <span className="text-primary-600">textbasierten Editings</span>
         </h1>
-        <p className="mt-6 max-w-prose text-zinc-700 sm:text-xl ">
+        <p className="mt-8 max-w-prose text-default-500 sm:text-xl ">
           Navigiere spielend durch deine Inhalte und finde genau das, was du
           suchst – dank Ton-Texter Transkriptionen. Vereinfache deine
           Arbeitsweise und behalte stets den Überblick über deine Videoprojekte.
         </p>
       </MaxWidthWrapper>
+
+      {/* Slider section */}
+      <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
+        <div className="mb-12 px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl mb-6">
+              Verwandle deine Audios und Videos blitzschnell in Text
+            </h2>
+          </div>
+          <CompareSlider />
+        </div>
+      </div>
 
       {/* Feature section */}
       <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
