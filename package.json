@@ -35,6 +35,7 @@
     "next-mdx-remote": "^4.4.1",
     "next-themes": "^0.2.1",
     "react": "^18",
+    "react-compare-slider": "^3.0.1",
     "react-dom": "^18",
     "tailwind-merge": "^2.1.0",
     "zod": "^3.22.4"
