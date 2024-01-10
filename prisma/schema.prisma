@@ -18,15 +18,19 @@ model User {
 }
 
 model Transcript {
-  id               String           @id @default(cuid())
-  filename         String
-  originalFilename String
-  preview          String?
-  status           TranscriptStatus @default(PENDING)
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  userId           String
-  user             User             @relation(fields: [userId], references: [id])
+  id String @id @default(cuid())
+  
+  fileName        String
+  fileExtension   String
+  fileNameWithExt String
+  displayFilename String
+
+  preview   String?
+  status    TranscriptStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
 }
 
 enum TranscriptStatus {

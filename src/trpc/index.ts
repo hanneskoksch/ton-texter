@@ -80,6 +80,7 @@ export const appRouter = router({
     .input(
       z.object({
         fileName: z.string(),
+        fileExtension: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -87,7 +88,7 @@ export const appRouter = router({
       const { userId } = ctx;
       const file = await db.transcript.findFirst({
         where: {
-          filename: input.fileName,
+          fileName: input.fileName,
           userId,
         },
       });
@@ -108,7 +109,7 @@ export const appRouter = router({
         s3Url = await createPresignedUrlWithClient({
           client: client,
           bucket: process.env.S3_BUCKET!,
-          key: input.fileName,
+          key: `${input.fileName}${input.fileExtension}`,
         });
       } catch (error) {
         throw new TRPCError({ code: "NOT_FOUND", cause: error });
