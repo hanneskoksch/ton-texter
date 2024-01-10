@@ -63,6 +63,13 @@ export async function POST(req: NextRequest) {
     } else {
       throw new Error("Failed to upload file");
     }
+
+    // Start transcription
+    fetch(
+      `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`,
+      { method: "POST" }
+    );
+
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.error();
