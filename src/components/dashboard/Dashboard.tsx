@@ -48,11 +48,6 @@ function Dashboard({ userId }: { userId: string }) {
     },
   });
 
-  const removeFileExtension = (fileName: string): string =>
-    fileName.includes(".")
-      ? fileName.slice(0, fileName.lastIndexOf("."))
-      : fileName;
-
   return (
     <main className="mx-auto md:p-10">
       <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
@@ -98,7 +93,7 @@ function Dashboard({ userId }: { userId: string }) {
                   <div className="flex-1 truncate">
                     <div>
                       <h3 className="truncate text-lg font-medium text-default-900">
-                        {file.originalFilename}
+                        {file.displayFilename}
                       </h3>
                       <Tooltip
                         placement="bottom-start"
@@ -127,9 +122,8 @@ function Dashboard({ userId }: { userId: string }) {
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
                             transcriptDownload({
-                              fileName: `${removeFileExtension(
-                                file.filename
-                              )}.docx`,
+                              fileName: file.fileName,
+                              fileExtension: ".docx",
                             });
                           }}
                         >
@@ -141,9 +135,8 @@ function Dashboard({ userId }: { userId: string }) {
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
                             transcriptDownload({
-                              fileName: `${removeFileExtension(
-                                file.filename
-                              )}.srt`,
+                              fileName: file.fileName,
+                              fileExtension: ".srt",
                             });
                           }}
                         >
@@ -155,9 +148,8 @@ function Dashboard({ userId }: { userId: string }) {
                           startContent={<Download className="h-4 w-4" />}
                           onClick={() => {
                             transcriptDownload({
-                              fileName: `${removeFileExtension(
-                                file.filename
-                              )}.txt`,
+                              fileName: file.fileName,
+                              fileExtension: ".txt",
                             });
                           }}
                         >

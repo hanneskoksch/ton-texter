@@ -33,13 +33,13 @@ export async function POST(req: NextRequest) {
     }
 
     // create file name with a random uuid and the file extension
-    const fileNameWithUuid = `${fileName}-${randomUUID()}${fileExtension}`;
+    const fileNameWithUuid = `${fileName}-${randomUUID()}`;
     const Body = (await file.arrayBuffer()) as Buffer;
 
     // Upload file to S3
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET!,
-      Key: fileNameWithUuid,
+      Key: `${fileNameWithUuid}${fileExtension}`,
       Body,
     });
 
@@ -49,8 +49,10 @@ export async function POST(req: NextRequest) {
       // Create a new transcript in the database
       const newTranscript = await db.transcript.create({
         data: {
-          filename: fileNameWithUuid,
-          originalFilename: `${fileName}${fileExtension}`,
+          fileName: fileNameWithUuid,
+          fileExtension: fileExtension,
+          fileNameWithExt: `${fileNameWithUuid}${fileExtension}`,
+          displayFilename: `${fileName}${fileExtension}`,
           userId: userId,
         },
       });
