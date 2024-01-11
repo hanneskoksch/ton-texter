@@ -9,6 +9,10 @@ export async function POST(req: NextRequest) {
     const fileNameWithUuid = data.get("fileNameWithUuid") as string;
     const fileExtension = data.get("fileExtension") as string;
 
+    if (!userId) {
+      return NextResponse.error();
+    }
+
     // Create a new transcript in the database
     const newTranscript = await db.transcript.create({
       data: {
