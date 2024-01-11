@@ -157,14 +157,26 @@ function Dashboard({ userId }: { userId: string }) {
                         </Button>
                       </>
                     ) : null}
-                    <Button
-                      color="danger"
-                      variant="flat"
-                      isLoading={currentlyDeletingFile === file.id}
-                      onClick={() => deleteFile({ id: file.id })}
+                    <Tooltip
+                      isDisabled={file.status !== TranscriptStatus.PROCESSING}
+                      content={
+                        "Dateien können nicht gelöscht werden, während sie verarbeitet werden."
+                      }
                     >
-                      Löschen
-                    </Button>
+                      <div>
+                        <Button
+                          color="danger"
+                          variant="flat"
+                          isDisabled={
+                            file.status === TranscriptStatus.PROCESSING
+                          }
+                          isLoading={currentlyDeletingFile === file.id}
+                          onClick={() => deleteFile({ id: file.id })}
+                        >
+                          Löschen
+                        </Button>
+                      </div>
+                    </Tooltip>
                   </div>
                 </div>
               </li>
