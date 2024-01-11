@@ -23,7 +23,7 @@ const Providers = ({ children }: PropsWithChildren) => {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <NextUIProvider>
-          <NextThemesProvider attribute="class" defaultTheme="light">
+          <NextThemesProvider attribute="class" defaultTheme="dark">
             {children}
           </NextThemesProvider>
         </NextUIProvider>
