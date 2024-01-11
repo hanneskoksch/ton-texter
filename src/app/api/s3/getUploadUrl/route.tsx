@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const fileNameWithUuid = `${fileName}-${randomUUID()}`;
 
     const s3UploadUrl = await createPresignedUploadUrl({
-      key: fileNameWithUuid,
+      key: `${fileNameWithUuid}${fileExtension}`,
     });
 
     return NextResponse.json({
