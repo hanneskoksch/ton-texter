@@ -34,7 +34,7 @@ function FileIcons() {
       const iconTxt = document.getElementById("iconTxt");
       gsap.to(iconTxt, {
         opacity: 1,
-        rotate: 2,
+        rotate: -2,
         scale: 1.4,
         filter: "blur(0px)",
         y: -40,
@@ -68,27 +68,27 @@ function FileIcons() {
 
   return (
     // scaling on small screens provides readability
-    <div className="relative flex justify-around scale-125 md:scale-100">
+    <div className="relative flex justify-around">
       <Image
         id="iconDocx"
         radius="none"
         src="/images/file_type_docx.svg"
         alt="docx file icon"
-        className="box h-20 inset-6 inset-y-[-100px] opacity-o blur-md"
+        className="box h-20 inset-6 -inset-y-36 lg:-inset-y-24 opacity-o blur-md"
       />
       <Image
         id="iconTxt"
         radius="none"
         src="/images/file_type_txt.svg"
         alt="txt file icon"
-        className="h-20 opacity-o blur-md inset-y-24"
+        className="h-20 opacity-o blur-md inset-y-32 -inset-x-20 lg:inset-y-24 lg:inset-x-0"
       />
       <Image
         id="iconSrt"
         radius="none"
         src="/images/file_type_srt.svg"
         alt="srt file icon"
-        className="h-20 inset-x-10 inset-y-3 opacity-o blur-md"
+        className="h-20 -inset-x-10 lg:inset-x-10 inset-y-24 lg:inset-y-3 opacity-o blur-md "
       />
     </div>
   );
