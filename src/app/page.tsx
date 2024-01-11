@@ -1,4 +1,5 @@
 import { CompareSlider } from "@/components/compareSlider/CompareSlider";
+import FileIcons from "@/components/FileIcons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Image } from "@nextui-org/react";
 
@@ -19,7 +20,7 @@ export default function Home() {
       </MaxWidthWrapper>
 
       {/* Slider section */}
-      <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
+      <div className="mx-auto mb-72 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl mb-6">
@@ -27,6 +28,22 @@ export default function Home() {
             </h2>
           </div>
           <CompareSlider />
+        </div>
+      </div>
+
+      {/* File formats section */}
+      <div className="mx-auto mb-72 mt-32 max-w-5xl sm:mt-56">
+        <div className="mb-12 px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl mb-6">
+              Unterstützte Dateiformate
+            </h2>
+            <p className="mt-4 text-lg text-default-600">
+              Das Transkrip kann als <code>.docx</code>, <code>.srt</code> oder{" "}
+              <code>.txt</code> heruntergeladen werden
+            </p>
+          </div>
+          <FileIcons />
         </div>
       </div>
 
