@@ -56,25 +56,47 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
 
   const handleUpload = async () => {
     if (!file) return;
-    setUploading(true);
 
     try {
+      setUploading(true);
+
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("fileName", file.name);
       formData.append("userId", userId);
 
-      const response = await fetch("/api/s3/uploadFile", {
+      const getUploadUrlResponse = await fetch("/api/s3/getUploadUrl", {
         method: "POST",
         body: formData,
       });
 
-      if (response.ok) {
-        setFile(null);
-        setUploadSuccess(true);
-        setUploadError(false);
-      } else {
-        throw new Error("Failed to upload file");
-      }
+      if (!getUploadUrlResponse.ok) throw new Error("Failed to upload file");
+
+      const { url, fileName, fileNameWithUuid, fileExtension } =
+        await getUploadUrlResponse.json();
+
+      const uploadResponse = await fetch(url, {
+        method: "PUT",
+        body: file,
+      });
+
+      if (!uploadResponse.ok) throw new Error("Failed to upload file");
+
+      const formDataForDb = new FormData();
+      formDataForDb.append("fileName", fileName);
+      formDataForDb.append("fileNameWithUuid", fileNameWithUuid);
+      formDataForDb.append("fileExtension", fileExtension);
+      formDataForDb.append("userId", userId);
+
+      const addToDbResponse = await fetch("/api/s3/addToDb", {
+        method: "POST",
+        body: formDataForDb,
+      });
+
+      if (!addToDbResponse.ok) throw new Error("Failed to add to db");
+
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
     } catch (error) {
       setUploadError(true);
       setUploadSuccess(false);
