@@ -69,7 +69,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         body: formData,
       });
 
-      if (!getUploadUrlResponse.ok) throw new Error("Failed to upload file");
+      if (!getUploadUrlResponse.ok) throw new Error("Failed to get upload url");
 
       const { url, fileName, fileNameWithUuid, fileExtension } =
         await getUploadUrlResponse.json();
@@ -79,7 +79,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         body: file,
       });
 
-      if (!uploadResponse.ok) throw new Error("Failed to upload file");
+      if (!uploadResponse.ok)
+        throw new Error("Failed to upload file to s3" + uploadResponse.body);
 
       const formDataForDb = new FormData();
       formDataForDb.append("fileName", fileName);
