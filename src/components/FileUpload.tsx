@@ -79,8 +79,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         body: file,
       });
 
-      if (!uploadResponse.ok)
-        throw new Error("Failed to upload file to s3" + uploadResponse.body);
+      if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
 
       const formDataForDb = new FormData();
       formDataForDb.append("fileName", fileName);
