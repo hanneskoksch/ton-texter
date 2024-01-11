@@ -25,15 +25,15 @@ export async function POST(req: NextRequest) {
     // create file name with a random uuid and the file extension
     const fileNameWithUuid = `${fileName}-${randomUUID()}`;
 
-    const s3UploadUrl = await createPresignedUploadUrl({
+    const url = await createPresignedUploadUrl({
       key: `${fileNameWithUuid}${fileExtension}`,
     });
 
     return NextResponse.json({
       success: true,
-      url: s3UploadUrl,
+      url,
       fileName,
-      fileNameWithUuid: fileNameWithUuid,
+      fileNameWithUuid,
       fileExtension,
     });
   } catch (error) {
