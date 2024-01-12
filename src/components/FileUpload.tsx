@@ -72,12 +72,19 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
     },
   });
 
+  async function uploadToS3(url: string, file: File) {
+    "use client";
+    const uploadResponse = await fetch(url, {
+      method: "PUT",
+      body: file,
+    });
+    return uploadResponse;
+  }
+
   const { mutate: createUploadUrl } = trpc.createUploadUrl.useMutation({
     onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
-      const uploadResponse = await fetch(url, {
-        method: "PUT",
-        body: file,
-      });
+      if (!file) return;
+      const uploadResponse = await uploadToS3(url, file);
 
       if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
 
