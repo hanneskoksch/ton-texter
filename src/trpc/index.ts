@@ -110,6 +110,55 @@ export const appRouter = router({
       }
       return s3Url;
     }),
+  createTranscription: privateProcedure
+    .input(
+      z.object({
+        fileName: z.string(),
+        fileNameWithUuid: z.string(),
+        fileExtension: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { userId } = ctx;
+        const fileName = input.fileName;
+        const fileNameWithUuid = input.fileNameWithUuid;
+        const fileExtension = input.fileExtension;
+
+        if (!userId) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+          });
+        }
+
+        // Create a new transcript in the database
+        const newTranscript = await db.transcript.create({
+          data: {
+            fileName: fileNameWithUuid,
+            fileExtension: fileExtension,
+            fileNameWithExt: `${fileNameWithUuid}${fileExtension}`,
+            displayFilename: `${fileName}${fileExtension}`,
+            userId: userId,
+          },
+        });
+
+        if (!newTranscript) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to create transcript",
+          });
+        }
+
+        // Start transcription
+        fetch(
+          `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`
+        );
+
+        return { success: true };
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", cause: error });
+      }
+    }),
 });
 
 // Export type router type signature,

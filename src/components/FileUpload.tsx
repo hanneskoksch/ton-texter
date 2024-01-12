@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button, Spacer } from "@nextui-org/react";
+import { trpc } from "@/app/_trpc/client";
 
 interface FileUploadProps {
   userId: string;
@@ -16,6 +17,24 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(false);
+
+  const utils = trpc.useUtils();
+
+  const { mutate: createTranscription } = trpc.createTranscription.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
+    },
+    onError: () => {
+      setUploadError(true);
+      setUploadSuccess(false);
+    },
+    onSettled: () => {
+      setUploading(false);
+    },
+  });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -87,16 +106,11 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
       formDataForDb.append("fileExtension", fileExtension);
       formDataForDb.append("userId", userId);
 
-      const addToDbResponse = await fetch("/api/s3/addToDb", {
-        method: "POST",
-        body: formDataForDb,
+      createTranscription({
+        fileName: fileName,
+        fileNameWithUuid: fileNameWithUuid,
+        fileExtension: fileExtension,
       });
-
-      if (!addToDbResponse.ok) throw new Error("Failed to add to db");
-
-      setFile(null);
-      setUploadSuccess(true);
-      setUploadError(false);
     } catch (error) {
       setUploadError(true);
       setUploadSuccess(false);
