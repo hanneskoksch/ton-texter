@@ -51,7 +51,7 @@ function Dashboard({ userId }: { userId: string }) {
   return (
     <main className="mx-auto md:p-10">
       <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-default-900">
+        <h1 className="mb-3 text-5xl font-bold text-default-900">
           Meine Transkripte
         </h1>
 
@@ -85,10 +85,10 @@ function Dashboard({ userId }: { userId: string }) {
             .map((file) => (
               <li
                 key={file.id}
-                className="divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg mb-4
+                className="mb-4 divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg
                 "
               >
-                <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
+                <div className="flex w-full items-center justify-between space-x-6 px-6 pt-6">
                   <TranscriptStatusAvatar transcriptStatus={file.status} />
                   <div className="flex-1 truncate">
                     <div>
@@ -111,9 +111,9 @@ function Dashboard({ userId }: { userId: string }) {
                   </div>
                 </div>
 
-                <div className="px-6 mt-4 flex items-center py-2 text-xs text-default-500 justify-between">
+                <div className="mt-4 flex items-center justify-between px-6 py-2 text-xs text-default-500">
                   {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
-                  <div className="space-x-2 justify-center flex">
+                  <div className="flex justify-center space-x-2">
                     {file.status === TranscriptStatus.SUCCESS ? (
                       <>
                         <Button
@@ -184,14 +184,14 @@ function Dashboard({ userId }: { userId: string }) {
         </ul>
       ) : isLoading ? (
         <div className="mt-8">
-          <Skeleton className="my-2 h-28 rounded-md mb-4" />
-          <Skeleton className="my-2 h-28 rounded-md mb-4" />
-          <Skeleton className="my-2 h-28 rounded-md mb-4" />
+          <Skeleton className="my-2 mb-4 h-28 rounded-md" />
+          <Skeleton className="my-2 mb-4 h-28 rounded-md" />
+          <Skeleton className="my-2 mb-4 h-28 rounded-md" />
         </div>
       ) : (
         <div className="mt-16 flex flex-col items-center gap-2">
           <Ghost className="h-8 w-8 text-default-800" />
-          <h3 className="font-semibold text-xl">
+          <h3 className="text-xl font-semibold">
             Es ist noch ziemlich leer hier
           </h3>
           <p>Lass uns dein erstes Video hochladen</p>

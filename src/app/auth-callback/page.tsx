@@ -34,10 +34,10 @@ const Page = () => {
   }
 
   return (
-    <div className="w-full mt-24 flex justify-center">
+    <div className="mt-24 flex w-full justify-center">
       <div className="flex flex-col items-center gap-2">
         <CircularProgress size="md" aria-label="Loading..." />
-        <h3 className="font-semibold text-xl">
+        <h3 className="text-xl font-semibold">
           Dein Account wird eingerichtet...
         </h3>
         <p>Du wirst automatisch weitergeleitet.</p>

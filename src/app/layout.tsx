@@ -27,7 +27,7 @@ export default function RootLayout({
       <head />
       <body className={inter.className}>
         <Providers>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex min-h-screen flex-col">
             <TonTexterNavbar />
             <main className="flex-1">{children}</main>
             <Footer />
