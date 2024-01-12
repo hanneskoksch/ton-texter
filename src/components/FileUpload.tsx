@@ -20,22 +20,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
 
   const utils = trpc.useUtils();
 
-  const { mutate: createTranscription } = trpc.createTranscription.useMutation({
-    onSuccess: () => {
-      utils.getUserTranscriptions.invalidate();
-      setFile(null);
-      setUploadSuccess(true);
-      setUploadError(false);
-    },
-    onError: () => {
-      setUploadError(true);
-      setUploadSuccess(false);
-    },
-    onSettled: () => {
-      setUploading(false);
-    },
-  });
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile && isAudioFile(selectedFile)) {
@@ -73,26 +57,23 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
     setHighlighted(false);
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
+  const { mutate: createTranscription } = trpc.createTranscription.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
+      setUploading(false);
+    },
+    onError: () => {
+      setUploadError(true);
+      setUploadSuccess(false);
+      setUploading(false);
+    },
+  });
 
-    try {
-      setUploading(true);
-
-      const formData = new FormData();
-      formData.append("fileName", file.name);
-      formData.append("userId", userId);
-
-      const getUploadUrlResponse = await fetch("/api/s3/getUploadUrl", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!getUploadUrlResponse.ok) throw new Error("Failed to get upload url");
-
-      const { url, fileName, fileNameWithUuid, fileExtension } =
-        await getUploadUrlResponse.json();
-
+  const { mutate: createUploadUrl } = trpc.createUploadUrl.useMutation({
+    onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
       const uploadResponse = await fetch(url, {
         method: "PUT",
         body: file,
@@ -100,23 +81,26 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
 
       if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
 
-      const formDataForDb = new FormData();
-      formDataForDb.append("fileName", fileName);
-      formDataForDb.append("fileNameWithUuid", fileNameWithUuid);
-      formDataForDb.append("fileExtension", fileExtension);
-      formDataForDb.append("userId", userId);
-
       createTranscription({
-        fileName: fileName,
-        fileNameWithUuid: fileNameWithUuid,
-        fileExtension: fileExtension,
+        fileName,
+        fileNameWithUuid,
+        fileExtension,
       });
-    } catch (error) {
+    },
+    onError: () => {
       setUploadError(true);
       setUploadSuccess(false);
-    } finally {
       setUploading(false);
-    }
+    },
+  });
+
+  const handleUpload = async () => {
+    setUploading(true);
+    if (!file) return;
+
+    createUploadUrl({
+      fileName: file.name,
+    });
   };
 
   return (

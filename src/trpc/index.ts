@@ -3,7 +3,12 @@ import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
-import { createPresignedUrl, deleteS3Objects } from "@/lib/s3/utils";
+import {
+  createPresignedUploadUrl,
+  createPresignedUrl,
+  deleteS3Objects,
+} from "@/lib/s3/utils";
+import { randomUUID } from "crypto";
 
 /**
  * This is the router that will be used by the server.
@@ -109,6 +114,54 @@ export const appRouter = router({
         throw new TRPCError({ code: "NOT_FOUND", cause: error });
       }
       return s3Url;
+    }),
+  createUploadUrl: privateProcedure
+    .input(
+      z.object({
+        fileName: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const { userId } = ctx;
+        const fileName = input.fileName;
+
+        if (!userId || !fileName) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+          });
+        }
+
+        // separate filename from file extension
+        const indexOfLastDot = fileName.lastIndexOf(".");
+        let baseFileName = fileName.slice(0, indexOfLastDot);
+        const fileExtension = fileName.slice(indexOfLastDot);
+
+        // reduce length of filename to 200 characters
+        if (baseFileName.length > 200) {
+          baseFileName = baseFileName.substring(0, 200);
+        }
+
+        // create file name with a random uuid and the file extension
+        const fileNameWithUuid = `${baseFileName}-${randomUUID()}`;
+
+        const url = await createPresignedUploadUrl({
+          key: `${fileNameWithUuid}${fileExtension}`,
+        });
+
+        return {
+          success: true,
+          url,
+          fileName: baseFileName,
+          fileNameWithUuid,
+          fileExtension,
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          cause: error,
+        });
+      }
     }),
   createTranscription: privateProcedure
     .input(
