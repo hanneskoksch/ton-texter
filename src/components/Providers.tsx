@@ -17,7 +17,7 @@ const Providers = ({ children }: PropsWithChildren) => {
           url: `${getURL()}api/trpc`,
         }),
       ],
-    })
+    }),
   );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

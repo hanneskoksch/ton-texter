@@ -52,7 +52,7 @@ export const appRouter = router({
     .input(
       z.object({
         id: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
@@ -86,7 +86,7 @@ export const appRouter = router({
       z.object({
         fileName: z.string(),
         fileExtension: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Verify that user really owns the file

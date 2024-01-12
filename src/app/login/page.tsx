@@ -5,7 +5,7 @@ import { Button, Input } from "@nextui-org/react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: "Login",
 };
 
 export default function Login({

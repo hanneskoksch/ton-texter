@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     // Start transcription
     fetch(
-      `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`
+      `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`,
     );
 
     return NextResponse.json({ success: true });

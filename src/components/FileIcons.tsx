@@ -63,7 +63,7 @@ function FileIcons() {
         },
       });
     },
-    { scope: main }
+    { scope: main },
   );
 
   return (

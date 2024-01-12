@@ -37,12 +37,12 @@ export default function Login({
 
     if (error) {
       return redirect(
-        "/sign-up?message=Benutzer konnte nicht authentifiziert werden"
+        "/sign-up?message=Benutzer konnte nicht authentifiziert werden",
       );
     }
 
     return redirect(
-      "/sign-up?message=Bitte überprüfen Sie Ihre E-Mails, um den Anmeldevorgang fortzusetzen"
+      "/sign-up?message=Bitte überprüfen Sie Ihre E-Mails, um den Anmeldevorgang fortzusetzen",
     );
   };
 
