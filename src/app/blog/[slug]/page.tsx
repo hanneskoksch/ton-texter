@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
+import { User } from "@nextui-org/react";
 import { format } from "date-fns";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: {

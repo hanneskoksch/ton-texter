@@ -1,9 +1,9 @@
+import Footer from "@/components/Footer";
+import Providers from "@/components/Providers";
+import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Providers from "@/components/Providers";
 import "./globals.css";
-import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
-import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

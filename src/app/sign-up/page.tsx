@@ -1,9 +1,9 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getURL } from "@/lib/utils";
 import { Button, Input } from "@nextui-org/react";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Registrieren",

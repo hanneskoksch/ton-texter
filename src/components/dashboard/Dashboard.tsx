@@ -8,13 +8,13 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
+  Skeleton,
   Tooltip,
+  useDisclosure,
 } from "@nextui-org/react";
-import { Ghost, Download } from "lucide-react";
-import { Skeleton } from "@nextui-org/react";
-import { format } from "date-fns";
 import { TranscriptStatus } from "@prisma/client";
+import { format } from "date-fns";
+import { Download, Ghost } from "lucide-react";
 import { useState } from "react";
 import FileUpload from "../FileUpload";
 import TranscriptStatusAvatar from "./TranscriptStatusAvatar";

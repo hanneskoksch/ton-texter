@@ -1,7 +1,7 @@
-import { Metadata } from "next";
-import { getBlogPosts } from "./blog";
-import Link from "next/link";
 import { format } from "date-fns";
+import { Metadata } from "next";
+import Link from "next/link";
+import { getBlogPosts } from "./blog";
 
 export const metadata: Metadata = {
   title: "Blog",

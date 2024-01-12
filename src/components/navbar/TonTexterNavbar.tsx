@@ -1,16 +1,16 @@
-import React, { Suspense } from "react";
+import AuthButton from "@/components/navbar/AuthButton";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarMenuToggle,
   NavbarItem,
-  Link as NextUILink,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
+  Link as NextUILink,
 } from "@nextui-org/react";
 import Link from "next/link";
-import AuthButton from "@/components/navbar/AuthButton";
+import { Suspense } from "react";
 
 function TonTexterNavbar() {
   return (

@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button, Link as LinkNextUI } from "@nextui-org/react";
+import { redirect } from "next/navigation";
 import LogoutButton from "./LogoutButton";
 export default async function AuthButton() {
   const supabase = createClient();

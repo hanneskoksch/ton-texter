@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import { Image } from "@nextui-org/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 

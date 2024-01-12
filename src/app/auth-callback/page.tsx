@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 import { CircularProgress } from "@nextui-org/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /**
  * React component handling authentication callback, redirecting based on authentication status using trpc queries.

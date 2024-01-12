@@ -2,7 +2,7 @@
 
 import { Tooltip } from "@nextui-org/react";
 import { TranscriptStatus } from "@prisma/client";
-import { Loader2, Check, X } from "lucide-react";
+import { Check, Loader2, X } from "lucide-react";
 
 function TranscriptStatusAvatar({
   transcriptStatus,

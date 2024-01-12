@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { randomUUID } from "crypto";
 import { db } from "@/db";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { randomUUID } from "crypto";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
