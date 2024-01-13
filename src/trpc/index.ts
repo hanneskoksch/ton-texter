@@ -126,12 +126,6 @@ export const appRouter = router({
         const { userId } = ctx;
         const fileName = input.fileName;
 
-        if (!userId || !fileName) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-          });
-        }
-
         // separate filename from file extension
         const indexOfLastDot = fileName.lastIndexOf(".");
         let baseFileName = fileName.slice(0, indexOfLastDot);
@@ -178,12 +172,6 @@ export const appRouter = router({
         const fileNameWithUuid = input.fileNameWithUuid;
         const fileExtension = input.fileExtension;
 
-        if (!userId) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-          });
-        }
-
         // Create a new transcript in the database
         const newTranscript = await db.transcript.create({
           data: {
@@ -194,13 +182,6 @@ export const appRouter = router({
             userId: userId,
           },
         });
-
-        if (!newTranscript) {
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to create transcript",
-          });
-        }
 
         // Start transcription
         fetch(
