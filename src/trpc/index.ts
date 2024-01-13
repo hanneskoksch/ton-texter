@@ -1,14 +1,14 @@
-import { privateProcedure, publicProcedure, router } from "./trpc";
-import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
-import { createClient } from "@/lib/supabase/server";
-import { z } from "zod";
 import {
   createPresignedUploadUrl,
   createPresignedUrl,
   deleteS3Objects,
 } from "@/lib/s3/utils";
+import { createClient } from "@/lib/supabase/server";
+import { TRPCError } from "@trpc/server";
 import { randomUUID } from "crypto";
+import { z } from "zod";
+import { privateProcedure, publicProcedure, router } from "./trpc";
 
 /**
  * This is the router that will be used by the server.
@@ -57,7 +57,7 @@ export const appRouter = router({
     .input(
       z.object({
         id: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
@@ -91,7 +91,7 @@ export const appRouter = router({
       z.object({
         fileName: z.string(),
         fileExtension: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Verify that user really owns the file
@@ -119,7 +119,7 @@ export const appRouter = router({
     .input(
       z.object({
         fileName: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
@@ -163,7 +163,7 @@ export const appRouter = router({
         fileName: z.string(),
         fileNameWithUuid: z.string(),
         fileExtension: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -185,7 +185,7 @@ export const appRouter = router({
 
         // Start transcription
         fetch(
-          `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`
+          `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`,
         );
 
         return { success: true };
