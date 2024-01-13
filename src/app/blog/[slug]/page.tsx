@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import { User } from "@nextui-org/react";
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
+import { User } from "@nextui-org/react";
 import { format } from "date-fns";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -20,7 +20,7 @@ const Page = async ({ params }: PageProps) => {
   return (
     <>
       <article className="prose dark:prose-invert">
-        <h1 className="font-semibold text-4xl tracking-tighter mt-6 mb-8">
+        <h1 className="mb-8 mt-6 text-4xl font-semibold tracking-tighter">
           {post.metadata.title}
         </h1>
         <div className="flex gap-3">

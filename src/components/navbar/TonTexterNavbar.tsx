@@ -1,16 +1,16 @@
-import React, { Suspense } from "react";
+import AuthButton from "@/components/navbar/AuthButton";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarMenuToggle,
   NavbarItem,
-  Link as NextUILink,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
+  Link as NextUILink,
 } from "@nextui-org/react";
 import Link from "next/link";
-import AuthButton from "@/components/navbar/AuthButton";
+import { Suspense } from "react";
 
 function TonTexterNavbar() {
   return (
@@ -21,7 +21,7 @@ function TonTexterNavbar() {
           <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
         </Link>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+      <NavbarContent className="hidden gap-4 sm:flex" justify="start">
         <NavbarItem>
           <NextUILink href="/blog">Blog</NextUILink>
         </NavbarItem>
@@ -31,7 +31,7 @@ function TonTexterNavbar() {
       </NavbarContent>
       <NavbarContent className="gap-4 sm:flex" justify="end">
         <NavbarMenuToggle className="sm:hidden" />
-        <NavbarItem className="hidden sm:flex gap-4">
+        <NavbarItem className="hidden gap-4 sm:flex">
           <Suspense>
             <AuthButton />
           </Suspense>

@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
-import { Button, Spacer } from "@nextui-org/react";
 import { trpc } from "@/app/_trpc/client";
+import { Button, Spacer } from "@nextui-org/react";
+import { useState } from "react";
 
 interface FileUploadProps {
   userId: string;
@@ -111,11 +111,11 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center m-4">
+    <div className="m-4 flex flex-col items-center justify-center">
       <div
-        className={`border-dashed border-4 ${
+        className={`border-4 border-dashed ${
           highlighted ? "border-primary" : "border-default"
-        } p-6 text-center cursor-pointer`}
+        } cursor-pointer p-6 text-center`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -136,10 +136,10 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         </Button>
       </div>
       {uploadSuccess && (
-        <p className="text-success m-4">Datei erfolgreich hochgeladen!</p>
+        <p className="m-4 text-success">Datei erfolgreich hochgeladen!</p>
       )}
       {uploadError && (
-        <p className="text-danger m-4">
+        <p className="m-4 text-danger">
           {!file
             ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
             : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}

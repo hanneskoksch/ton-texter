@@ -3,15 +3,15 @@ import ThemeSwitcher from "./ThemeSwitcher";
 
 const Footer = () => {
   return (
-    <footer className="py-6 mt-auto bottom-0 left-0 w-full">
+    <footer className="bottom-0 left-0 mt-auto w-full py-6">
       <Divider className="my-6" />
-      <div className="flex justify-center text-sm mb-4">
+      <div className="mb-4 flex justify-center text-sm">
         &copy; 2024 Ton-Texter
       </div>
-      <div className="flex justify-center items-center mb-4">
+      <div className="mb-4 flex items-center justify-center">
         <ThemeSwitcher />
       </div>
-      <nav className="flex justify-center mb-4">
+      <nav className="mb-4 flex justify-center">
         <ul className="flex space-x-4">
           <li>
             <Link href="/legal/imprint" className="text-sm">

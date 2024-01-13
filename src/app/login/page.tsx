@@ -1,11 +1,11 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button, Input } from "@nextui-org/react";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: "Login",
 };
 
 export default function Login({
@@ -33,14 +33,14 @@ export default function Login({
   };
 
   return (
-    <MaxWidthWrapper className="flex flex-col items-center justify-center mb-12 text-center mt-28 sm:mt-40">
+    <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
       <h1 className="mb-6 text-4xl font-bold">Login</h1>
-      <div className="flex flex-col justify-center flex-1 w-full gap-2 px-8 sm:max-w-md">
+      <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
         <form
-          className="flex flex-col justify-center flex-1 w-full gap-2 animate-in text-foreground"
+          className="animate-in flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
           action={signIn}
         >
-          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <div className="flex w-full flex-wrap gap-4 md:flex-nowrap">
             <Input
               name="email"
               type="email"
@@ -49,7 +49,7 @@ export default function Login({
               required
             />
           </div>
-          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <div className="flex w-full flex-wrap gap-4 md:flex-nowrap">
             <Input
               name="password"
               type="password"
@@ -59,12 +59,12 @@ export default function Login({
             />
           </div>
 
-          <Button className="mt-4 p-2 text-white bg-primary" type="submit">
+          <Button className="mt-4 bg-primary p-2 text-white" type="submit">
             Login
           </Button>
 
           {searchParams?.message && (
-            <p className="p-4 mt-4 text-center bg-foreground/10 text-foreground">
+            <p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
               {searchParams.message}
             </p>
           )}

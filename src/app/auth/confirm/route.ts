@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
             cookieStore.delete({ name, ...options });
           },
         },
-      }
+      },
     );
 
     const { error } = await supabase.auth.verifyOtp({

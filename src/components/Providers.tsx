@@ -1,12 +1,12 @@
 "use client";
 
-import { PropsWithChildren, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NextUIProvider } from "@nextui-org/react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { trpc } from "@/app/_trpc/client";
-import { httpBatchLink } from "@trpc/client";
 import { getURL } from "@/lib/utils";
+import { NextUIProvider } from "@nextui-org/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { httpBatchLink } from "@trpc/client";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { PropsWithChildren, useState } from "react";
 
 const Providers = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -17,7 +17,7 @@ const Providers = ({ children }: PropsWithChildren) => {
           url: `${getURL()}api/trpc`,
         }),
       ],
-    })
+    }),
   );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

@@ -31,7 +31,7 @@ export const createClient = () => {
           }
         },
       },
-    }
+    },
   );
 
   return supabase;

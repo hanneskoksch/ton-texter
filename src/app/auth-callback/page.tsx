@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 import { CircularProgress } from "@nextui-org/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /**
  * React component handling authentication callback, redirecting based on authentication status using trpc queries.
@@ -34,10 +34,10 @@ const Page = () => {
   }
 
   return (
-    <div className="w-full mt-24 flex justify-center">
+    <div className="mt-24 flex w-full justify-center">
       <div className="flex flex-col items-center gap-2">
         <CircularProgress size="md" aria-label="Loading..." />
-        <h3 className="font-semibold text-xl">
+        <h3 className="text-xl font-semibold">
           Dein Account wird eingerichtet...
         </h3>
         <p>Du wirst automatisch weitergeleitet.</p>

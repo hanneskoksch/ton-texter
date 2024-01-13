@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import { Image } from "@nextui-org/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,7 +63,7 @@ function FileIcons() {
         },
       });
     },
-    { scope: main }
+    { scope: main },
   );
 
   return (
@@ -74,21 +74,21 @@ function FileIcons() {
         radius="none"
         src="/images/file_type_docx.svg"
         alt="docx file icon"
-        className="box h-20 inset-6 -inset-y-36 lg:-inset-y-24 opacity-o blur-md"
+        className="box opacity-o inset-6 -inset-y-36 h-20 blur-md lg:-inset-y-24"
       />
       <Image
         id="iconTxt"
         radius="none"
         src="/images/file_type_txt.svg"
         alt="txt file icon"
-        className="h-20 opacity-o blur-md inset-y-32 -inset-x-20 lg:inset-y-24 lg:inset-x-0"
+        className="opacity-o -inset-x-20 inset-y-32 h-20 blur-md lg:inset-x-0 lg:inset-y-24"
       />
       <Image
         id="iconSrt"
         radius="none"
         src="/images/file_type_srt.svg"
         alt="srt file icon"
-        className="h-20 -inset-x-10 lg:inset-x-10 inset-y-24 lg:inset-y-3 opacity-o blur-md "
+        className="opacity-o -inset-x-10 inset-y-24 h-20 blur-md lg:inset-x-10 lg:inset-y-3 "
       />
     </div>
   );

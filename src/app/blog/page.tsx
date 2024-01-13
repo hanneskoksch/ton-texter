@@ -1,7 +1,7 @@
-import { Metadata } from "next";
-import { getBlogPosts } from "./blog";
-import Link from "next/link";
 import { format } from "date-fns";
+import { Metadata } from "next";
+import Link from "next/link";
+import { getBlogPosts } from "./blog";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -14,7 +14,7 @@ export default function BlogPage() {
 
   return (
     <div className="mt-16">
-      <h1 className="font-medium text-2xl mb-2 tracking-tighter">Unser Blog</h1>
+      <h1 className="mb-2 text-2xl font-medium tracking-tighter">Unser Blog</h1>
       <p className="mb-8 text-default-500">
         Lies mehr über unsere Software-Design-Entscheidungen und was uns sonst
         noch im Projekt beschäftigt hat.
@@ -31,11 +31,11 @@ export default function BlogPage() {
         .map((post) => (
           <Link
             key={post.slug}
-            className="flex flex-col space-y-1 mb-4"
+            className="mb-4 flex flex-col space-y-1"
             href={`/blog/${post.slug}`}
           >
-            <div className="w-full flex flex-col">
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+            <div className="flex w-full flex-col">
+              <p className="tracking-tight text-neutral-900 dark:text-neutral-100">
                 {post.metadata.title}
               </p>
               <p className="text-default-500">

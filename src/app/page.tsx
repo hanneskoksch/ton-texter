@@ -6,8 +6,8 @@ import { Image } from "@nextui-org/react";
 export default function Home() {
   return (
     <>
-      <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">
-        <p className="text-4xl mb-6 text-default-700">Mehr Power im Schnitt:</p>
+      <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
+        <p className="mb-6 text-4xl text-default-700">Mehr Power im Schnitt:</p>
         <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
           Magie des{" "}
           <span className="text-primary-600">textbasierten Editings</span>
@@ -23,7 +23,7 @@ export default function Home() {
       <div className="mx-auto mb-72 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl mb-6">
+            <h2 className="mb-6 mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Verwandle deine Audios und Videos blitzschnell in Text
             </h2>
           </div>
@@ -35,7 +35,7 @@ export default function Home() {
       <div className="mx-auto mb-72 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl mb-6">
+            <h2 className="mb-6 mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Unterstützte Dateiformate
             </h2>
             <p className="mt-4 text-lg text-default-600">
@@ -51,7 +51,7 @@ export default function Home() {
       <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
+            <h2 className="mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Benutze dein Transkript in Minuten
             </h2>
             <p className="mt-4 text-lg text-default-600">
@@ -112,17 +112,17 @@ export default function Home() {
       <div className="mx-auto mt-32 max-w-5xl sm:mt-56">
         <div className=" px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
+            <h2 className="mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Das Team hinter Ton-Texter
             </h2>
-            <p className="mt-4 text-lg text-default-600 mb-12">
+            <p className="mb-12 mt-4 text-lg text-default-600">
               Wir sind ein kleines Team aus Berlin, das sich auf die Entwicklung
               von Software für die Videoproduktion spezialisiert hat.
             </p>
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-5xl mb-60 items-center sm:items-start flex flex-col gap-8 sm:flex-row p-10 text-center">
+      <div className="mx-auto mb-60 flex max-w-5xl flex-col items-center gap-8 p-10 text-center sm:flex-row sm:items-start">
         <div>
           <Image
             width={500}
@@ -131,7 +131,7 @@ export default function Home() {
             src="/images/team/Hannes.jpg"
           />
           <p>Hannes Human</p>
-          <p className="text-default-500 text-sm">
+          <p className="text-sm text-default-500">
             Abteilung Internet & Telemedien
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function Home() {
             src="/images/team/Niko.jpg"
           />
           <p>Niko Naturbursche</p>
-          <p className="text-default-500 text-sm">Chief of Cloud Operations</p>
+          <p className="text-sm text-default-500">Chief of Cloud Operations</p>
         </div>
         <div>
           <Image
@@ -153,7 +153,7 @@ export default function Home() {
             src="/images/team/Torben.jpg"
           />
           <p>Torben Taubenschlag</p>
-          <p className="text-default-500 text-sm">
+          <p className="text-sm text-default-500">
             Principal Engineer of Cutting-Edge Storage Solutions
           </p>
         </div>
@@ -162,15 +162,15 @@ export default function Home() {
       {/* Motivation section */}
       <div className="mx-auto mb-80 mt-32 max-w-5xl sm:mt-56">
         <div className="mb-12 px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl sm:text-center mb-10">
-            <h2 className="mt-2 font-bold text-4xl text-default-900 sm:text-5xl">
+          <div className="mx-auto mb-10 max-w-2xl sm:text-center">
+            <h2 className="mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Unsere Motivation
             </h2>
             <p className="mt-4 text-lg text-default-600">
               Videoproduktion ist unsere Leidenschaft.
             </p>
           </div>
-          <p className="mt-6 max-w-prose text-default-700 sm:text-xl mx-auto sm:text-center">
+          <p className="mx-auto mt-6 max-w-prose text-default-700 sm:text-center sm:text-xl">
             Wir haben Ton-Texter entwickelt, um die Videoproduktion zu
             vereinfachen. Unsere Vision ist es, dass jeder Videoproduzent
             Ton-Texter verwendet, um seine Videos zu erstellen. Wir glauben,
