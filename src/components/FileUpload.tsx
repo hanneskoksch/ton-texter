@@ -1,6 +1,7 @@
 "use client";
-import { Button, Spacer } from "@nextui-org/react";
 import { useState } from "react";
+import { Button, Spacer } from "@nextui-org/react";
+import { trpc } from "@/app/_trpc/client";
 
 interface FileUploadProps {
   userId: string;
@@ -16,6 +17,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(false);
+
+  const utils = trpc.useUtils();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -54,41 +57,65 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
     setHighlighted(false);
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
-    setUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("userId", userId);
-
-      const response = await fetch("/api/s3/uploadFile", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        setFile(null);
-        setUploadSuccess(true);
-        setUploadError(false);
-      } else {
-        throw new Error("Failed to upload file");
-      }
-    } catch (error) {
+  const { mutate: createTranscription } = trpc.createTranscription.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
+      setUploading(false);
+    },
+    onError: () => {
       setUploadError(true);
       setUploadSuccess(false);
-    } finally {
       setUploading(false);
-    }
+    },
+  });
+
+  async function uploadToS3(url: string, file: File) {
+    "use client";
+    const uploadResponse = await fetch(url, {
+      method: "PUT",
+      body: file,
+    });
+    return uploadResponse;
+  }
+
+  const { mutate: createUploadUrl } = trpc.createUploadUrl.useMutation({
+    onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
+      if (!file) return;
+      const uploadResponse = await uploadToS3(url, file);
+
+      if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
+
+      createTranscription({
+        fileName,
+        fileNameWithUuid,
+        fileExtension,
+      });
+    },
+    onError: () => {
+      setUploadError(true);
+      setUploadSuccess(false);
+      setUploading(false);
+    },
+  });
+
+  const handleUpload = async () => {
+    setUploading(true);
+    if (!file) return;
+
+    createUploadUrl({
+      fileName: file.name,
+    });
   };
 
   return (
-    <div className="m-4 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center m-4">
       <div
-        className={`border-4 border-dashed ${
+        className={`border-dashed border-4 ${
           highlighted ? "border-primary" : "border-default"
-        } cursor-pointer p-6 text-center`}
+        } p-6 text-center cursor-pointer`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -109,10 +136,10 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
         </Button>
       </div>
       {uploadSuccess && (
-        <p className="m-4 text-success">Datei erfolgreich hochgeladen!</p>
+        <p className="text-success m-4">Datei erfolgreich hochgeladen!</p>
       )}
       {uploadError && (
-        <p className="m-4 text-danger">
+        <p className="text-danger m-4">
           {!file
             ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
             : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}

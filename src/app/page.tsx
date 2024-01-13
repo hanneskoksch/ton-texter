@@ -39,7 +39,7 @@ export default function Home() {
               Unterstützte Dateiformate
             </h2>
             <p className="mt-4 text-lg text-default-600">
-              Das Transkrip kann als <code>.docx</code>, <code>.srt</code> oder{" "}
+              Das Transkript kann als <code>.docx</code>, <code>.srt</code> oder{" "}
               <code>.txt</code> heruntergeladen werden
             </p>
           </div>
