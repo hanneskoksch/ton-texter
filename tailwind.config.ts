@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       animation: {
         gradient: "gradient 8s linear infinite",
+        "pulse-slow": "pulse 8s linear infinite",
       },
       keyframes: {
         gradient: {
