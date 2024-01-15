@@ -1,6 +1,5 @@
 import AuthButton from "@/components/navbar/AuthButton";
 import {
-  Image,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -10,6 +9,7 @@ import {
   NavbarMenuToggle,
   Link as NextUILink,
 } from "@nextui-org/react";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -19,10 +19,11 @@ function TonTexterNavbar() {
       <NavbarBrand>
         <Link href="/" className="flex items-center gap-3">
           <Image
+            priority={true}
             src="/tontexter_logo_small.svg"
             alt="TonTexter Logo"
-            radius="none"
             width={30}
+            height={30}
           />
           <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
         </Link>
