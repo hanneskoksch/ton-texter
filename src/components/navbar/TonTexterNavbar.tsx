@@ -1,5 +1,6 @@
 import AuthButton from "@/components/navbar/AuthButton";
 import {
+  Image,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -16,8 +17,13 @@ function TonTexterNavbar() {
   return (
     <Navbar isBordered>
       <NavbarBrand>
-        <Link href="/">
-          {/* <TonTexterLogo /> */}
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/tontexter_logo_small.svg"
+            alt="TonTexter Logo"
+            radius="none"
+            width={30}
+          />
           <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
         </Link>
       </NavbarBrand>
