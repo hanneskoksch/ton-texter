@@ -13,6 +13,8 @@ const config: Config = {
       animation: {
         gradient: "gradient 8s linear infinite",
         "pulse-slow": "pulse 8s linear infinite",
+        "fade-in": "fadeIn 1s",
+        "fade-in-slow": "fadeIn 6s",
       },
       keyframes: {
         gradient: {
