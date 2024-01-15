@@ -9,6 +9,7 @@ import {
   NavbarMenuToggle,
   Link as NextUILink,
 } from "@nextui-org/react";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -16,8 +17,14 @@ function TonTexterNavbar() {
   return (
     <Navbar isBordered>
       <NavbarBrand>
-        <Link href="/">
-          {/* <TonTexterLogo /> */}
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            priority={true}
+            src="/tontexter_logo_small.svg"
+            alt="TonTexter Logo"
+            width={30}
+            height={30}
+          />
           <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
         </Link>
       </NavbarBrand>

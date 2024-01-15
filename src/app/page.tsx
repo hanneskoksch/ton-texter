@@ -1,11 +1,31 @@
 import { CompareSlider } from "@/components/compareSlider/CompareSlider";
 import FileIcons from "@/components/FileIcons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Image } from "@nextui-org/react";
+import { Image as NextUiImage } from "@nextui-org/react";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <>
+      <div
+        className="pointer-events-none relative -z-10 h-52 w-full transform-gpu md:h-80 "
+        aria-hidden="true"
+      >
+        <div className="animate-fade-in-slow">
+          <div className="animate-pulse-slow absolute left-0 right-0 top-8 mx-auto h-64 w-64 rounded-full bg-[#45A4FF] opacity-50 mix-blend-multiply blur-3xl md:top-32 md:h-[24rem] md:w-[36rem]"></div>
+        </div>
+
+        <div className="isolate flex justify-center pt-16">
+          <Image
+            priority={true}
+            src="/tontexter_logo_easy.svg"
+            alt="TonTexter Logo"
+            className="w-52 md:w-96"
+            width={50}
+            height={50}
+          />
+        </div>
+      </div>
       <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
         <p className="mb-6 text-4xl text-default-700">Mehr Power im Schnitt:</p>
         <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
@@ -124,7 +144,7 @@ export default function Home() {
       </div>
       <div className="mx-auto mb-60 flex max-w-5xl flex-col items-center gap-8 p-10 text-center sm:flex-row sm:items-start">
         <div>
-          <Image
+          <NextUiImage
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
@@ -136,7 +156,7 @@ export default function Home() {
           </p>
         </div>
         <div>
-          <Image
+          <NextUiImage
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
@@ -146,7 +166,7 @@ export default function Home() {
           <p className="text-sm text-default-500">Chief of Cloud Operations</p>
         </div>
         <div>
-          <Image
+          <NextUiImage
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
