@@ -6,6 +6,23 @@ import { Image } from "@nextui-org/react";
 export default function Home() {
   return (
     <>
+      <div
+        className="pointer-events-none relative -z-10 h-52 w-full transform-gpu md:h-80 "
+        aria-hidden="true"
+      >
+        <div className="animate-fade-in-slow">
+          <div className="animate-pulse-slow absolute left-0 right-0 top-8 mx-auto h-64 w-64 rounded-full bg-[#45A4FF] opacity-50 mix-blend-multiply blur-3xl md:top-32 md:h-[24rem] md:w-[36rem]"></div>
+        </div>
+
+        <div className="animate-fade-in flex justify-center pt-16">
+          <Image
+            src="/tontexter_logo_easy.svg"
+            alt="TonTexter Logo"
+            radius="none"
+            className="w-52 md:w-96"
+          />
+        </div>
+      </div>
       <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
         <p className="mb-6 text-4xl text-default-700">Mehr Power im Schnitt:</p>
         <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
