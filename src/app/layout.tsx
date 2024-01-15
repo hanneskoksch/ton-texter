@@ -24,7 +24,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <head />
+      <head>
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href="/tontexter_logo_small.svg"
+        />
+      </head>
       <body className={inter.className}>
         <Providers>
           <div className="flex min-h-screen flex-col">
