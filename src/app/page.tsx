@@ -148,7 +148,7 @@ export default function Home() {
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
-            src="/images/team/Hannes.jpg"
+            src="/images/team/Hannes.avif"
           />
           <p>Hannes Human</p>
           <p className="text-sm text-default-500">
@@ -160,7 +160,7 @@ export default function Home() {
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
-            src="/images/team/Niko.jpg"
+            src="/images/team/Niko.avif"
           />
           <p>Niko Naturbursche</p>
           <p className="text-sm text-default-500">Chief of Cloud Operations</p>
@@ -170,7 +170,7 @@ export default function Home() {
             width={500}
             alt="NextUI hero Image"
             className="mb-2"
-            src="/images/team/Torben.jpg"
+            src="/images/team/Torben.avif"
           />
           <p>Torben Taubenschlag</p>
           <p className="text-sm text-default-500">
