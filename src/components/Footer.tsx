@@ -3,8 +3,8 @@ import ThemeSwitcher from "./ThemeSwitcher";
 
 const Footer = () => {
   return (
-    <footer className="bottom-0 left-0 mt-auto w-full py-6">
-      <Divider className="my-6" />
+    <footer className="bottom-0 left-0 w-full pb-6">
+      <Divider className="mb-6" />
       <div className="mb-4 flex justify-center text-sm">
         &copy; 2024 Ton-Texter
       </div>
