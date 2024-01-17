@@ -39,7 +39,7 @@ enum TranscriptStatus {
 }
 ```
 
-# Iterations
+## Iterations
 
 Upon realizing that the original draft will need further refinement, we started making adjustments during development whenever they were needed, taking advantage of the flexibility that this phase offers. To enhance the product before going to production, our first modification involved adding a `preview` attribute to the Transcript model. 
 
@@ -135,7 +135,7 @@ The following table shows an example of a database entry:
 
 The `fileName` is utilized for generating comfortable download options for transcripts, representing the actual file name used for storage in S3. For instance, a docx transcript for "test.wav" is stored as "test.docx". The `fileExtension` is stored independently to ensure accurate processing of the file during transcription and merging it. The `fileNameWithExt` serves as the key for accessing the file in S3, streamlining the retrieval process. Lastly, the `displayFilename` (formerly `originalFilename`) retains its role in the dashboard for user-friendly display, now renamed for improved clarity. This approach enhances consistency and reduces the risk of errors in file manipulation throughout all processes.
 
-# Final schema
+## Final schema
 
 ```prisma
 model User {
