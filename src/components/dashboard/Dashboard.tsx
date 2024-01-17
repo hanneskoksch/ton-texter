@@ -3,23 +3,21 @@
 import { trpc } from "@/app/_trpc/client";
 import {
   Button,
-  Listbox,
-  ListboxItem,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Skeleton,
-  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { TranscriptStatus } from "@prisma/client";
 import { format } from "date-fns";
-import { Download, Ghost, MoreHorizontal } from "lucide-react";
+import { Download, Ghost, Loader2, MoreHorizontal, Trash2 } from "lucide-react";
 import { Key, useState } from "react";
 import FileUpload from "../FileUpload";
 import TranscriptStatusAvatar from "./TranscriptStatusAvatar";
@@ -53,7 +51,7 @@ function Dashboard({ userId }: { userId: string }) {
     },
   });
 
-  const handleListboxSelect = (key: Key, fileId: string) => {
+  const handleMoreMenuSelect = (key: Key, fileId: string) => {
     switch (key) {
       case "delete":
         deleteFile({ id: fileId });
@@ -166,45 +164,44 @@ function Dashboard({ userId }: { userId: string }) {
                         </Button>
                       </>
                     ) : null}
-                    <Popover placement="bottom-end" color="default">
-                      <PopoverTrigger>
+                    <Dropdown closeOnSelect={false}>
+                      <DropdownTrigger>
                         <Button isIconOnly color="default" variant="flat">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <div className="w-full max-w-[260px] rounded-small px-1 py-2 dark:border-default-100">
-                          <Listbox
-                            aria-label="Actions"
-                            onAction={(key) =>
-                              handleListboxSelect(key, file.id)
-                            }
-                            disabledKeys={
-                              file.status === TranscriptStatus.PROCESSING
-                                ? ["delete"]
-                                : []
-                            }
-                          >
-                            <ListboxItem
-                              key="delete"
-                              className="text-danger"
-                              color="danger"
-                            >
-                              <Tooltip
-                                isDisabled={
-                                  file.status !== TranscriptStatus.PROCESSING
-                                }
-                                content={
-                                  "Dateien können nicht gelöscht werden, während sie verarbeitet werden."
-                                }
-                              >
-                                <p>Löschen</p>
-                              </Tooltip>
-                            </ListboxItem>
-                          </Listbox>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        variant="faded"
+                        aria-label="Mehr Aktionen"
+                        disabledKeys={
+                          file.status === TranscriptStatus.PROCESSING ||
+                          currentlyDeletingFile === file.id
+                            ? ["delete"]
+                            : []
+                        }
+                        onAction={(key) => handleMoreMenuSelect(key, file.id)}
+                      >
+                        <DropdownItem
+                          key="delete"
+                          className="text-danger"
+                          color="danger"
+                          description={
+                            file.status !== TranscriptStatus.PROCESSING
+                              ? "Datei wird unwiderruflich gelöscht"
+                              : "Nur möglich, wenn Datei nicht verarbeitet wird"
+                          }
+                          startContent={
+                            currentlyDeletingFile === file.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )
+                          }
+                        >
+                          Löschen
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 </div>
               </li>
