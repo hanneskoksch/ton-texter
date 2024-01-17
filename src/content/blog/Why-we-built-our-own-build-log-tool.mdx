@@ -1,24 +1,50 @@
 ---
 title: "Why we built our own build log tool"
-description: "We wanted to use Vercel team features without paying hehe"
+description: "We wanted to use Vercel team features without paying (hehe 🌚)"
 publishedAt: "2023-12-03"
 author: "Hannes"
 authorGithub: "hanneskoksch"
 ---
 
-Going with Vercel to build and deploy our app brought many advantages. One of the biggest would be the automatic CI/CD setup of our Next.js application. With that, we could immediately focus on developing the actual application code and didn't have to struggle with any kind of pipeline setup at the beginning.
+Going with Vercel to build and deploy the Ton-Texter app brought many advantages. One of the biggest would be the automatic CI/CD setup of our Next.js application. With that, we could immediately focus on developing the actual application code and didn't have to struggle with any kind of pipeline setup at the beginning.
 
-Though Vercel offers a 20 $ (per user per month) pro plan for teams, within the scope of this project we never planned to leave the generous free plan. While the free plan probably completely satisfies the needs of solo developers, it becomes more difficult when working with it in teams:
+Though Vercel offers a 20 $ (per user per month) pro plan for teams, within the scope of this project we never planned to leave the generous free plan.
 
-The Preview builds of individual branches or pull requests behind an authentication layer that checks if the build belongs to you or your team weren't that much of a problem. While we of course couldn't all make use of them, we always could just build and test the branches locally.
+[Vercel pricing](https://vercel.com/pricing)
+![Vercel pricing](/images/blog/Why-we-built-our-own-build-log-tool/Vercel-pricing.png)
 
-One big problem though was the build pipeline. With the Vercel bot automatically commenting on the PRs, you could tell if a build was successful or not, but in the case of the ladder, you couldn't tell why. Clicking on the inspect link just forwarded you to the same authentication layer that, in case that project is not connected to your Vercel account, didn't show you any useful information.
+But while the free plan probably completely satisfies the needs of solo developers and small project scopes, making use of the luxurious Vercel features becomes more difficult when working with it in teams. This mainly concerns the topics of preview deployments and build logs.
 
-Therefore we needed a solution so all team members would be able to check why their branches may have failed to build. This solution came in the form of the Vercel API and Vercel account access tokens. With that, in the very initial phase of our project, we developed a small tool that allowed everyone to anonymously check its build logs. The tool "Ton Texter Logs" was born.
+# Preview Deployments
+
+With the [Vercel preview deployments](https://vercel.com/docs/deployments/preview-deployments), developers can experience, what real comfort in a branch-driven development workflow feels like. For every branch that gets pushed, Vercel creates its very own preview deployment. And if that branch is in for a review in a pull request, Vercel even comments on it and provides information about the build status and the preview.
+
+![Vercel comment on GitHub pull request](/images/blog/Why-we-built-our-own-build-log-tool/Vercel-comment-on-GitHub-pull-request.png)
+
+Now the problem we ran into:
+
+The preview builds are hidden behind an authentication layer that checks if the build belongs to you or your team. This was a bit of a bummer but that alone wasn't that much of a problem. While we of course couldn't all make use of them (just the one team member that "owned" the Vercel project), we always could just build and test the branches locally. And also there is the option in the free plan to create one additional public preview link for a certain deployment.
+
+The build logs were more of a problem:
+
+# Build Logs
+
+One big problem though was the build pipeline. With the Vercel bot automatically commenting on the PRs, you could tell if a build was successful or not, but in the case of the ladder, you couldn't tell why. Clicking on the inspect link just forwarded you to the same authentication layer that, in case that project is not connected to your Vercel account, didn't show you any useful information. Although some failures could be reproduced using the `next build` command, some couldn't.
+
+Therefore we needed a solution so all team members would be able to check why their branches may have failed to build. This solution came in the form of the [Vercel API](https://vercel.com/docs/rest-api) and [Vercel access tokens](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token). With that, in the very initial phase of our project, we developed a small tool that allowed everyone to anonymously check the build logs of our main application. The tool "[Ton-Texter Logs](https://ton-texter-logs.vercel.app/)" was born.
 ![ton-texter-logs screenshot](/images/blog/Why-we-built-our-own-build-log-tool/Ton-texter-logs-screenshot.png)
 
-## Technical setup
+# Technical setup
 
 Technically, we are using just yet another Next.js application, also deployed on Vercel, that fetches the builds and their logs on the server side. With that, the access token used for the API calls is not exposed to clients visiting the tool site.
 
-While this looks like an out-of-scope side project, it was a welcoming opportunity for me to get to know the functioning of Next.js 14 and the UI library NextUI.
+While this looks like a very out-of-scope side project, it was a welcoming opportunity for me to get to know the functioning of Next.js 14 with its app router and caching mechanisms and the UI library [NextUI](https://nextui.org/) which we planned to use for the main project.
+
+# Learnings
+
+In summary, my learnings would be:
+
+- Check out and really try the product you want to use for exactly the use case you are planning to have
+- Some errors are not as complicated as they seem: Sometimes it's just a missing environment variable. And maybe writing an extra tool to discover that is a bit overkill.
+- It's still cool and the schema can be applied to other platforms as well (I even experienced that during my internship semester)
+- There are sometimes smart and hacky workarounds to avoid limitations 🙃
