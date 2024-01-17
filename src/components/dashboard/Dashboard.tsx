@@ -3,19 +3,24 @@
 import { trpc } from "@/app/_trpc/client";
 import {
   Button,
+  Listbox,
+  ListboxItem,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Skeleton,
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { TranscriptStatus } from "@prisma/client";
 import { format } from "date-fns";
-import { Download, Ghost } from "lucide-react";
-import { useState } from "react";
+import { Download, Ghost, MoreHorizontal } from "lucide-react";
+import { Key, useState } from "react";
 import FileUpload from "../FileUpload";
 import TranscriptStatusAvatar from "./TranscriptStatusAvatar";
 
@@ -47,6 +52,16 @@ function Dashboard({ userId }: { userId: string }) {
       window.open(transcriptDownload, "_blank");
     },
   });
+
+  const handleListboxSelect = (key: Key, fileId: string) => {
+    switch (key) {
+      case "delete":
+        deleteFile({ id: fileId });
+        return;
+      default:
+        return;
+    }
+  };
 
   return (
     <main className="mx-auto md:p-10">
@@ -90,30 +105,24 @@ function Dashboard({ userId }: { userId: string }) {
               >
                 <div className="flex w-full items-center justify-between space-x-6 px-6 pt-6">
                   <TranscriptStatusAvatar transcriptStatus={file.status} />
-                  <div className="flex-1 truncate">
+                  <div className="flex-1">
                     <div>
-                      <h3 className="truncate text-lg font-medium text-default-900">
+                      <h3 className="text-lg font-medium text-default-900">
                         {file.displayFilename}
                       </h3>
-                      <Tooltip
-                        placement="bottom-start"
-                        content={
-                          <article className="prose dark:prose-invert">
-                            {file.preview}
-                          </article>
-                        }
-                      >
-                        <p className="truncate italic text-default-600 ">
-                          {file.preview}
-                        </p>
-                      </Tooltip>
+
+                      <p className="line-clamp-3 italic text-default-600 ">
+                        {file.preview}
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between px-6 py-2 text-xs text-default-500">
-                  {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
-                  <div className="flex justify-center space-x-2">
+                <div className="mt-4 px-6 py-2 text-right text-xs text-default-500 md:flex md:items-center md:justify-between">
+                  <div className="my-1">
+                    {format(new Date(file.createdAt), "dd.MM.yyyy - HH:mm")}
+                  </div>
+                  <div className="flex justify-end space-x-2 md:justify-center">
                     {file.status === TranscriptStatus.SUCCESS ? (
                       <>
                         <Button
@@ -157,26 +166,45 @@ function Dashboard({ userId }: { userId: string }) {
                         </Button>
                       </>
                     ) : null}
-                    <Tooltip
-                      isDisabled={file.status !== TranscriptStatus.PROCESSING}
-                      content={
-                        "Dateien können nicht gelöscht werden, während sie verarbeitet werden."
-                      }
-                    >
-                      <div>
-                        <Button
-                          color="danger"
-                          variant="flat"
-                          isDisabled={
-                            file.status === TranscriptStatus.PROCESSING
-                          }
-                          isLoading={currentlyDeletingFile === file.id}
-                          onClick={() => deleteFile({ id: file.id })}
-                        >
-                          Löschen
+                    <Popover placement="bottom-end" color="default">
+                      <PopoverTrigger>
+                        <Button isIconOnly color="default" variant="flat">
+                          <MoreHorizontal className="h-4 w-4" />
                         </Button>
-                      </div>
-                    </Tooltip>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <div className="w-full max-w-[260px] rounded-small px-1 py-2 dark:border-default-100">
+                          <Listbox
+                            aria-label="Actions"
+                            onAction={(key) =>
+                              handleListboxSelect(key, file.id)
+                            }
+                            disabledKeys={
+                              file.status === TranscriptStatus.PROCESSING
+                                ? ["delete"]
+                                : []
+                            }
+                          >
+                            <ListboxItem
+                              key="delete"
+                              className="text-danger"
+                              color="danger"
+                            >
+                              <Tooltip
+                                isDisabled={
+                                  file.status !== TranscriptStatus.PROCESSING
+                                }
+                                content={
+                                  "Dateien können nicht gelöscht werden, während sie verarbeitet werden."
+                                }
+                              >
+                                <p>Löschen</p>
+                              </Tooltip>
+                            </ListboxItem>
+                          </Listbox>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </div>
               </li>
