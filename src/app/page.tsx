@@ -12,7 +12,7 @@ export default function Home() {
         aria-hidden="true"
       >
         <div className="animate-fade-in-slow">
-          <div className="animate-pulse-slow absolute left-0 right-0 top-8 mx-auto h-64 w-64 rounded-full bg-[#45A4FF] opacity-50 mix-blend-multiply blur-3xl md:top-32 md:h-[24rem] md:w-[36rem]"></div>
+          <div className="absolute left-0 right-0 top-8 mx-auto h-64 w-64 rounded-full bg-[#45A4FF] opacity-50 mix-blend-multiply blur-3xl md:top-32 md:h-[24rem] md:w-[36rem]"></div>
         </div>
 
         <div className="isolate flex justify-center pt-16">
