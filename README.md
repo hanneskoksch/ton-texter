@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ton-Texter
+
+Ton-Texter is a Next.js application that allows users to upload audio files and receive transcripts in the formats DOCX, SRT, and TXT. This tool is designed to simplify the process of converting audio content into text, making it easier to work with transcriptions.
+
+## Participants
+
+| Name            | Abbreviation |
+| --------------- | ------------ |
+| Hannes Koksch   | hk058        |
+| Nikolas Schaber | ns144        |
+| Torben Ziegler  | tz023        |
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up Ton-Texter locally:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the Repository**:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/hanneskoksch/ton-texter.git
+   cd ton-texter
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Install Dependencies**:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Start the Development Server**:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Open your browser and visit [http://localhost:3000](http://localhost:3000) to use Ton-Texter.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. Visit the Ton-Texter application in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Create an account with invitation key "cct2024".
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Go to "Dashboard".
+
+4. Click on the "Datei hochladen" button to select and upload your audio file.
+
+5. Wait for the transcription process to complete.
+
+6. Download your transcriptions in DOCX, SRT, and TXT formats.
+
+## Related repositories
+
+- [Cloud-Transcription-Service](https://github.com/ns144/Cloud-Transcription-Service)
+- [Transcription-Application](https://github.com/ns144/Transcription-Application)
