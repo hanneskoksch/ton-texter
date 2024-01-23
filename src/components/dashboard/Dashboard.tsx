@@ -2,6 +2,8 @@
 
 import { trpc } from "@/app/_trpc/client";
 import {
+  Accordion,
+  AccordionItem,
   Button,
   Dropdown,
   DropdownItem,
@@ -105,13 +107,20 @@ function Dashboard({ userId }: { userId: string }) {
                   <TranscriptStatusAvatar transcriptStatus={file.status} />
                   <div className="flex-1">
                     <div>
-                      <h3 className="text-lg font-medium text-default-900">
-                        {file.displayFilename}
-                      </h3>
-
-                      <p className="line-clamp-3 italic text-default-600 ">
-                        {file.preview}
-                      </p>
+                      <Accordion isCompact>
+                        <AccordionItem
+                          aria-label="Vorschau"
+                          title={
+                            <h3 className="text-lg font-medium text-default-900">
+                              {file.displayFilename}
+                            </h3>
+                          }
+                        >
+                          <p className="italic text-default-600 ">
+                            {file.preview}...
+                          </p>
+                        </AccordionItem>
+                      </Accordion>
                     </div>
                   </div>
                 </div>
