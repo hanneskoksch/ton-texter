@@ -37,7 +37,7 @@ export default function Login({
       <h1 className="mb-6 text-4xl font-bold">Login</h1>
       <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
         <form
-          className="animate-in flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
+          className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
           action={signIn}
         >
           <div className="flex w-full flex-wrap gap-4 md:flex-nowrap">
