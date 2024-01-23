@@ -18,7 +18,7 @@ function NotFound() {
             <Button
               color="default"
               variant="bordered"
-              className="border-white"
+              className="border-white text-white"
               as={Link}
               href="/"
             >
