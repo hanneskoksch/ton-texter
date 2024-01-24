@@ -1,0 +1,57 @@
+---
+title: "How we work and develop as a team"
+description: "The reason why we still like each other in the team lies in its coordination"
+publishedAt: "2024-01-24"
+author: "Hannes"
+authorGithub: "hanneskoksch"
+---
+
+> Talent wins games, but teamwork and intelligence win championships.
+
+– Michael Jordan
+
+Developing in a team and keeping productivity high is a challenge many software-developing teams face. Although we admittedly are a  small team, even we needed some rules in order to get things done. This includes rather soft things like a serious motivation to create something new and a fair commitment spirit that each member would bring along as well as fixed, technical rules of procedure. 
+
+This article gives an insight into how we work as a team and shows the technical process from an idea to completion. 
+
+# Our Basic Workflow
+
+To organize our feature development and bug fixing, we rely on the issue-tracking tool [Linear](https://linear.app/). Linear is a tool similar to other ticket-based project planning tools like Jira, GitHub Issues, or GitLab Issues. Such tools usually contain a backlog for all upcoming features and a Kanban board view with multiple columns to represent the current state of a ticket. These so-called "tickets" are individual tasks with descriptions, tags, assignments of team members, and tags to categorize them. 
+
+We decided to go with Linear just out of curiosity to try something new and innovative since we already worked with the alternatives in other projects.
+
+This is what our board looked like on 15 January:
+
+![Our Linear board with multiple columns and tickets in them](/images/blog/How-we-work-and-develop-as-a-team/Linear-board.png)
+
+In the following, we will investigate our detailed workflow based on the "404 Page" ticket in the *Todo* column.
+
+## The Ticket and its management
+
+Once we have a new feature idea, we write it down in a ticket. The ticket waits in the so-called "Backlog" section until a state is reached where it becomes interesting, possible, or just necessary to implement it. In the process of its development, the ticket passes through the stages of the shown columns until it reaches the *Done* column. 
+
+A finished ticket can look for example like this:
+
+![The 404 ticket itself](/images/blog/How-we-work-and-develop-as-a-team/Ticket-404-page.png)
+
+Here we see its activity history and on top of this also a link to the corresponding GitHub pull request. The linking is done automatically by Linear and also the movement between the columns is partly automated through Linears connection to GitHub. 
+
+## Coding and reviewing
+
+As a general guideline for source code management, we adapted a feature branch-based workflow. New features would be developed in a separate branch to keep the main branch clean and functioning. To add new code to our codebase, we mostly review each other's pull requests and then merge them into the main branch. 
+
+![Pull request of 404 feature](/images/blog/How-we-work-and-develop-as-a-team/Pull-request-404.png)
+
+By referencing the ticket number in the pull request title, we also enabled that linking connection to linear.
+
+In the pull request review, we check each other's code for errors, suggest improvements, or just get an idea of the new code that gets added to the codebase to keep up the general understanding of what goes on within the application.
+
+For further conflict-free cooperation while coding, we also used the [Prettier](https://prettier.io/) formatter. This reduced potential merge conflicts, unnecessary big change logs, e.g. when applying different format settings on different machines, and standardized how our code base looks. The Prettier plugins for organizing the imports and sorting the [tailwind](https://tailwindcss.com/) classes also came in handy. 
+
+# Advantages and learnings
+
+There are many ways to achieve a certain flow of productivity and we were able to make use of a lot of them and the article only covered a part of it. 
+Though fewer precautions probably would have worked just as well for a team of the size of ours, we nevertheless experienced exactly what the workflows would be like in bigger teams and now are more prepared for such scenarios. 
+
+By writing everything down and tracking progress we made teamwork with a good experience possible in the first place. Because when working in a team, it is crucial to not just store everything in the back of your head but to write it down, discuss it, and develop it with your team to make the pace of the development more transparent.
+
