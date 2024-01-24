@@ -1,0 +1,57 @@
+---
+title: "Measurements to reduce costs"
+description: "Taking action to optimize our cloud setup"
+publishedAt: "2024-01-24"
+author: "Torben"
+authorGithub: "torbenziegler"
+---
+
+As a group of students, Ton-Texter is a great opportunity to engage with cloud services and their providers. Part of this is to deal with the associated costs developing with such platforms. In this blog post, we aim to elaborate how we strive to minimize costs while running Ton-Texter entirely in the cloud.
+
+## Recap
+
+For those who are not familiar with our research documents, let's briefly recap how Ton-Texter is distributed across various cloud providers and services.
+
+Serving as the host for our website is [Vercel](https://vercel.com/), which provides [a generous free tier](https://vercel.com/pricing). This includes benefits such as 100 GB-hours for serverless function execution, up to 100 deployments per day, and more. Making use of Vercel as provider eliminates hosting concerns, later in this post we will take a look at how we make sure to not exceed the boundaries existing in the free tier.
+
+For our database, we've opted for [Supabase](https://supabase.com/), which also offers a [free tier](https://supabase.com/pricing). This tier provides us with enough database space (500 MB) and up to 5 GB of bandwidth to manage transcriptions.
+
+Most importantly, the transcription pipeline, which includes AWS [API Gateway](https://aws.amazon.com/api-gateway/), [Lambda](https://aws.amazon.com/lambda/), [EC2](https://aws.amazon.com/ec2/), and [S3](https://aws.amazon.com/s3/), was anticipated to create the highest costs. Fortunately, many AWS services offer generous free tiers; however, it's worth noting that EC2 operates with associated costs depending on the instance you choose.
+
+## Keeping the costs low
+
+Throughout the development phase, we brainstormed and implemented strategies to reduce costs in our cloud stack. In the following section, we will highlight these ideas and provide examples for each cloud component.
+
+**Invitation key**
+
+Let's begin with the most obvious and effective solution we've implemented to protect ourselves from system abuse. Perhaps you've already experienced it – when attempting to use Ton-Texter, a sign-up with an invitation key is mandatory. If you haven't received the secret invitation key, unfortunately, access to the service is not possible at this time.
+
+Ton-Texter, being a cloud computing software project managed by students, currently operates without generating profits. As a result, it's beneficial for us to keep costs manageable. To prevent an abrupt surge in popularity that could potentially strain our resources, we've implemented this invitation key that grants access exclusively to our colleagues in the university course. This results in a small group of users and reduced costs.
+
+While the invitation key check is a simple measure, it significantly relieves our concerns and negates the need for additional, complex measures. This process safeguards against excessive usage of EC2, allowing us to maintain manageable costs and preventing us from exceeding the free tiers provided by cloud providers in the event of a sudden influx of users generating great amounts of data.
+
+**Presigned URLs in S3**
+
+You might recall this topic from a previous blog post where we discussed our recent migration to presigned URLs in our S3 usage. The primary motivation behind this change was cost reduction, particularly in terms of serverless function executions limited by Vercel's free tier.
+
+In the previous integration, we handled user-uploaded files on the backend, and sending these files incurred significant bandwidth costs within the free tier, which could be quickly exceeded. To address this, we made the strategic decision to shift this process to the client side, utilizing presigned URLs provided by the [AWS SDK](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html).
+
+For a comprehensive understanding of this transition, we recommend checking out the full explanation in the previous blog post [Reworking the S3 file upload](/blog/Reworking-the-S3-file-upload).
+
+**S3 management**
+
+In continuation of the previous example, optimizing storage usage in S3 is crucial to controlling costs. Often, developers allow users to upload data without ensuring its actual usage, leading to the potential accumulation of untouched data.
+
+To address this and to both remain within the free tier and reduce costs, we came up with the following flow to optimize storage usage. When a user requests a transcription, their audio file is uploaded to our Ton-Texter S3 bucket. Once the file is processed, and the transcripts are generated, there is no further need to retain the original audio file. To ensure user privacy, we don't access or inspect uploaded audio files, therefore, once processed, the file is permanently deleted from storage. Additionally, users have the option to delete their own transcripts, freeing up space for us. This approach leaves us with a mostly empty bucket (excluding the final transcripts), allowing us to stay within the free tier. Currently, we're not concerned about the final transcripts consuming significant space, as they are only a few kilobytes in size. Combined with the invitation key system, we are confident in staying within storage boundaries.
+
+**Running the pipeline**
+
+As the most significant cost operation point, the transcription pipeline plays a critical role in cost calculations. While the easiest implementation would have been to keep an EC2 instance running 24/7, this approach is the most expensive. Instead of keeping an instance constantly running, even when there are no audio files to process, we opted for a more cost-effective strategy.
+
+In our implementation, the EC2 instance is triggered to start only when a transcription is requested from our web app. When an audio file is uploaded, a request is sent to the AWS API Gateway, which then invokes a Lambda function, subsequently triggering the EC2 instance to boot. The instance handles the transcription process, checks for any remaining transcriptions in the queue, and, if none are found, shuts down automatically.
+
+By adopting this workflow, we ensure that the highly costly EC2 instance runs only when necessary. Rather than incurring hundreds of euros on a continuously running powerful instance, we end up with costs measured in cents or just a couple of euros.
+
+## Summary
+
+In this post, we revisited our cloud setup and dived into measures aimed at reducing anticipated costs. Through these strategic implementations, we anticipate avoiding heavy bills associated with our cloud usage.
