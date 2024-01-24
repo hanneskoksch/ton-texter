@@ -103,26 +103,29 @@ function Dashboard({ userId }: { userId: string }) {
                 className="mb-4 divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg
                 "
               >
-                <div className="flex w-full items-center justify-between space-x-6 px-6 pt-6">
-                  <TranscriptStatusAvatar transcriptStatus={file.status} />
-                  <div className="flex-1">
-                    <div>
-                      <Accordion isCompact>
-                        <AccordionItem
-                          aria-label="Vorschau"
-                          title={
-                            <h3 className="text-lg font-medium text-default-900">
-                              {file.displayFilename}
-                            </h3>
-                          }
-                        >
-                          <p className="italic text-default-600 ">
-                            {file.preview}...
-                          </p>
-                        </AccordionItem>
-                      </Accordion>
-                    </div>
-                  </div>
+                <div className="px-2 pt-2 md:px-6 md:pt-6">
+                  <Accordion isCompact>
+                    <AccordionItem
+                      isDisabled={file.status !== TranscriptStatus.SUCCESS}
+                      hideIndicator={file.status !== TranscriptStatus.SUCCESS}
+                      className="pointer-events-auto opacity-100"
+                      startContent={
+                        <TranscriptStatusAvatar
+                          transcriptStatus={file.status}
+                        />
+                      }
+                      aria-label="Vorschau"
+                      title={
+                        <h3 className="break-all text-lg font-medium text-default-900">
+                          {file.displayFilename}
+                        </h3>
+                      }
+                    >
+                      <p className="italic text-default-600 ">
+                        {file.preview}...
+                      </p>
+                    </AccordionItem>
+                  </Accordion>
                 </div>
 
                 <div className="mt-4 px-6 py-2 text-right text-xs text-default-500 md:flex md:items-center md:justify-between">
