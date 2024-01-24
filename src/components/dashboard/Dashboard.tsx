@@ -7,6 +7,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -77,6 +78,24 @@ function Dashboard({ userId }: { userId: string }) {
                   Datei hochladen
                 </ModalHeader>
                 <ModalBody>
+                  <div className="rounded-xl border-2 border-default-300 bg-default-100 p-4">
+                    <p className="text-small text-default-600">
+                      Um die Uploadgröße zu reduzieren und die Geschwindigkeit
+                      zu erhöhen, empfehlen wir, große Videos vor dem Upload in
+                      Audiodateien umzuwandeln.
+                      <br />
+                      Dafür empfehlen wir z. B. das Tool{" "}
+                      <Link
+                        isExternal
+                        showAnchorIcon
+                        className="text-small"
+                        href="https://www.ffmpeg.org/"
+                      >
+                        FFmpeg
+                      </Link>
+                      .
+                    </p>
+                  </div>
                   <FileUpload userId={userId} />
                 </ModalBody>
                 <ModalFooter />
