@@ -12,6 +12,8 @@ Ton-Texter is a Next.js application that allows users to upload audio files and 
 
 ## Getting Started
 
+Visit the live development of [Ton-Texter](https://ton-texter.de/), or:
+
 Follow these steps to set up Ton-Texter locally:
 
 1. **Clone the Repository**:
@@ -24,16 +26,24 @@ Follow these steps to set up Ton-Texter locally:
 2. **Install Dependencies**:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
-3. **Start the Development Server**:
+3. **Populate the .env file**:
+
+   ```bash
+   cp .env.template .env
+   ```
+
+   Integrate your credentials in the .env file
+
+4. **Start the Development Server**:
 
    ```bash
    npm run dev
    ```
 
-4. Open your browser and visit [http://localhost:3000](http://localhost:3000) to use Ton-Texter.
+5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to use Ton-Texter.
 
 ## Usage
 
