@@ -44,13 +44,14 @@ function TonTexterNavbar() {
           </Suspense>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
+      <NavbarMenu className="mt-4 space-y-4">
         <NavbarMenuItem>
           <Suspense>
-            <AuthButton />
+            <AuthButton isMobile />
           </Suspense>
         </NavbarMenuItem>
 
+        {/* Mobile burger menu */}
         <NavbarMenuItem>
           <NextUILink className="w-full" size="lg" href="/pricing">
             Pricing
