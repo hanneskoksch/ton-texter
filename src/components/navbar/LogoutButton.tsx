@@ -9,7 +9,13 @@ import {
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 
-function LogoutButton({ signOut }: { signOut: (formData: FormData) => void }) {
+function LogoutButton({
+  signOut,
+  size,
+}: {
+  signOut: (formData: FormData) => void;
+  size: "sm" | "md";
+}) {
   const [popoverIsOpen, setPopoverIsOpen] = useState(false);
 
   return (
@@ -20,7 +26,7 @@ function LogoutButton({ signOut }: { signOut: (formData: FormData) => void }) {
       onOpenChange={(open) => setPopoverIsOpen(open)}
     >
       <PopoverTrigger>
-        <Button isIconOnly color="danger" size="sm" variant="flat">
+        <Button isIconOnly color="danger" size={size} variant="flat">
           <LogOut className="h-4 w-4" />
         </Button>
       </PopoverTrigger>

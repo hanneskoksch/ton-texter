@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Button, Link as LinkNextUI } from "@nextui-org/react";
 import { redirect } from "next/navigation";
 import LogoutButton from "./LogoutButton";
-export default async function AuthButton() {
+
+export default async function AuthButton({ isMobile }: { isMobile?: boolean }) {
   const supabase = createClient();
 
   const {
@@ -17,31 +18,41 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
+  const buttonSize = isMobile ? "md" : "sm";
+
   return user ? (
     <div className="flex items-center gap-4">
-      <Button color="primary" size="sm" as={LinkNextUI} href="/dashboard">
+      <Button
+        fullWidth={isMobile}
+        color="primary"
+        size={buttonSize}
+        as={LinkNextUI}
+        href="/dashboard"
+      >
         Dashboard
       </Button>
-      <LogoutButton signOut={signOut} />
+      <LogoutButton signOut={signOut} size={buttonSize} />
     </div>
   ) : (
     <div>
       <Button
-        className="mr-3"
+        fullWidth={isMobile}
+        className={isMobile ? "mb-3" : "mr-2"}
         as={LinkNextUI}
         color="primary"
         href="/login"
         variant="bordered"
-        size="sm"
+        size={buttonSize}
       >
         Login
       </Button>
       <Button
+        fullWidth={isMobile}
         as={LinkNextUI}
         color="primary"
         href="/sign-up"
         variant="solid"
-        size="sm"
+        size={buttonSize}
       >
         Registrieren
       </Button>
