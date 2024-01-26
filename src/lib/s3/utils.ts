@@ -1,4 +1,5 @@
 import {
+  DeleteObjectCommand,
   DeleteObjectsCommand,
   GetObjectCommand,
   PutObjectCommand,
@@ -51,4 +52,21 @@ export const deleteS3Objects = async ({
   });
 
   await client.send(command);
+};
+
+export const deleteS3OriginalAudio = async ({ key }: { key: string }) => {
+  const client = createS3Client();
+  const bucket = process.env.S3_BUCKET;
+
+  const command = new DeleteObjectCommand({
+    Bucket: bucket,
+    Key: key,
+  });
+
+  try {
+    const response = await client.send(command);
+    console.log(response);
+  } catch (err) {
+    console.error(err);
+  }
 };

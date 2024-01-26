@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { deleteS3OriginalAudio } from "@/lib/s3/utils";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
 
@@ -73,6 +74,12 @@ export async function POST(request: NextRequest, { params }: PageProps) {
       preview: transcriptPreview,
     },
   });
+
+  if (transcriptStatus === TranscriptStatus.SUCCESS) {
+    deleteS3OriginalAudio({
+      key: updatedTranscript.fileNameWithExt,
+    });
+  }
 
   // Return updated transcript
   return Response.json({ updatedTranscript });
