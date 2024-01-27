@@ -6,15 +6,16 @@ author: "Torben"
 authorGithub: "torbenziegler"
 ---
 
-In diesem Blogbeitrag behandeln wir die Integration von [S3 (Simple Storage Service)](https://aws.amazon.com/de/s3/) in unserer Next.js-App, die dazu dient, die Verwaltung von Audiodateien und Transkripten für unsere Ton-Texter-Benutzer zu ermöglichen.
+In this blog post, we cover the integration of [S3 (Simple Storage Service)](https://aws.amazon.com/de/s3/) in our Next.js app, which is used to enable the management of audio files and transcripts for our Ton-Texter users.
 
-Für unser Setup waren zwei AWS-Komponenten, nämlich S3 und [IAM (Identity and Access Management)](https://aws.amazon.com/de/iam/), notwendig. Der Fokus sollte man zunächst auf die IAM-Konfiguration legen, da die S3-Konfiguration davon abhängt. IAM wird genutzt, um den Zugriff auf AWS-Ressourcen zu verwalten.
+Working with S3 for the first time can be an overwhelming experience. However, there are sufficient materials and resources available with platforms like [Medium](https://medium.com/@louis_10840/how-to-interact-upload-files-get-files-with-amazon-s3-using-nextjs-app-fcbad408033b) offering comprehensive and fully detailed guides tailored to the specific project environments.
+Two AWS components, namely S3 and [IAM (Identity and Access Management)](https://aws.amazon.com/de/iam/), were necessary for our setup. The focus should initially be on the IAM configuration, as the S3 configuration depends on it. IAM is used to manage access to AWS resources.
 
-## IAM Konfiguration
+## IAM configuration
 
-Bei der Konfiguration in der AWS Web Konsole oder per Code mit Terraform ist es erforderlich, eine Benutzergruppe zu erstellen, die die individuellen Nutzer, welche Zugriff auf die S3-Dateien erhalten sollen, zusammenführt und ihnen entsprechende Berechtigungen zuweist. Dabei wird die Berechtigung "AmazonS3FullAccess" gewählt, die genau diesen Objektzugriff ermöglicht.
+When configuring in the AWS Web Console or via code with Terraform, it is necessary to create a user group that combines the individual users who are to have access to the S3 files and assigns them corresponding authorizations. The authorization "AmazonS3FullAccess" is selected, which enables exactly this object access.
 
-**AmazonS3FullAccess Richtlinie JSON**
+**AmazonS3FullAccess policy JSON**
 
 ```json
 {
@@ -29,19 +30,19 @@ Bei der Konfiguration in der AWS Web Konsole oder per Code mit Terraform ist es 
 }
 ```
 
-Sobald die Gruppe erstellt ist, folgt die Erstellung eines neuen Benutzers oder die Auswahl eines bestehenden Benutzers, der dieser Gruppe hinzugefügt wird. Dieser Schritt ermöglicht uns, die IAM-Credentials zu generieren, die später in der Next.js-Applikation verwendet werden, um die [AWS SDK v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/) für die Interaktion mit S3 zu nutzen.
+Once the group is created, the next step is to create a new user or select an existing user to add to this group. This step allows us to generate the IAM credentials that will later be used in the Next.js application to utilize the AWS SDK v3 to interact with S3.
 
-Damit ist das IAM-Setup abgeschlossen. Mit den generierten Credentials kann nun ein S3-Bucket erstellt und konfiguriert werden.
+This completes the IAM setup. An S3 bucket can now be created and configured with the generated credentials.
 
-# S3 Konfiguration
+## S3 configuration
 
-Für die Erstellung des Buckets muss die AWS-Region festgelegt werden. Da wir in Europa tätig sind, haben wir einen zentralen Standort in Europa gewählt. Obwohl die Konfiguration des S3-Buckets komplex erscheinen mag, können die restlichen Einstellungen auf den Standardwerten belassen werden, und der Bucket kann erstellt werden.
+To create the bucket, the AWS region must be defined. Since we are located in Europe, we have chosen a central location in Europe. Although the configuration of the S3 bucket may seem complex, the remaining settings can be left at the default values and the bucket can be created.
 
-Nach der Erstellung können über die Amazon S3-Konsole bereits Objekte hinzugefügt, bearbeitet oder gelöscht werden. Damit der Bucket jedoch aus der Next.js-App heraus zugänglich ist, fehlen noch weitere Berechtigungen.
+After creation, objects can already be added, edited or deleted via the Amazon S3 console. However, in order for the bucket to be accessible from the Next.js app, further authorizations are still missing.
 
-Es ist wichtig zu überlegen, welche Operationen mit den Buckets durchgeführt werden sollen. In unserem Fall beabsichtigen wir das Hochladen, Herunterladen und Löschen von Objekten. Dementsprechend wird eine Bucket-Richtlinie definiert, die diese Anforderungen erfüllt.
+It is important to consider which operations are to be carried out with the buckets. In our case, we intend to upload, download and delete objects. Accordingly, a bucket policy is defined that fulfills these requirements.
 
-**Bucket-Richtlinie**
+**Bucket policy**
 
 ```json
 {
@@ -60,11 +61,11 @@ Es ist wichtig zu überlegen, welche Operationen mit den Buckets durchgeführt w
 }
 ```
 
-Um mit S3 aus der Next.js-App zu interagieren, ist eine abschließende Konfiguration erforderlich: CORS (Cross-Origin Resource Sharing).
+In order to interact with S3 from the Next.js app, a final configuration is required: CORS (Cross-Origin Resource Sharing).
 
-Für diese Konfiguration wird eine weitere JSON-Datei definiert, die die CORS-Einstellungen festlegt. Diese Datei bestimmt, in welcher Art und Weise Zugriffe aus anderen Domains gestattet sind.
+Another JSON file is defined for this configuration, which specifies the CORS settings. This file determines how access from other domains is permitted.
 
-**CORS-Konfiguration**
+**CORS configuration**
 
 ```json
 [
@@ -77,13 +78,13 @@ Für diese Konfiguration wird eine weitere JSON-Datei definiert, die die CORS-Ei
 ]
 ```
 
-# S3 in Aktion
+## S3 in action
 
-Die Implementierung wird durch die Verwendung der AWS SDK v3 und der ausführlichen [Dokumentation](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html) mit Beispielen und konkreten Anwendungsszenarien erleichtert.
+Implementation is made easier by using the AWS SDK v3 and the detailed [documentation](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html) with examples and concrete application scenarios.
 
-Um beispielsweise eine Datei hochzuladen, muss lediglich ein S3 Client mit den zuvor generierten IAM-Credentials erstellt werden. Jede Interaktion erfolgt über "Commands". Der Prozess bleibt dabei stets gleich. Es wird der entsprechende Command ausgetauscht, je nachdem, welche Aktion durchgeführt werden soll.
+To upload a file, for example, all you need to do is create an S3 client with the previously generated IAM credentials. Every interaction takes place via "commands". The process always remains the same. The corresponding command is exchanged depending on which action is to be performed.
 
-**Beispielhafte Implementation für den Upload einer Datei**
+**Example implementation for uploading a file**
 
 ```javascript
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
@@ -106,8 +107,16 @@ export const main = async () => {
 };
 ```
 
-Im obigen Beispiel wird der Upload eines Objekts gemäß der AWS-Dokumentation gezeigt. Um eine Datei herunterzuladen, ersetzt man `PutObjectCommand` durch `GetObjectCommand` und entfernt den `Body`-Parameter. Damit wird der entsprechende Befehl für den Download eines Objekts mit dem S3 Client ausgeführt.
+The example above shows the upload of an object according to the AWS documentation. To download a file, replace `PutObjectCommand` with `GetObjectCommand` and remove the `Body` parameter. This executes the corresponding command for downloading an object with the S3 client.
 
-# TL;DR
+## Learnings
 
-In diesem Blogbeitrag wurde der detaillierte Prozess der Integration von Amazon S3 in unsere Next.js-App behandelt. Jeder Schritt von der IAM-Konfiguration zur Berechtigungsverwaltung über die S3-Bucket-Erstellung bis hin zur Einrichtung von CORS für den App-Zugriff wurde erläutert. Durch die Verwendung des AWS SDK v3 mit verschiedenen Commands gestaltet sich die tatsächliche Umsetzung, wie das Hochladen und Herunterladen von Dateien, recht unkompliziert. Die gut strukturierte Dokumentation von AWS mit Beispielen erleichtert dabei die Implementierung.
+Integrating S3 is an experience that initially appears straightforward but quickly reveals its complexities, particularly in managing access through IAM rules. While AWS documentation is comprehensive, it can lack detailed guides on configuring S3 setups, making it challenging for newcomers.
+
+The information is indeed present in the AWS documentation, but it is spread out, and for those unfamiliar with the platform, the documentation may not provide a connected view on what things to consider. This was particularly true in the context of our Next.js project, where understanding the bigger picture became more challenging.
+
+Fortunately, resources like the previously linked Medium article offered valuable instructions tailored to our specified environment. Once the authorization challenges were resolved, which was a relatively quick process, working with S3 itself was no problem at all.
+
+## TL;DR
+
+This blog post covered the detailed process of integrating Amazon S3 into our Next.js app. Every step from IAM configuration for authorization management to S3 bucket creation and setting up CORS for app access was explained. By using the AWS SDK v3 with various commands, the actual implementation, such as uploading and downloading files, is quite straightforward. The well-structured documentation from AWS with examples makes implementation easier.
