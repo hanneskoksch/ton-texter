@@ -51,7 +51,11 @@ model Transcript {
 }
 ```
 
-The purpose of this `preview` field is to store the initial segment of the transcript, offering a preview in the dashboard. This preview aims to improve the user experience by providing users with a clear understanding of the audio file and its corresponding transcript directly from the dashboard. It also supports to get first insights on whether the transcript is properly processed.
+The purpose of this `preview` field is to store the initial segment of the transcript, offering a preview in the dashboard. 
+
+![Example of a transcription preview in the dashboard](/images/blog/Database-migrations/preview_example.png) 
+
+This preview aims to improve the user experience by providing users with a clear understanding of the audio file and its corresponding transcript directly from the dashboard. It also supports to get first insights on whether the transcript is properly processed.
 
 In our second iteration, an adjustment was made to align our Prisma schema with the specifications of Supabase. Recognizing that Supabase operates with Strings rather than Integers in their authentication table, we modified our schema accordingly.
 
@@ -75,7 +79,11 @@ In our third iteration, we decided to make adjustments in the handling of file n
 
 For instance, a "test.wav" file would be transformed into "test-d4a46644-3c19-41bc-88d8-e6b837e97d13.wav." This adjustment allows us to avoid conflicts in S3 storage, ensuring that multiple files with the same original name can be managed seamlessly.
 
-To maintain user-friendly information in the dashboard, we introduced the `originalFilename` attribute to the Transcript model. This attribute stores the initial filename provided by the user ("test.wav" as per the example), enabling clear display to the user. The extended `filename` with the appended UUID is used internally in our backend for the audio file processing pipeline. The modified Prisma schema snippet reflecting these changes is as follows:
+To maintain user-friendly information in the dashboard, we introduced the `originalFilename` attribute to the Transcript model. This attribute stores the initial filename provided by the user ("test.wav" as per the example), enabling clear display to the user. 
+
+![Dashboard items with distinct names](/images/blog/Database-migrations/display_examples.png)
+
+The extended `filename` with the appended UUID is used internally in our backend for the audio file processing pipeline. The modified Prisma schema snippet reflecting these changes is as follows:
 
 ```prisma
 model Transcript {
@@ -170,5 +178,7 @@ enum TranscriptStatus {
   SUCCESS
 }
 ```
+
+## Conclusion
 
 To sum up, while the schema might not have changed drastically, the adjustments were necessary and improved Ton-Texter. It enables a user-friendly database structure, facilitates our backend processes and covers all given aspects of the application.

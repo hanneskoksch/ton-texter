@@ -12,6 +12,8 @@ In the audio transcription workflow, we rely on an S3 bucket to store the audio 
 
 In the beginnings of the implementation phase, we implemented the S3 upload feature. Our exploration of the AWS documentation led us to having a quick and simple understanding of how to configure the S3 infrastructure to have it working with our Next.js application, as detailed in our previous blog post titled [Integrating S3 in our Next-App](/blog/Integrating-S3-in-our-next-app).
 
+![File upload dialog in dashboard](/images/blog/Reworking-the-S3-file-upload/file_upload_selected.png)
+
 The file upload process followed a rather straightforward sequence. Users could either drag and drop or use the file explorer to select an audio file for upload. To prevent unneeded files in the storage, especially since it is an audio-focused web app and prevent processing errors, only audio files are permitted for upload. This restriction is essential to avoid unnecessary complications and potential overuse of S3 storage. Upon clicking the "Upload" button in the file upload modal dialog, the selected file was transmitted to the specified API backend. The following code snippet demonstrates the initial flow in the client:
 
 ```typescript
