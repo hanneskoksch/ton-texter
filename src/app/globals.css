@@ -33,9 +33,5 @@
 }
 
 .prose pre {
-  @apply overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-50;
-}
-
-body {
-  background-color: var(--nextui-primary) !important;
+  @apply overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-50 dark:invert;
 }
