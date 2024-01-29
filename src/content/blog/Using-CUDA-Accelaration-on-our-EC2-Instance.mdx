@@ -1,0 +1,119 @@
+---
+title: "Using CUDA with an AMI on AWS EC2"
+description: "CUDA significantly boosts AI performance on our EC2"
+publishedAt: "2024-01-29"
+author: "Niko"
+authorGithub: "ns144"
+---
+
+
+
+One of the key challenges with the usage of pretrained Machine Learning Models with Python is to ensure that they are running with *CUDA* enabled. 
+
+> OpenAI Whisper is up to [60X faster](https://blog.lopp.net/openai-whisper-transcription-testing/ ) with a recent GPU compared to running on a high performance CPU
+
+Using CUDA increases performance significantly, but the setup process can be a little difficult. So if you are struggling as well to setup CUDA drivers on your EC2, hang on to this blog post and we will figure it out!
+
+## What is CUDA?
+
+CUDA is a parallel computing platform and programming model that makes using a GPU for general purpose computing simple. With the CUDA API, Nvidias GPUs can be used for the acceleration of high performance computing. According to NVIDIA their GPUs have **increased performance on AI inference by a factor of 1000** in the last ten years. You can read more about [*why GPUs are great for AI* in this blog post published by NVIDIA](https://blogs.nvidia.com/blog/why-gpus-are-great-for-ai/).
+
+![Improvement of GPU performance in the last 10 years](/images/blog/Using-CUDA-Accelaration-on-our-EC2-Instance/Stanford-2023-AI-report-GPU-performance-final-842x413.jpg.webp)
+
+*Improvement of GPU Performance in the last 10 years.*
+
+## Creating an EC2 instance with a Nvidia GPU
+
+First of all we do require an AWS instance with a NVIDIA GPU to be running CUDA accelerated tasks. In our case we are using an AWS G4-EC2 instance with the instance size [*g4dn.xlarge*](https://aws.amazon.com/de/ec2/instance-types/g4/).  This instances comes with a NVIDIA T4-GPU, boasting 16 GB of VRAM, which is more than sufficient for running the Open AI Whisper model *small* that we intend to use.
+
+With Terraform the instance type is specified as following:
+
+```python
+resource "aws_instance" "transcription_server" {
+  instance_type = "g4dn.xlarge"
+  ...
+```
+
+
+
+## Boost EC2 perfomance with CUDA
+
+By now we do have setup an EC2 instance that provides the infrastructure for GPU acceleration, but we still need the corresponding drivers to benefit from our GPU. Usually it is quite challenging to get all the required NVIDIA drivers and libraries up and running. Especially with [Faster Whisper](https://github.com/SYSTRAN/faster-whisper) that requires additionally to the CUDA drivers the *cuBLAS* and *cuDNN* libraries.
+
+Luckily NVIDIA provides an Amazon Machine Image to use GPU-Optimization on EC2 instances: The [NVIDIA Deep Learning AMI](https://aws.amazon.com/marketplace/pp/prodview-e7zxdqduz4cbs). The usage of an AMI offers a quick solution to this otherwise tricky setup process. 
+
+> What is an Amazon Machine Image (AMI)? 
+
+An [Amazon Machine Image (AMI)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html#ami-using) is a ready to use virtual machine image. On the AMI Market Place there are a lot of different AMIs for specific use cases. To launch an Instance an AMI needs to specified. 
+
+
+
+### The NVIDIA Deep Learning AMI
+
+> The Base AMI comes with a foundational platform of GPU drivers and acceleration libraries to deploy your own customized deep learning environment. By default the AMI is configured with the NVIDIA CUDA 11.0 environment.
+
+This means that we do not have to setup the CUDA drivers manually as they are already included in the AMI. Even the required libraries *cuDNN* and *cuBLAS* for Faster Whisper are already setup. Whilst we would have more control over the setup process if we would set them up manually and we could ensure that there is no bloatware on our machine, for example libraries that we do not need, this would result in a far more complex setup process.
+
+To use the Deep Learning AMI with our EC2 Instance we add it to our Terraform definition of our machine:
+
+``` python
+resource "aws_instance" "transcription_server" {
+  # Nividia AMI
+  ami = "ami-0d5a2db5629a8fbcc"
+  instance_type = "g4dn.xlarge"
+  ...
+```
+
+Now our instance should be ready to use CUDA acceleration - we will see if thats the case in the next chapter.
+
+
+
+## Check if CUDA is enabled - using CUDA with PyTorch
+
+In our project we are using [PyTorch](https://pytorch.org/) to run pretrained models with Python.
+
+Pay attention when installing PyTorch . A common mistake is to install PyTorch like that:
+
+```
+pip3 install torch torchvision torchaudio
+```
+
+This command will install PyTorch with CPU support only. So therefore even though a GPU is available and all of the required drivers are installed, all of your tasks relying on PyTorch would be running on your CPU and as a result of that, would be drastically slower.
+
+**It is important to install PyTorch build for CUDA!** 
+
+To install PyTorch for CUDA 11 we have to use the following command:
+
+``` bash
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+
+
+Considering you are using Python and Pytorch, as we do in our project, we can check if CUDA is enabled as shown in the following code snipet:
+
+```python
+import torch
+# Check Cuda availability
+print("GPU: " + str(torch.cuda.is_available()))
+print("Torch version:" + str(torch.__version__))
+```
+
+The output in the console should look like this:
+
+```
+GPU: True
+Torch version:2.1.2+cu118
+```
+
+The machine is now ready to accelerate our Machine Learning tasks!
+
+
+
+## Conclusion
+
+GPU acceleration can be deemed necessary for a lot of tasks in the Machine Learning space, because of its drastic performance improvements. Unfortunately, the setup process for CUDA accelerated infrastructures can be a little bit tedious.
+
+Luckily, with the NVIDIA Deep Learning AMI this process  is not difficult at all.
+
+Generally speaking, you could say that AMIs provide a quick solution to otherwise complex setup processes. So one key learning would be: before you head off to install a bunch of specific packages on your base Linux AMI, check out the AMI marketplace to see if there is one for your needs. 
