@@ -1,5 +1,6 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
+import { highlight } from "sugar-high";
 
 interface CustomLinkProps {
   href: string;
@@ -21,8 +22,14 @@ function CustomLink(props: CustomLinkProps) {
   return <a target="_blank" rel="noopener noreferrer" {...props} />;
 }
 
+function Code({ children, ...props }: { children: string }) {
+  let codeHTML = highlight(children);
+  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+}
+
 let components = {
   a: CustomLink,
+  code: Code,
 };
 
 export function CustomMDX(props: any) {
