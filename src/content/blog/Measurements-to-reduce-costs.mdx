@@ -53,6 +53,8 @@ As the most significant cost operation point, the transcription pipeline plays a
 
 In our implementation, the EC2 instance is triggered to start only when a transcription is requested from our web app. When an audio file is uploaded, a request is sent to the AWS API Gateway, which then invokes a Lambda function, subsequently triggering the EC2 instance to boot. The instance handles the transcription process, checks for any remaining transcriptions in the queue, and, if none are found, shuts down automatically.
 
+If the instance was running 24/7, we would be charged for the entire duration with approximately 378.72$ per month. However, by only running the instance when necessary, we can reduce costs to a few cents per transcription. 
+
 By adopting this workflow, we ensure that the highly costly EC2 instance runs only when necessary. Rather than incurring hundreds of euros on a continuously running powerful instance, we end up with costs measured in cents or just a couple of euros.
 
 ## Summary
