@@ -1,0 +1,71 @@
+---
+title: "How we developed a typesafe full stack application"
+description: "The sorcery of using TypeScript combined with Prisma and tRPC"
+publishedAt: "2024-01-31"
+author: "Hannes"
+authorGithub: "hanneskoksch"
+---
+
+For the sake of this project, we wanted to use a so-called JavaScript meta-framework and decided to go with [Next.js](https://nextjs.org/). Next.js acts as a wrapper around the JavaScript framework React and provides lots of additional features, such as routing, and static site generation but also backend features such as server-side rendering, APIs and so much more.
+
+Although we never used a meta-framework before, with lots of coding experience in our Bachelor program, we wanted to further challenge ourselves and set up this project according to the best practices in its area. One of the biggest is probably developing full type-safe using e.g. TypeScript and other TypeScript supporting tools. So after weeks of preparatory research, I really fancied the [T3 Stack](https://create.t3.gg/). Since the rest of the team was happy to use it as well, nothing was standing in the way of writing a type-safe full-stack application. 
+
+This blog post covers the perks we experienced by using this T3 Stack including using TypeScript and the libraries Prisma and tRPC.
+
+## T3 Stack??
+
+> The best way to start a full-stack, typesafe Next.js app
+
+– create.t3.gg
+
+The [T3 Stack](https://create.t3.gg/) is a collection of libraries supporting a typesafe workflow within a Next.js application. The stack was created and made popular by coding influencer/YouTuber [Theo Browne](https://www.youtube.com/@t3dotgg) and in 2023 was ranked as the top 4 of the Back-end/Full-stack tools or frameworks in the [JavaScript Rising Stars](https://risingstars.js.org/2023/en#section-nodejs-framework) trends.
+
+Although we didn't use the T3 template directly, we made much use of the libraries that it uses. Namely, that would be Next.js, TypeScript, Prisma, tRPC, and Tailwind CSS (although we also used the UI library [NextUI](https://nextui.org/) on top of Tailwind). 
+
+* With [TypeScript](https://www.typescriptlang.org/), the default JavaScript can be extended by a dev-time type system that prevents runtime errors and provides enhanced tooling for code editors, enabling developers to catch potential issues early in the development process. 
+* With [Prisma](https://www.prisma.io/), the database schema can be written within the codebase, allowing developers to define and manage the database structure alongside their application code. It also provides a type-safe and auto-generated query builder that seamlessly integrates with TypeScript. With its intuitive API, Prisma simplifies database interactions, abstracting away the complexities of raw SQL queries while offering a declarative syntax for data modeling and retrieval in multiple database systems.
+* With [tRPC](https://trpc.io/), developers can establish a typesafe communication layer between the frontend and backend. tRPC, short for TypeScript Remote Procedure Call, ensures that data exchanged between client and server is validated at compile-time, reducing runtime errors. This contributes to the overall robustness of the application architecture and also provides a request middleware where e.g. authentication checks can be executed. 
+
+## Defining our database model
+
+With Prisma, we were able to define our database model in a `schema.prisma` file within our versioned code base. The file includes the configuration for the Prisma client generation, the configuration for the database, and the database models, written in [Prisma Schema Language (PSL)](https://www.prisma.io/docs/orm/prisma-schema/overview#syntax). 
+
+An excerpt of our file looks like this:
+
+```json
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id         String       @id @unique
+  email      String       @unique
+  name       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Transcript Transcript[]
+}
+```
+
+After that, we could make use of the definition as the single source of truth and use it for the generation of local TypeScript types as well as for setting up or migrating the schema of our remote database. Both could be done using the simple commands `npx prisma generate` and `npx prisma db push` or `npx prisma migrate`. 
+
+Using Prisma resulted in less work, no type mismatches between the database and the application, and possible flexibility regarding database providers. With that schema, we also became independent of specific wrappers that different providers, such as Supabase, provide around their products and would even be able to just use e.g. a pure PostgreSQL database. 
+
+## Queries?
+
+
+
+## User authentication flow
+
+
+
+## API routes
+
+
+
