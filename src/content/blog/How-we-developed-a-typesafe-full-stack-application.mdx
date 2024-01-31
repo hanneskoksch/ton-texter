@@ -8,7 +8,7 @@ authorGithub: "hanneskoksch"
 
 For the sake of this project, we wanted to use a so-called JavaScript meta-framework and decided to go with [Next.js](https://nextjs.org/). Next.js acts as a wrapper around the JavaScript framework React and provides lots of additional features, such as routing, and static site generation but also backend features such as server-side rendering, APIs and so much more.
 
-Although we never used a meta-framework before, with lots of coding experience in our Bachelor program, we wanted to further challenge ourselves and set up this project according to the best practices in its area. One of the biggest is probably developing full type-safe using e.g. TypeScript and other TypeScript supporting tools. So after weeks of preparatory research, I really fancied the [T3 Stack](https://create.t3.gg/). Since the rest of the team was happy to use it as well, nothing was standing in the way of writing a type-safe full-stack application. 
+Although we never used a meta-framework before, with lots of coding experience in our Bachelor program, we wanted to further challenge ourselves and set up this project according to the best practices in its area. One of the biggest is probably developing full type-safe using e.g. TypeScript and other TypeScript supporting tools. So after weeks of preparatory research, I really fancied the [T3 Stack](https://create.t3.gg/). Since the rest of the team was happy to use it as well, nothing was standing in the way of writing a type-safe full-stack application.
 
 This blog post covers the perks we experienced by using this T3 Stack including using TypeScript and the libraries Prisma and tRPC.
 
@@ -20,15 +20,15 @@ This blog post covers the perks we experienced by using this T3 Stack including 
 
 The [T3 Stack](https://create.t3.gg/) is a collection of libraries supporting a typesafe workflow within a Next.js application. The stack was created and made popular by coding influencer/YouTuber [Theo Browne](https://www.youtube.com/@t3dotgg) and in 2023 was ranked as the top 4 of the Back-end/Full-stack tools or frameworks in the [JavaScript Rising Stars](https://risingstars.js.org/2023/en#section-nodejs-framework) trends.
 
-Although we didn't use the T3 template directly, we made much use of the libraries that it uses. Namely, that would be Next.js, TypeScript, Prisma, tRPC, and Tailwind CSS (although we also used the UI library [NextUI](https://nextui.org/) on top of Tailwind). 
+Although we didn't use the T3 template directly, we made much use of the libraries that it uses. Namely, that would be Next.js, TypeScript, Prisma, tRPC, and Tailwind CSS (although we also used the UI library [NextUI](https://nextui.org/) on top of Tailwind).
 
-* With [TypeScript](https://www.typescriptlang.org/), the default JavaScript can be extended by a dev-time type system that prevents runtime errors and provides enhanced tooling for code editors, enabling developers to catch potential issues early in the development process. 
-* With [Prisma](https://www.prisma.io/), the database schema can be written within the codebase, allowing developers to define and manage the database structure alongside their application code. It also provides a type-safe and auto-generated query builder that seamlessly integrates with TypeScript. With its intuitive API, Prisma simplifies database interactions, abstracting away the complexities of raw SQL queries while offering a declarative syntax for data modeling and retrieval in multiple database systems.
-* With [tRPC](https://trpc.io/), developers can establish a typesafe communication layer between the frontend and backend. tRPC, short for TypeScript Remote Procedure Call, ensures that data exchanged between client and server is validated at compile-time, reducing runtime errors. This contributes to the overall robustness of the application architecture and also provides a request middleware where e.g. authentication checks can be executed. 
+- With [TypeScript](https://www.typescriptlang.org/), the default JavaScript can be extended by a dev-time type system that prevents runtime errors and provides enhanced tooling for code editors, enabling developers to catch potential issues early in the development process.
+- With [Prisma](https://www.prisma.io/), the database schema can be written within the codebase, allowing developers to define and manage the database structure alongside their application code. It also provides a type-safe and auto-generated query builder that seamlessly integrates with TypeScript. With its intuitive API, Prisma simplifies database interactions, abstracting away the complexities of raw SQL queries while offering a declarative syntax for data modeling and retrieval in multiple database systems.
+- With [tRPC](https://trpc.io/), developers can establish a typesafe communication layer between the frontend and backend. tRPC, short for TypeScript Remote Procedure Call, ensures that data exchanged between client and server is validated at compile-time, reducing runtime errors. This contributes to the overall robustness of the application architecture and also provides a request middleware where e.g. authentication checks can be executed.
 
-## Defining our database model
+## Defining our database schema
 
-With Prisma, we were able to define our database model in a `schema.prisma` file within our versioned code base. The file includes the configuration for the Prisma client generation, the configuration for the database, and the database models, written in [Prisma Schema Language (PSL)](https://www.prisma.io/docs/orm/prisma-schema/overview#syntax). 
+With Prisma, we were able to define our database model in a `schema.prisma` file within our versioned code base. The file includes the configuration for the Prisma client generation, the configuration for the database, and the database models, written in [Prisma Schema Language (PSL)](https://www.prisma.io/docs/orm/prisma-schema/overview#syntax).
 
 An excerpt of our file looks like this:
 
@@ -53,19 +53,38 @@ model User {
 }
 ```
 
-After that, we could make use of the definition as the single source of truth and use it for the generation of local TypeScript types as well as for setting up or migrating the schema of our remote database. Both could be done using the simple commands `npx prisma generate` and `npx prisma db push` or `npx prisma migrate`. 
+After that, we could make use of the definition as the single source of truth and use it for the generation of local TypeScript types as well as for setting up or migrating the schema of our remote database. Both could be done using the simple commands `npx prisma generate` and `npx prisma db push` or `npx prisma migrate`.
 
-Using Prisma resulted in less work, no type mismatches between the database and the application, and possible flexibility regarding database providers. With that schema, we also became independent of specific wrappers that different providers, such as Supabase, provide around their products and would even be able to just use e.g. a pure PostgreSQL database. 
+### Queries
 
-## Queries?
+For the query part of the database interactions, the workflow is as easy as instantiating the generated Prisma client and using simple, typesafe functions as this example shows:
 
+```typescript
+const db = new PrismaClient();
+const file = await db.transcript.findFirst({
+  where: {
+    id: input.id,
+    userId,
+  },
+});
+```
 
+### The summarized advantages of Prisma
 
-## User authentication flow
+Using Prisma resulted in less work, no type mismatches between the database and the application, and possible flexibility regarding database providers. With that schema, we also became independent of specific wrappers that different providers, such as Supabase, provide around their products and would even be able to just use e.g. a pure PostgreSQL database. In this regard, [Prisma Studio](https://www.prisma.io/studio) would also be a clever way to get a visual representation of the database.
 
+### The user model strategy and the user authentication flow
 
+With Supabase being our database provider as well as our user authentication provider, we struggled a little bit at the beginning to get both under one hat using Prisma. The reason lies in the data schema functionality Postgres offers. The Supabase authentication flow uses the same Postgres database but saves its data in a different schema. If we now wanted to use or reference the User object of the authentication schema in our own schema, we would not only have to enable the [Prisma multiSchema preview feature](https://www.prisma.io/docs/orm/prisma-schema/data-model/multi-schema) but also include all the related data models in our `schema.prisma` file. This would have polluted the file and would have made an overview of the models that are actually relevant to the application unclear and confusing.
 
-## API routes
+Another possible solution would have been to use [Supabase Postgres triggers](https://supabase.com/docs/guides/database/postgres/triggers). With them, we could have implemented a function that e.g. automatically creates a new user object in our own database schema when a new user object is created in the authentication database schema. But this solution would have outsourced logic to our database that would not be defined in our application code (as the Prisma schema file is) and it also would have been an extra dependency regarding database flexibility.
 
+So our solution was to implement a data schema and user authentication flow that keeps the Supabase authentication encapsulated and only replicates the important parts of the user object to its own application user model. This is done via an authentication callback:
 
+![User authentication flow diagram](/images/blog/How-we-developed-a-typesafe-full-stack-application/User-authentication-flow.png)
 
+The now-established flow checks on every dashboard visit if the currently logged-in user is known by the database (application schema) and redirects new ("unknown") users that visit the dashboard the first time after registration to the auth-callback.
+
+![Account setup loading screen](/images/blog/How-we-developed-a-typesafe-full-stack-application/Account-gets-set-up.png)
+
+There the account gets set up and they are more or less instantly redirected again to the dashboard.
