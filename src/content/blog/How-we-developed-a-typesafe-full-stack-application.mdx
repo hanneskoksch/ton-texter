@@ -88,3 +88,23 @@ The now-established flow checks on every dashboard visit if the currently logged
 ![Account setup loading screen](/images/blog/How-we-developed-a-typesafe-full-stack-application/Account-gets-set-up.png)
 
 There the account gets set up and they are more or less instantly redirected again to the dashboard.
+
+## tRPC: Empowering Type-Safe Communication
+
+With the database schema set up using Prisma and the user authentication flow seamlessly integrated with Supabase, our attention turned to establishing a robust communication layer between the frontend and backend. This is where [tRPC](https://trpc.io/) comes into play, adding another layer of type safety to our full-stack application.
+
+### Benefits of tRPC
+
+The incorporation of tRPC brought several advantages to our full-stack application:
+
+- **Type Safety**: With tRPC, the entire communication process between the frontend and backend became type-safe, reducing the likelihood of runtime errors.
+
+- **Developer Productivity**: The clear definition of remote procedures and the generated TypeScript types enhanced developer productivity by providing accurate auto-completion and eliminating guesswork.
+
+- **Compile-Time Validation**: tRPC's compile-time validation ensured that any changes to the communication layer were immediately flagged during development, preventing potential bugs from reaching production.
+
+- **Middleware for Request Processing**: tRPC's middleware capabilities allowed us to implement additional logic, such as authentication checks, at the request level, enhancing the security and reliability of our application.
+
+## Conclusion: A Triumph of Full Type Safety
+
+In wrapping up our app journey, we mixed TypeScript, Prisma, and tRPC to make our full-stack creation super safe. TypeScript helped avoid errors while writing code, Prisma kept our database game strong, and tRPC made sure our communication between different parts of the app was error-free right from the start. Now, everything in our app, like talking to the database or dealing with users, is super safe and works smoothly, giving us a confident and reliable code home. 😊
