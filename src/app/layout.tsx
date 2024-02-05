@@ -4,6 +4,7 @@ import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { getURL } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "http://localhost:3000/ton-texter-og.png",
+        url: `${getURL()}/ton-texter-og.png`,
         width: 1920,
         height: 1080,
       },
