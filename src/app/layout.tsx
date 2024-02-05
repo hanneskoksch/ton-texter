@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: `${getURL()}/ton-texter-og.png`,
+        url: `${getURL()}ton-texter-og.png`,
         width: 1920,
         height: 1080,
       },
