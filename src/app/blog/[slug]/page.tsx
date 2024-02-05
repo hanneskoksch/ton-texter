@@ -14,7 +14,7 @@ interface PageProps {
 
 export async function generateMetadata(
   { params }: PageProps,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata | undefined> {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {
@@ -24,7 +24,7 @@ export async function generateMetadata(
   let { title, publishedAt: publishedTime, description, image } = post.metadata;
 
   // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
+  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title,

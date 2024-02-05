@@ -1,10 +1,10 @@
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
+import { getURL } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { getURL } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         height: 1080,
       },
     ],
-  }
+  },
 };
 
 export default function RootLayout({
