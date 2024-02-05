@@ -21,7 +21,7 @@ import {
 import { TranscriptStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { Download, Ghost, Loader2, MoreHorizontal, Trash2 } from "lucide-react";
-import { Key, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import FileUpload from "../FileUpload";
 import TranscriptStatusAvatar from "./TranscriptStatusAvatar";
 
@@ -47,6 +47,23 @@ function Dashboard({ userId }: { userId: string }) {
 
   const { data: transcripts, isLoading } =
     trpc.getUserTranscriptions.useQuery();
+
+  useEffect(() => {
+    // refetch every 10 seconds if there are still processing or pending transcripts
+    const refetchIntervalId = setInterval(() => {
+      if (
+        transcripts?.some(
+          (transcript) =>
+            transcript.status === TranscriptStatus.PROCESSING ||
+            transcript.status === TranscriptStatus.PENDING,
+        )
+      ) {
+        utils.getUserTranscriptions.invalidate();
+      }
+    }, 10000);
+
+    return () => clearInterval(refetchIntervalId);
+  }, [utils.getUserTranscriptions, transcripts]);
 
   const { mutate: transcriptDownload } = trpc.donwloadTranscript.useMutation({
     onSuccess: (transcriptDownload) => {
