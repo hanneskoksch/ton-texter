@@ -1,12 +1,42 @@
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
+import { getURL } from "@/lib/utils";
 import { Avatar } from "@nextui-org/react";
 import { format } from "date-fns";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface PageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata | undefined> {
+  let post = getBlogPosts().find((post) => post.slug === params.slug);
+  if (!post) {
+    return;
+  }
+
+  let { title, publishedAt: publishedTime, description, image } = post.metadata;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      publishedTime,
+      url: `${getURL()}blog/${post.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
