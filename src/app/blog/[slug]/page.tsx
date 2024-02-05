@@ -3,7 +3,7 @@ import { CustomMDX } from "@/app/blog/mdx";
 import { getURL } from "@/lib/utils";
 import { Avatar } from "@nextui-org/react";
 import { format } from "date-fns";
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 interface PageProps {
@@ -12,15 +12,19 @@ interface PageProps {
   };
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata | undefined> {
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata | undefined> {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {
     return;
   }
 
   let { title, publishedAt: publishedTime, description, image } = post.metadata;
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
 
   return {
     title,
@@ -31,6 +35,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime,
       url: `${getURL()}blog/${post.slug}`,
+      images: [...previousImages],
     },
     twitter: {
       card: "summary_large_image",
