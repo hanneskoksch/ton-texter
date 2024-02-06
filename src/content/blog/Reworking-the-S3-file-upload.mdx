@@ -18,38 +18,38 @@ The file upload process followed a rather straightforward sequence. Users could 
 
 ```typescript
 const handleUpload = async () => {
-    if (!file) return;
-    setUploading(true);
+  if (!file) return;
+  setUploading(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("userId", userId);
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
 
-      const response = await fetch("/api/s3/uploadFile", {
-        method: "POST",
-        body: formData,
-      });
+    const response = await fetch("/api/s3/uploadFile", {
+      method: "POST",
+      body: formData,
+    });
 
-      if (response.ok) {
-        setFile(null);
-        setUploadSuccess(true);
-        setUploadError(false);
-      } else {
-        throw new Error("Failed to upload file");
-      }
-    } catch (error) {
-      setUploadError(true);
-      setUploadSuccess(false);
-    } finally {
-      setUploading(false);
+    if (response.ok) {
+      setFile(null);
+      setUploadSuccess(true);
+      setUploadError(false);
+    } else {
+      throw new Error("Failed to upload file");
     }
-  };
+  } catch (error) {
+    setUploadError(true);
+    setUploadSuccess(false);
+  } finally {
+    setUploading(false);
+  }
+};
 ```
 
 This function is responsible for uploading the file to the backend to have it processed safely, ensuring data integrity, and updating the application state accordingly. The decision behind managing the file upload on the backend was to be safe against the exposure of S3 credentials, ensuring the security of our application while using the AWS SDK to interact with S3.
 
-The AWS SDK is a rather convenient tool for interacting with our S3 bucket. Its structure allows for straightforward access to essential operations through the provided `commands`. For instance, the `PutObject` command provided a direct way of uploading a file to the specified S3 bucket, which streamlined our interactions with S3. 
+The AWS SDK is a rather convenient tool for interacting with our S3 bucket. Its structure allows for straightforward access to essential operations through the provided `commands`. For instance, the `PutObject` command provided a direct way of uploading a file to the specified S3 bucket, which streamlined our interactions with S3.
 
 ```typescript
 export async function POST(req: NextRequest) {
@@ -96,40 +96,40 @@ The decision to rework the file upload process resulted by several consideration
 
 While using AWS SDK's Get and Put commands offered a direct interaction with the file storage, it wasn't suitable for frontend operations. This led to the integration of [AWS S3 presigned URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html), which are time-limited and offer a more scalable approach for client-side interactions.
 
-The rework aimed to change the entire S3 file upload process to be done on the client side. This involved integrating tRPC type-safe routes that were previously missing. The original endpoint for file upload was replaced with a new one dedicated to generating a presigned AWS S3 URL. 
+The rework aimed to change the entire S3 file upload process to be done on the client side. This involved integrating tRPC type-safe routes that were previously missing. The original endpoint for file upload was replaced with a new one dedicated to generating a presigned AWS S3 URL.
 
 ```typescript
 const { mutate: createUploadUrl } = trpc.createUploadUrl.useMutation({
-    onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
-      if (!file) return;
-      const uploadResponse = await uploadToS3(url, file);
+  onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
+    if (!file) return;
+    const uploadResponse = await uploadToS3(url, file);
 
-      if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
+    if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
 
-      createTranscription({
-        fileName,
-        fileNameWithUuid,
-        fileExtension,
-      });
-    },
-    onError: () => {
-      setUploadError(true);
-      setUploadSuccess(false);
-      setUploading(false);
-    },
+    createTranscription({
+      fileName,
+      fileNameWithUuid,
+      fileExtension,
+    });
+  },
+  onError: () => {
+    setUploadError(true);
+    setUploadSuccess(false);
+    setUploading(false);
+  },
 });
 ```
 
-As showcased in the upper code snippet, the presigned URL is now used on the client for uploading the file directly to S3 using the `uploadToS3` function without having any S3 credentials exposed. 
+As showcased in the upper code snippet, the presigned URL is now used on the client for uploading the file directly to S3 using the `uploadToS3` function without having any S3 credentials exposed.
 
 ```typescript
 async function uploadToS3(url: string, file: File) {
-    "use client";
-    const uploadResponse = await fetch(url, {
-      method: "PUT",
-      body: file,
-    });
-    return uploadResponse;
+  "use client";
+  const uploadResponse = await fetch(url, {
+    method: "PUT",
+    body: file,
+  });
+  return uploadResponse;
 }
 ```
 
@@ -138,4 +138,3 @@ In case of a successful file upload, the application reverts to the same flow as
 ## Learnings
 
 If we had dedicated more time to explore the S3 documentation and considered our cloud setup more, the need for a rework could have been avoided. Unfortunately, details are often scattered in different documents and pages, particularly in the AWS documentation. It's manageable if you know exactly what you're searching for, but relying solely on given examples without grasping the bigger picture can easily lead to complications and problems when considering the whole project context. This was evident in our experience with S3 and Vercel in this project. Although setting it up and using it is straightforward, understanding its full usage specifications is crucial for taking advantage of its capabilities effectively in connection with Vercel as host for the actual web application. We've learned from these errors and will keep them in mind should we encounter S3 again in the future, which is undoubtedly inevitable.
-
