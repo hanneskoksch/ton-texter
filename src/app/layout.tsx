@@ -1,6 +1,4 @@
-import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
-import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
 import { getURL } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -44,9 +42,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <div className="flex min-h-screen flex-col">
-            <TonTexterNavbar />
             <main className="flex-1">{children}</main>
-            <Footer />
           </div>
         </Providers>
       </body>
