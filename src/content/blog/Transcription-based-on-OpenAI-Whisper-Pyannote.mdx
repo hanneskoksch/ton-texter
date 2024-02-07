@@ -34,7 +34,7 @@ print(result["text"])
 
 #### Selecting the adequate Model Size for Ton-Texter
 
-As already shown in the code snippet above Whisper provides several different model sizes. In the beginning we had chosen to go with the _base_ model, thanks to [the implementation of performance improvements](https://ton-texter.de/blog) we later chose to go with the _small_ model to further improve our transcription.
+As already shown in the code snippet above Whisper provides several different model sizes. In the beginning we had chosen to go with the _base_ model, thanks to [the implementation of performance improvements](https://ton-texter.de/blog/How-we-managed-to-increase-our-transcription-performance) we later chose to go with the _small_ model to further improve our transcription.
 
 For a rapid transcription it is recommend to use Whisper with a NVIDIA GPU and CUDA. To see how we have managed to do that, consider reading our blog post on [using CUDA with an AMI on AWS EC2](https://ton-texter.de/blog/Using-CUDA-Accelaration-on-our-EC2-Instance).
 
@@ -105,7 +105,7 @@ for segment in speaker_segments:
         result = model.transcribe(segmentName)
 ```
 
-In our blog post on [improving the performance of our transcription](https://ton-texter.de/blog) we replace the rendering of separate audio files with FFMPEG with a better performing solution.
+In our blog post on [improving the performance of our transcription](https://ton-texter.de/blog/How-we-managed-to-increase-our-transcription-performance) we replace the rendering of separate audio files with FFMPEG with a better performing solution.
 
 ### Separate segments but same overall timecode?
 
@@ -170,4 +170,4 @@ Through the usage of OpenAI Whisper we provide state of the art transcription. W
 
 Surely the transcription pipeline requires more time now with this additional processing step. But we have found this delay, that is roughly 1-2 minutes for a 1 hour audiofile, to be negligible compared to its benefits.
 
-If you want to know more about our transcription pipeline consider reading our blogposts on the [improvement of its performance](https://ton-texter.de/blog) and the [evaluation of the pipelines running cost](https://ton-texter.de/blog/Is-Ton-Texter-actually-competitive) in comparison to existing solutions such as the Whisper API.
+If you want to know more about our transcription pipeline consider reading our blogposts on the [improvement of its performance](https://ton-texter.de/blog/How-we-managed-to-increase-our-transcription-performance) and the [evaluation of the pipelines running cost](https://ton-texter.de/blog/Is-Ton-Texter-actually-competitive) in comparison to existing solutions such as the Whisper API.
