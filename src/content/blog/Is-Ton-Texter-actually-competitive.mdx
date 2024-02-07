@@ -1,6 +1,6 @@
 ---
 title: "Is Ton-Texter really competitive? - Yes, it is!"
-description: "Ton-Texter offers state of the art transcription, whilst being cost-effective."
+description: "Ton-Texter offers state of the art transcription, whilst being cost-effective"
 publishedAt: "2024-02-07"
 author: "Niko"
 authorGithub: "ns144"
@@ -40,7 +40,7 @@ As we can see from the chart the cost to transcribe one hour of audio is around 
 0.08$*1/60=0.0013$
 ```
 
-But as we can see from the chart the our running costs for a one minute audio file are actually far more expensive and closer to 0.01$, which is around 8x more. To get a better understanding of the cost per hour of audio depending on the audio files length we came up with the following function:
+But as we can see from the chart our running costs for a one minute audio file are actually far more expensive and closer to 0.01$, which is around 8x more. To get a better understanding of the cost per hour of audio depending on the audio files length we came up with the following function:
 
 ```
 f(x)=(1+x*0.14)*0.00876*(60/x)
@@ -54,7 +54,7 @@ In the chart we can see that the worst case scenario is a very short audio file,
 
 ![Whisper on GPU vs CPU](/images/blog/Is-Ton-Texter-actually-competitive/BestCase.png)
 
-The result of this equation is: 0.0736. This means that with an eternal audio file our transcription cost per our is 0.0736$. As this operation is technically similar to ignoring the startup time of one minute as its effect on the function decreases over time (strives against 0), we could also calculate this ideal value like this:
+The result of this equation is: 0.0736. This means that with an eternal audio file our transcription cost per hour is 0.0736$. As this operation is technically similar to ignoring the startup time of one minute as its effect on the function decreases over time (strives against 0), we could also calculate this ideal value like this:
 
 ```
 x*0.14*0.00876*(60/x) = 0,0736
@@ -68,9 +68,9 @@ To sum it up Ton-Texters operational costs are anywhere between 0.60$ and 0.0736
 
 The Whisper API is around 0.006$ per minute of audio. This leads to costs of around 0.36$ per hour of audio which is singnificantly more expensive than our solution. But is this comparison fair?
 
-On the one hand Whisper API uses the *large* model whilst we are only using the *small* model. In our tests we found that the *small* model offers the best compromise between transcription speed and quality. But how expensive would our solution be if we would be using the *large* model? One hour of audio would take around 15 minutes with the *large* model which would lead to operating costs of 0.135$ per hour of audio which is still significantly cheaper.
+On the one hand the Whisper API uses the *large* model whilst we are only using the *small* model. In our tests we found that the *small* model offers the best compromise between transcription speed and quality. But how expensive would our solution be if we would be using the *large* model? One hour of audio would take around 15 minutes with the *large* model which would lead to operating costs of 0.135$ per hour of audio which is still significantly cheaper.
 
-On the other hand our solution is not just simply a Whisper deployment in the cloud it offers some added benefits with the speaker diarization and the generation of different transcript files. Therefore we conclude that our solution is not only cheaper, but overall the better offering. For costumers who want the absolute best transcription quality regardless of the higher price we could deploy a premium transcription based on the *large* model later on.
+On the other hand our solution is not just simply a Whisper deployment, it offers some added benefits with the speaker diarization and the generation of different transcript files. Therefore we conclude that our solution is not only cheaper, but overall the better offering. For costumers who want the absolute best transcription quality regardless of the higher price we could deploy a premium transcription based on the *large* model later on.
 
 > The Whisper API is up to 5 times more expensive than Ton-Texter whilst offering less!
 
