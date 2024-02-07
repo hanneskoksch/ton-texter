@@ -1,8 +1,130 @@
 ---
-title: "How we made Whisper on EC2 "serverless""
-publishedAt: "2023-12-03"
+title: "How we built our own 'serverless' GPU cloud infrastructure"
+description: "Serverless Lambda functions have been known for a long time, but unfortunately there are little to no serverless GPU offerings on the market. Thats why we built our own solution with Lambda and EC2"
+publishedAt: "2024-02-06"
 author: "Niko"
 authorGithub: "ns144"
 ---
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem ab cumque, culpa quisquam beatae laboriosam, enim minus sed eum, quia at nemo aut nam fugit? Velit quasi ad distinctio possimus, animi assumenda. Soluta dignissimos natus quo asperiores voluptas. Vero, autem. Rem amet consequuntur voluptate, quos necessitatibus reprehenderit modi sed sunt laborum aperiam qui nulla distinctio illo ad explicabo id provident voluptates iste iure eius! Porro iusto ea iure eveniet tempore, repudiandae voluptatem a enim vero libero doloribus illum magni delectus laboriosam veritatis explicabo, est voluptate deleniti laudantium iste nesciunt quam. Libero perspiciatis temporibus itaque est ipsum asperiores ducimus saepe ea consequuntur sit. Corporis, expedita mollitia quae debitis vel repudiandae quaerat? Exercitationem, modi molestias. Tempore, hic ut, incidunt doloribus consequuntur reprehenderit dolor quisquam illum asperiores harum impedit! Recusandae perferendis nemo libero aliquid vitae laudantium eius, voluptatem dolorum, incidunt vero voluptate a voluptates molestiae fuga mollitia! Mollitia, nisi libero labore sequi sint voluptate velit facere voluptates corporis vitae amet quos quo consectetur accusantium dolorem, aliquam, recusandae illo numquam ratione rem ipsa. Quas aliquam placeat ducimus quasi incidunt, delectus dolorem quia repudiandae nostrum laborum iure suscipit. Doloremque praesentium nesciunt totam optio atque delectus velit temporibus. Est aspernatur soluta, eius maiores fugiat dolorem illo vero, quae sapiente molestias minus harum nobis nesciunt incidunt qui animi, dolore dicta iusto? Vitae inventore vero asperiores, tenetur esse maiores voluptatum quis. Illum, praesentium? Beatae voluptates maiores eaque, placeat asperiores consequatur! Quia quod eos harum, dolorum nobis non possimus voluptatum illo asperiores aut. Nobis voluptate totam omnis rem culpa consequuntur dolorem magnam fugiat quasi soluta eos natus ipsam, tempore sapiente? Voluptatem, fugiat voluptates voluptatum est repellendus doloribus non ullam mollitia consectetur impedit quo hic enim nam molestias eum. Eum nihil provident consequatur, quidem non reprehenderit voluptatem labore et assumenda maxime, cupiditate praesentium perferendis suscipit tempore mollitia sapiente harum asperiores dolor fugit aliquam iste ullam vel! Nobis in vel magnam? Amet aperiam cumque dolor excepturi fugit quam eius sapiente dicta quo fuga vel nulla nostrum error eveniet eligendi, in laboriosam voluptates veniam tempore laborum! Quo voluptas ipsam incidunt commodi aut facere cupiditate soluta eos ex, nihil magnam voluptate sint, officia neque ipsa error labore. Necessitatibus, inventore? Accusamus aliquid perferendis iste voluptatibus dolor asperiores dignissimos cum earum omnis nisi sapiente voluptate aspernatur voluptatum molestiae ipsam ipsa deleniti a minima, quae magni non! Ab, adipisci dolorem! Asperiores, illum possimus consequuntur fugiat sit beatae architecto in, quis numquam excepturi ipsum tempora rem atque debitis tenetur laudantium consequatur ipsam. Dolores harum officia corrupti ea ipsa consectetur architecto, voluptatum eaque obcaecati tempora accusamus repellendus! Culpa nihil recusandae eius dicta iste aliquam amet, repellendus deserunt neque tempora doloribus quisquam asperiores, voluptatum dignissimos officia necessitatibus quaerat quod maiores quo reiciendis explicabo rem repellat. Laboriosam optio ullam obcaecati eius maxime ipsum quae id nemo! Repellendus eligendi amet placeat quibusdam dolores distinctio tempore pariatur dolorum accusamus eaque fuga, commodi quam sint, ipsum assumenda at laboriosam natus vitae, reprehenderit officiis repudiandae harum beatae fugiat. Recusandae omnis aliquid voluptatibus? Facere dicta, fuga dolorum fugit praesentium delectus magnam illum. Illum inventore dolorem quae nostrum dolor cupiditate corporis, labore iusto nulla modi iste at optio eaque dolore, fugiat alias, dolores eligendi veritatis quod cumque ratione! Voluptatibus iusto suscipit illo nesciunt architecto sunt recusandae repudiandae praesentium totam incidunt. Similique culpa placeat esse libero neque adipisci id fuga unde, modi vero magni explicabo dolores cupiditate earum molestias blanditiis excepturi eligendi dignissimos porro? Et quas delectus, modi perspiciatis aliquam fugit cum reprehenderit quos sed dolorem vero? Quod libero obcaecati sapiente voluptatibus praesentium ut tempore beatae debitis laborum error omnis officia modi aspernatur et nobis, architecto facilis velit. Molestiae dolor odio nisi, doloribus quod optio eos, ab facere, maxime unde ad? Dolores eius eaque harum sequi iusto, exercitationem aliquid rerum. Quasi aliquam possimus tenetur quaerat accusamus minima expedita nobis dolorum corporis eligendi exercitationem fugit omnis odio incidunt placeat, totam provident, ipsa quod nisi maxime impedit perspiciatis modi? Eveniet placeat perspiciatis tempore totam, atque, soluta debitis itaque, dolor sequi pariatur voluptatum ipsa ratione cumque qui veritatis nemo veniam corporis fuga exercitationem eos ab nostrum. Fugiat, accusamus voluptatem amet illo non consequatur repellendus provident illum quidem sunt, repudiandae quo! Ipsam iste incidunt maxime, impedit assumenda dolorum accusamus. Autem, rerum accusamus dolores excepturi tempora assumenda sapiente? Illo error vero modi ducimus minus, tempore nesciunt qui odit assumenda iure magni laborum ipsum. Impedit non pariatur optio aspernatur maxime atque fuga dolorem tempora commodi cumque quaerat amet, excepturi velit ducimus in assumenda odit repudiandae veritatis blanditiis. Incidunt quidem dolorem maiores modi neque mollitia, sint quas veniam reiciendis a pariatur ex dignissimos perspiciatis! Accusamus adipisci ducimus excepturi culpa nam quas repellendus unde quaerat delectus molestiae esse voluptatum at dolorum qui vero cum ipsam quam dolore rerum, non magnam ea sint ab vel! Asperiores culpa labore id harum omnis voluptatibus repellendus, autem ipsum ab expedita facere perferendis eaque pariatur, sunt dolorem atque, sit vero ut aliquid porro totam deleniti nesciunt. Laborum quos ut dolore corrupti repellat laudantium officiis, esse beatae facilis tempore ipsam dolorum adipisci aut vel, rem vero sed voluptatum ea expedita autem quia hic quasi nihil rerum? Unde id commodi vero aut corporis sit inventore, impedit facere natus odit, ipsum porro beatae a delectus itaque consequatur et assumenda repellat. Incidunt laborum blanditiis nobis molestiae dignissimos voluptate mollitia similique repellat, nesciunt ducimus beatae veritatis error accusantium sint ipsa odit, soluta velit quia magnam. Nesciunt dignissimos excepturi repudiandae ipsa aspernatur. Commodi, et ad at, perferendis excepturi optio sint similique expedita voluptatum voluptate natus cupiditate debitis sit, minima sapiente esse a quisquam voluptatem eligendi ipsa dicta error saepe voluptates non. Recusandae porro, ratione laboriosam, voluptatum quo nostrum voluptates maxime quos cupiditate cum modi totam adipisci excepturi delectus! Modi amet quam eos sequi excepturi, sapiente ea obcaecati temporibus architecto aliquam inventore optio dicta velit similique animi deleniti atque! Quidem, dolor! Odit voluptatem placeat facilis dolore ipsa consequuntur ea quo, et doloremque quia eligendi animi distinctio ab asperiores, repudiandae itaque quod nihil tempore, reiciendis officia aspernatur? Quia, cumque excepturi libero fugiat nulla ducimus sunt suscipit, magni cum dolore debitis corporis. Vero vitae reprehenderit architecto nemo sapiente sit?
+One of the key challenges of the implementation of Ton-Texter was to find a cost-effective solution to run the transcription in the cloud. The underlying machine learning models of our transcription service, *Whisper* and *Pyannote* both run significantly faster on a GPU compared to them running on a CPU.  The following chart shows a comparison of Whispers inference time on both a CPU (Intel i5 11300H) and a GPU (NVIDIA T4):
+
+![Whisper on GPU vs CPU](/images/blog/How-we-made-whisper-on-ec2-serverless/Whisper-Inference-Time-2.png)
+
+Because of the drastic performance difference the only viable solution is to deploy the transcription on GPU accelerated infrastructure. To ensure that our solution is cost-effective traditional approaches like using EC2 Instances seemed far fetched as we would have to pay for them continuously even if there are no transcriptions running. That would quickly cost us dearly, so we started to look for serverless solutions as we wanted to solely pay for the runtime we actually need. 
+
+> Continously running the cheapest GPU accelerated EC2 would result in costs of 387$ a month and 4607$ a year, independent of our actual demand.
+
+Serverless CPU-based Lambda functions have been known for a long time now, but unfortunately there are little to no serverless GPU offerings on the market. We found a few new serverless GPU inference platforms that provide GPU Computing on demand, such as *Banana.dev* or *Runpod.io*, but unfortunately we discovered several problems with these offerings. With *Runpod.io*, if the number of machines is set to 0, the API will not work.  If it is set to 1, we do have to pay for the continuous usage of one machine even though we do only need it on demand. This would not resolve our initial problem. 
+
+Other platforms are limited to templates of popular models or are restricted to uploads in a specific format, therefore limiting the use cases of the provided infrastructure. It would not be possible to deploy our entire python application with its different components, speaker diarization, transcription, transcript file creation to a single instance thus requiring multiple implementations of the individual components. Each instance would have a start up time that slows down the process and depending on the platform is also charged.  Therefore none of the compared serverless GPU platforms provide the required infrastructure for our project.
+
+## Building our own on-demand EC2 solution
+
+As none of the current serverless GPU offerings on the market satisfies our requirements we implemented our own solution based upon the three AWS Components: *API Gateway*, *Lambda* and *EC2*. Instead of running the EC2 continuously, we built a solution around it to ensure that it is only running when there are tasks in our transcription queue. Whenever a new file to transcribe is uploaded our front-end calls an API Gateway endpoint that triggers a Lambda function that, if not already running launches our EC2 instance. After transcribing the tasks in the queue the EC2 shuts itself down again.
+
+### API Gateway
+
+We setup the AWS API Gateway endpoint with terraform. If you are interested in the complete setup consider checking out our [Cloud-Transcription-Service Repository](https://github.com/ns144/Cloud-Transcription-Service). The following excerpt shows how to connect the endpoint with the lambda function:
+
+```c
+resource "aws_api_gateway_integration" "lambda_integration" {
+  rest_api_id = aws_api_gateway_rest_api.transcription_gateway.id
+  resource_id = aws_api_gateway_resource.root.id
+  http_method = aws_api_gateway_method.proxy.http_method
+  integration_http_method = "POST"
+  type = "AWS_PROXY"
+  uri = aws_lambda_function.start_lambda.invoke_arn
+}
+```
+
+Note that the *integration_http_method* must be set to POST, even though our endpoints method is GET, as it is the method that API Gateway and Lambda communicate with each other. 
+
+After deploying, this is how the setup looks like in the AWS Dashboard:
+
+![Our API and Lambda function setup](/images/blog/How-we-made-whisper-on-ec2-serverless/Lambda_API.png)
+
+### Lambda
+
+When the lambda function gets invoked it uses the *boto3* library to check whether the EC2 instance is already running and, if not, to start it. The following Python code snippet shows the status check of the instance and the instantiation, when necessary:
+
+```python
+    ec2 = boto3.client('ec2')
+    # Check the current state of the instance
+    instance = ec2.describe_instances(InstanceIds=[instance_id])['Reservations'][0]['Instances'][0]
+    current_state = instance['State']['Name']
+    response_msg = ""
+    # Start or stop the instance based on its current state
+    if current_state == 'stopped':
+        ec2.start_instances(InstanceIds=[instance_id])
+        response_msg = f"Instance started: {instance_id}"
+    elif current_state == 'running':
+        response_msg = f"Instance already running: {instance_id}"
+        ...
+```
+
+The endpoint, respectively the lambda execution is protected with a secret key. The following excerpt shows the examination of the key:
+
+```python
+    if provided_key != transcription_key:
+        response = "Incorrect API Key provided"
+        return { 'statusCode' : 401, 'body' : json.dumps(response)}
+```
+
+That way we can ensure that our EC2 is not started illegitimately. 
+
+### EC2
+
+In our blog post [Using CUDA with an AMI on AWS EC2](https://ton-texter.de/blog/Using-CUDA-Accelaration-on-our-EC2-Instance) we have already described how we setup our EC2 to use GPU acceleration. But there are some further steps required to continuously deploy the instance with all the required libraries and our Python application. 
+
+Via the *user_data* we do provide a setup script to the application that is run on its initialization. The script is referenced in terraform as follows:
+
+```javascript
+user_data = "${file('init_transcript.sh')}"  
+```
+
+The script clones the [Github Repository](https://github.com/ns144/Transcription-Application) of our Python transcription application and proceeds to install all the necessary libraries and requirements. Subsequently it sets up a Cronjob that launches a *startup.sh* script every time the machine is booting. The following excerpt shows the autostart configuration.
+
+```c
+# Autostart
+sudo cat >/etc/cron.d/startup_script <<EOL
+@reboot root /home/ubuntu/startup.sh
+EOL
+sudo cat /etc/cron.d/startup_script
+```
+
+The *startup.sh* file is defined in the following way:
+
+```sh
+# Configure Startup Script
+sudo cat >/home/ubuntu/startup.sh <<EOL
+#!/bin/bash
+log_file="/var/log/startup.log"
+target_dir="/home/ubuntu/Transcription-Application"
+exec > >(tee -a "\$log_file") 2>&1
+cd "\$target_dir"
+sudo git pull
+sudo python3 main.py
+sudo poweroff
+EOL
+sudo cat /home/ubuntu/startup.sh
+# Enable Startup Script
+sudo chmod +x /home/ubuntu/startup.sh
+```
+
+We do setup a log file so that we can have a look into whats going wrong if any errors occur. Afterwards the script pulls from the Github Repository of the transcription application to ensure that the application is up to date. This is a very convenient workflow, as the EC2 does not need to be redeployed when improvements are made to the application. After updating the application, the script executes the application. When the application transcribed all pending tasks the machine shuts itself off with the command *sudo poweroff*. This is how we can ensure that the EC2 is only running as long as it needs to be.
+
+
+
+## Conclusion
+
+To get an understanding of how this solution integrates with our other infrastructure we are going to have a look at an architecture diagram of Ton-Texter. After implementing this solution the architecture of Ton-Texter looks like this: 
+
+![Ton-Texter Architecture](/images/blog/How-we-made-whisper-on-ec2-serverless/TonTexter_Architecture.jpg)
+
+As you can see in the diagram above the *Transcription Service* is triggered from our *NEXT.js* application via an API call to *API Gateway*. This invokes, as explained earlier, a *Lambda* function that launches our *EC2* instance, that executes our Python application for the transcription which communicates via an API with our back-end. 
+
+Overall, this proved to be a very cost-effective solution as we do only get billed for the minutes the machine is running. Together with improving the speed of our transcription this led to very competitive running costs. 
+
+> The cost of transcription with Ton-Texter are as low as 0.08$ per hour of audio
+
+You can read more about the cost evaluation in our blog article: [Is Ton-Texter actually competetive?](https://ton-texter.de/blog). If you're interested in how the transcription on the EC2 is performed, consider reading our blog post [The backbone of Ton-Texter: Transcription based on OpenAI Whisper / Pyannote](https://ton-texter.de/blog/Transcription-based-on-OpenAI-Whisper-Pyannote).
