@@ -3,6 +3,7 @@
 import { trpc } from "@/app/_trpc/client";
 import { CircularProgress } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 /**
  * React component handling authentication callback, redirecting based on authentication status using trpc queries.
@@ -46,4 +47,14 @@ const Page = () => {
   );
 };
 
-export default Page;
+// Wrapping the page component in a Suspense component to show a loading spinner while the page is loading.
+// see https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+const PageWrapper = () => {
+  return (
+    <Suspense fallback={<CircularProgress size="md" aria-label="Loading..." />}>
+      <Page />
+    </Suspense>
+  );
+}
+
+export default PageWrapper;
