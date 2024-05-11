@@ -1,5 +1,5 @@
 import { Button, Link } from "@nextui-org/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 function NotFound() {
   return (
