@@ -115,7 +115,7 @@ function Dashboard({ userId }: { userId: string }) {
                       .
                     </p>
                   </div>
-                  <FileUpload userId={userId} />
+                  <FileUpload />
                 </ModalBody>
                 <ModalFooter />
               </>

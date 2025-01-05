@@ -3,15 +3,11 @@ import { trpc } from "@/app/_trpc/client";
 import { Button, Spacer } from "@nextui-org/react";
 import { useState } from "react";
 
-interface FileUploadProps {
-  userId: string;
-}
-
 function isAudioFile(file: File) {
   return file.type.startsWith("audio/");
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
+const FileUpload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [highlighted, setHighlighted] = useState(false);
   const [uploading, setUploading] = useState(false);
