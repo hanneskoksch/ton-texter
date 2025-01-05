@@ -9,7 +9,7 @@ function isAudioFile(file: File) {
 
 const FileUpload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [highlighted, setHighlighted] = useState(false);
+  const [fileDropZoneHighlighted, setFileDropZoneHighlighted] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(false);
@@ -41,16 +41,16 @@ const FileUpload: React.FC = () => {
       setUploadSuccess(false);
       setUploadError(true);
     }
-    setHighlighted(false);
+    setFileDropZoneHighlighted(false);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setHighlighted(true);
+    setFileDropZoneHighlighted(true);
   };
 
   const handleDragLeave = () => {
-    setHighlighted(false);
+    setFileDropZoneHighlighted(false);
   };
 
   const { mutate: createTranscription } = trpc.createTranscription.useMutation({
@@ -110,7 +110,7 @@ const FileUpload: React.FC = () => {
     <div className="m-4 flex flex-col items-center justify-center">
       <div
         className={`border-4 border-dashed ${
-          highlighted ? "border-primary" : "border-default"
+          fileDropZoneHighlighted ? "border-primary" : "border-default"
         } cursor-pointer p-6 text-center`}
         onDrop={handleFileDrop}
         onDragOver={handleDragOver}
