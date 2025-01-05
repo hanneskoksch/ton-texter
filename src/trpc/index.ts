@@ -115,10 +115,11 @@ export const appRouter = router({
       }
       return s3Url;
     }),
-  createUploadUrl: privateProcedure
+  getUploadUrl: privateProcedure
     .input(
       z.object({
         fileName: z.string(),
+        audioDuration: z.number(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -147,6 +148,7 @@ export const appRouter = router({
           success: true,
           url,
           fileName: baseFileName,
+          audioDuration: input.audioDuration,
           fileNameWithUuid,
           fileExtension,
         };
@@ -163,6 +165,7 @@ export const appRouter = router({
         fileName: z.string(),
         fileNameWithUuid: z.string(),
         fileExtension: z.string(),
+        audioDuration: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -179,6 +182,7 @@ export const appRouter = router({
             fileExtension: fileExtension,
             fileNameWithExt: `${fileNameWithUuid}${fileExtension}`,
             displayFilename: `${fileName}${fileExtension}`,
+            audioDuration: input.audioDuration,
             userId: userId,
           },
         });

@@ -19,11 +19,12 @@ model User {
 
 model Transcript {
   id String @id @default(cuid())
-  
+
   fileName        String
   fileExtension   String
   fileNameWithExt String
   displayFilename String
+  audioDuration   Int
 
   preview   String?
   status    TranscriptStatus @default(PENDING)

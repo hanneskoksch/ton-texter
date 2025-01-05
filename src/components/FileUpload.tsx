@@ -77,32 +77,54 @@ const FileUpload: React.FC = () => {
     return uploadResponse;
   }
 
-  const { mutate: createUploadUrl } = trpc.createUploadUrl.useMutation({
-    onSuccess: async ({ url, fileName, fileNameWithUuid, fileExtension }) => {
-      if (!file) return;
-      const uploadResponse = await uploadToS3(url, file);
-
-      if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
-
-      createTranscription({
+  const { mutate: getUploadUrl } =
+    trpc.getUploadUrl.useMutation({
+      onSuccess: async ({
+        url,
         fileName,
+        audioDuration,
         fileNameWithUuid,
         fileExtension,
-      });
-    },
-    onError: () => {
-      setUploadError(true);
-      setUploadSuccess(false);
-      setUploading(false);
-    },
-  });
+      }) => {
+        if (!file) return;
+        const uploadResponse = await uploadToS3(url, file);
+
+        if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
+
+        createTranscription({
+          fileName,
+          fileNameWithUuid,
+          fileExtension,
+          audioDuration,
+        });
+      },
+      onError: () => {
+        setUploadError(true);
+        setUploadSuccess(false);
+        setUploading(false);
+      },
+    });
 
   const handleUpload = async () => {
+    "use client";
+
     setUploading(true);
+
     if (!file) return;
 
-    createUploadUrl({
+    // Get duration of audio file
+    const audio = new Audio();
+    audio.src = URL.createObjectURL(file);
+    await new Promise<void>((resolve) => {
+      audio.onloadedmetadata = () => {
+        resolve();
+      };
+    });
+    const audioDuration = audio.duration;
+
+    getUploadUrl({
       fileName: file.name,
+      audioDuration,
     });
   };
 
