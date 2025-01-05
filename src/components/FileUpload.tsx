@@ -125,6 +125,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
           type="file"
           className="hidden"
           onChange={handleFileChange}
+          accept=".mp3,audio/*"
         />
         <p className="text-lg">Datei hier ablegen oder</p>
         <Button
