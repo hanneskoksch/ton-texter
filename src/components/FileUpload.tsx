@@ -142,7 +142,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ userId }) => {
       {uploadError && (
         <p className="m-4 text-danger">
           {!file
-            ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg)."
+            ? "Bitte wähle eine Audiodatei aus (z.B. mp3, wav, ogg, m4a, ...)."
             : "Fehler beim Hochladen der Datei. Bitte versuche es erneut."}
         </p>
       )}
