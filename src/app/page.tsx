@@ -146,6 +146,7 @@ export default function Home() {
         <div>
           <NextUiImage
             width={500}
+            loading="lazy"
             alt="NextUI hero Image"
             className="mb-2"
             src="/images/team/Hannes.avif"
@@ -158,6 +159,7 @@ export default function Home() {
         <div>
           <NextUiImage
             width={500}
+            loading="lazy"
             alt="NextUI hero Image"
             className="mb-2"
             src="/images/team/Niko.avif"
@@ -168,6 +170,7 @@ export default function Home() {
         <div>
           <NextUiImage
             width={500}
+            loading="lazy"
             alt="NextUI hero Image"
             className="mb-2"
             src="/images/team/Torben.avif"
