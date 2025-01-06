@@ -14,14 +14,14 @@ const cloudWatchLogs = new AWS.CloudWatchLogs();
 const logGroupName = process.env.AWS_LOG_GROUP_NAME;
 const logStreamName = process.env.AWS_LOG_STREAM_NAME;
 
+export const logMessage = (message: string, logLevel: "Info"| "Warning" | "Error" ) => {
 // Function to write a log message to CloudWatch Logs
-export const logMessage = (message: string) => {
   const params = {
     logGroupName: logGroupName,
     logStreamName: logStreamName,
     logEvents: [
       {
-        message: message,
+        message: `[${logLevel}] ${message}`,
         timestamp: Date.now(),
       },
     ],
