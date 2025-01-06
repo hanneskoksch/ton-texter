@@ -9,7 +9,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "format:check": "prettier --check .",
-    "format": "prettier --write . --list-different"
+    "format": "prettier --write . --list-different",
+    "database": "prisma studio"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.481.0",
