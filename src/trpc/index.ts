@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { logMessage } from "@/lib/cloudwatch/utils";
 import {
   createPresignedUploadUrl,
   createPresignedUrl,
@@ -123,6 +124,7 @@ export const appRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      logMessage(`getUploadUrl called by ${ctx.userId}`, "Info");
       try {
         const { userId } = ctx;
         const fileName = input.fileName;
@@ -197,6 +199,11 @@ export const appRouter = router({
         const allPendingTranscriptsDuration = allPendingTranscripts.reduce(
           (acc, curr) => acc + curr.audioDuration,
           0,
+        );
+
+        logMessage(
+          `Transcription triggered ${userId}.${newTranscript.id}`,
+          "Info",
         );
 
         // Start transcription
