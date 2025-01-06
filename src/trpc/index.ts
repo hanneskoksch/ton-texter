@@ -187,9 +187,28 @@ export const appRouter = router({
           },
         });
 
+        // Gather metrics for transcription service
+        const allPendingTranscripts = await db.transcript.findMany({
+          where: {
+            status: "PENDING",
+          },
+        });
+        const allPendingTranscriptsCount = allPendingTranscripts.length;
+        const allPendingTranscriptsDuration = allPendingTranscripts.reduce(
+          (acc, curr) => acc + curr.audioDuration,
+          0,
+        );
+
         // Start transcription
         fetch(
-          `https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?key=${process.env.TRANSCRIPTION_SERVICE_API_KEY}`,
+          "https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription" +
+            new URLSearchParams({
+              key: process.env.TRANSCRIPTION_SERVICE_API_KEY,
+              total_duration: allPendingTranscriptsDuration.toString(),
+              total_files: allPendingTranscriptsCount.toString(),
+              logging_triggering_user_id: userId,
+              logging_triggering_transcript_id: newTranscript.id,
+            }).toString(),
         );
 
         return { success: true };
