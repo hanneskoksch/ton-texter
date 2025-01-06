@@ -1,4 +1,4 @@
-const { z } = require('zod');
+const { z } = require("zod");
 
 // Scheme for validating env variables
 const envSchema = z.object({
@@ -8,10 +8,12 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   DIRECT_URL: z.string().url(),
 
-  S3_ACCESS_KEY_ID: z.string(),
-  S3_SECRET_ACCESS_KEY: z.string(),
-  S3_REGION: z.string(),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string(),
+  AWS_REGION: z.string(),
   S3_BUCKET: z.string(),
+  AWS_LOG_GROUP_NAME: z.string(),
+  AWS_LOG_STREAM_NAME: z.string(),
 
   INVITATION_CODE: z.string(),
 
@@ -27,4 +29,4 @@ if (!parsedEnv.success) {
   process.exit(1); // Stop build process
 }
 
-module.exports.env = parsedEnv.data;;
+module.exports.env = parsedEnv.data;

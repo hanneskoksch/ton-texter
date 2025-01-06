@@ -29,6 +29,7 @@
     "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "@types/mdx": "^2.0.13",
+    "aws-sdk": "^2.1692.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "framer-motion": "^10.18.0",

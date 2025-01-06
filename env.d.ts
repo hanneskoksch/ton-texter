@@ -6,10 +6,12 @@ declare namespace NodeJS {
     DATABASE_URL: string;
     DIRECT_URL: string;
 
-    S3_ACCESS_KEY_ID: string;
-    S3_SECRET_ACCESS_KEY: string;
-    S3_REGION: string;
+    AWS_ACCESS_KEY_ID: string;
+    AWS_SECRET_ACCESS_KEY: string;
+    AWS_REGION: string;
     S3_BUCKET: string;
+    AWS_LOG_GROUP_NAME: string;
+    AWS_LOG_STREAM_NAME: string;
 
     INVITATION_CODE: string;
 
