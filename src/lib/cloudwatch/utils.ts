@@ -1,37 +1,36 @@
-import AWS from "aws-sdk";
-
-// Configure AWS credentials and region
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+import {
+  CloudWatchLogsClient,
+  PutLogEventsCommand,
+} from "@aws-sdk/client-cloudwatch-logs";
 
 // Create a CloudWatch Logs client
-const cloudWatchLogs = new AWS.CloudWatchLogs();
+const client = new CloudWatchLogsClient({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 // Define the log group and stream names
 const logGroupName = process.env.AWS_LOG_GROUP_NAME;
 const logStreamName = process.env.AWS_LOG_STREAM_NAME;
 
-export const logMessage = (message: string, logLevel: "Info"| "Warning" | "Error" ) => {
-// Function to write a log message to CloudWatch Logs
-  const params = {
+export const logMessage = async (
+  message: string,
+  logLevel: "Info" | "Warning" | "Error",
+) => {
+  const input = {
     logGroupName: logGroupName,
     logStreamName: logStreamName,
     logEvents: [
       {
-        message: `[${logLevel}] ${message}`,
         timestamp: Date.now(),
+        message: `[${logLevel}] ${message}`,
       },
     ],
   };
-
-  cloudWatchLogs.putLogEvents(params, (error, data) => {
-    if (error) {
-      console.log("Error writing log:", error);
-    } else {
-      console.log("Log written successfully:", data);
-    }
-  });
+  const command = new PutLogEventsCommand(input);
+  const response = await client.send(command);
+  console.log(response);
 };
