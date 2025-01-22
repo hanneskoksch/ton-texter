@@ -1,14 +1,12 @@
 "use client";
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import SearchParamsMessage from "@/components/SearchParamsMessage";
 import { Button, Input } from "@nextui-org/react";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { signup } from "./actions";
 
 export default function Login() {
-  const searchParams = useSearchParams();
-  const message = searchParams.get("message");
-
   return (
     <MaxWidthWrapper className="mb-8 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
       <h1 className="mb-6 text-4xl font-bold">Registrieren</h1>
@@ -49,11 +47,9 @@ export default function Login() {
             Registrieren
           </Button>
 
-          {message && (
-            <p className="mt-4 rounded-md bg-foreground/10 p-4 text-center text-foreground">
-              {message}
-            </p>
-          )}
+          <Suspense>
+            <SearchParamsMessage />
+          </Suspense>
         </form>
       </div>
     </MaxWidthWrapper>
