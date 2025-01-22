@@ -1,20 +1,25 @@
-import { createClient } from "@/lib/supabase/server";
+"use client";
+
 import { Button, Link as LinkNextUI } from "@nextui-org/react";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
+import { logOut } from "./actions";
 
-export default async function AuthButton({ isMobile }: { isMobile?: boolean }) {
-  const supabase = createClient();
+export default function AuthButton({ isMobile }: { isMobile?: boolean }) {
+  const [user, setUser] = useState<boolean | null>(null);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    // Check cookies for user token to conditionally render buttons
+    // without
+    const isUserLoggedIn = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("sb-xhdqftekwkdlwzrouhul-auth-token="));
+    setUser(!!isUserLoggedIn);
+  }, []);
 
   const signOut = async () => {
-    "use server";
-
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    logOut();
     return redirect("/login");
   };
 

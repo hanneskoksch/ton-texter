@@ -55,6 +55,6 @@ const PageWrapper = () => {
       <Page />
     </Suspense>
   );
-}
+};
 
 export default PageWrapper;

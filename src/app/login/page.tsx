@@ -1,36 +1,13 @@
+"use client";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { createClient } from "@/lib/supabase/server";
 import { Button, Input } from "@nextui-org/react";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { login } from "./actions";
 
-export const metadata: Metadata = {
-  title: "Login",
-};
-
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const signIn = async (formData: FormData) => {
-    "use server";
-
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
-    }
-
-    return redirect("/dashboard");
-  };
+export default function Login() {
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
 
   return (
     <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
@@ -38,7 +15,7 @@ export default function Login({
       <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
         <form
           className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
-          action={signIn}
+          action={login}
         >
           <div className="flex w-full flex-wrap gap-4 md:flex-nowrap">
             <Input
@@ -63,9 +40,9 @@ export default function Login({
             Login
           </Button>
 
-          {searchParams?.message && (
+          {message && (
             <p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
-              {searchParams.message}
+              {message}
             </p>
           )}
         </form>

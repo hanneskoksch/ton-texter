@@ -1,7 +1,7 @@
-import { Avatar } from "@nextui-org/react";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import Link from "next/link";
+import Author from "./Author";
 import { getBlogPosts } from "./blog";
 
 export const metadata: Metadata = {
@@ -46,10 +46,9 @@ export default function BlogPage() {
 
             <p className="text-default-500">{post.metadata.description}</p>
             <div className="flex items-center space-x-2">
-              <Avatar
-                className="h-5 w-5"
+              <Author
                 name={post.metadata.author}
-                src={`https://github.com/${post.metadata.authorGithub}.png?size=50`}
+                gitHubName={post.metadata.authorGithub}
               />
               <p className="text-default-500">{post.metadata.author}</p>
             </div>

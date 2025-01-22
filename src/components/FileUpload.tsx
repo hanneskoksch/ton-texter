@@ -77,33 +77,32 @@ const FileUpload: React.FC = () => {
     return uploadResponse;
   }
 
-  const { mutate: getUploadUrl } =
-    trpc.getUploadUrl.useMutation({
-      onSuccess: async ({
-        url,
+  const { mutate: getUploadUrl } = trpc.getUploadUrl.useMutation({
+    onSuccess: async ({
+      url,
+      fileName,
+      audioDuration,
+      fileNameWithUuid,
+      fileExtension,
+    }) => {
+      if (!file) return;
+      const uploadResponse = await uploadToS3(url, file);
+
+      if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
+
+      createTranscription({
         fileName,
-        audioDuration,
         fileNameWithUuid,
         fileExtension,
-      }) => {
-        if (!file) return;
-        const uploadResponse = await uploadToS3(url, file);
-
-        if (!uploadResponse.ok) throw new Error("Failed to upload file to s3");
-
-        createTranscription({
-          fileName,
-          fileNameWithUuid,
-          fileExtension,
-          audioDuration,
-        });
-      },
-      onError: () => {
-        setUploadError(true);
-        setUploadSuccess(false);
-        setUploading(false);
-      },
-    });
+        audioDuration,
+      });
+    },
+    onError: () => {
+      setUploadError(true);
+      setUploadSuccess(false);
+      setUploading(false);
+    },
+  });
 
   const handleUpload = async () => {
     "use client";

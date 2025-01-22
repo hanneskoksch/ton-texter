@@ -9,7 +9,7 @@ import { useRef } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 function FileIcons() {
-  const main = useRef();
+  const main = useRef(undefined);
 
   useGSAP(
     () => {
@@ -88,7 +88,7 @@ function FileIcons() {
         radius="none"
         src="/images/file_type_srt.svg"
         alt="srt file icon"
-        className="opacity-o -inset-x-10 inset-y-24 h-20 blur-md lg:inset-x-10 lg:inset-y-3 "
+        className="opacity-o -inset-x-10 inset-y-24 h-20 blur-md lg:inset-x-10 lg:inset-y-3"
       />
     </div>
   );

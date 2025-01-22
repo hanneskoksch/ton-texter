@@ -136,8 +136,7 @@ function Dashboard({ userId }: { userId: string }) {
             .map((file) => (
               <li
                 key={file.id}
-                className="mb-4 divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg
-                "
+                className="mb-4 divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg"
               >
                 <div className="px-2 pt-2 md:px-6 md:pt-6">
                   <Accordion isCompact>
@@ -157,7 +156,7 @@ function Dashboard({ userId }: { userId: string }) {
                         </h3>
                       }
                     >
-                      <p className="italic text-default-600 ">
+                      <p className="italic text-default-600">
                         {file.preview}...
                       </p>
                     </AccordionItem>

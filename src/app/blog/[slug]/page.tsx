@@ -1,21 +1,22 @@
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
 import { getURL } from "@/lib/utils";
-import { Avatar } from "@nextui-org/react";
 import { format } from "date-fns";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
+import Author from "../Author";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata(
-  { params }: PageProps,
+  props: PageProps,
   parent: ResolvingMetadata,
 ): Promise<Metadata | undefined> {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {
     return;
@@ -45,7 +46,8 @@ export async function generateMetadata(
   };
 }
 
-const Page = async ({ params }: PageProps) => {
+const Page = async (props: PageProps) => {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {
@@ -59,8 +61,9 @@ const Page = async ({ params }: PageProps) => {
           {post.metadata.title}
         </h1>
         <div className="flex items-center space-x-2">
-          <Avatar
-            src={`https://github.com/${post.metadata.authorGithub}.png?size=50`}
+          <Author
+            name={post.metadata.author}
+            gitHubName={post.metadata.authorGithub}
           />
           <p>{post.metadata.author}</p>
           <p>•</p>

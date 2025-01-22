@@ -1,3 +1,5 @@
+"use client";
+
 import AuthButton from "@/components/navbar/AuthButton";
 import {
   Navbar,
@@ -25,7 +27,7 @@ function TonTexterNavbar() {
             width={30}
             height={30}
           />
-          <p className="text-lg font-bold text-inherit ">Ton-Texter</p>
+          <p className="text-lg font-bold text-inherit">Ton-Texter</p>
         </Link>
       </NavbarBrand>
       <NavbarContent className="hidden gap-4 sm:flex" justify="start">

@@ -1,3 +1,5 @@
+"use client";
+
 import { CompareSlider } from "@/components/compareSlider/CompareSlider";
 import FileIcons from "@/components/FileIcons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
@@ -8,7 +10,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="pointer-events-none relative -z-10 h-52 w-full transform-gpu md:h-80 "
+        className="pointer-events-none relative -z-10 h-52 w-full transform-gpu md:h-80"
         aria-hidden="true"
       >
         <div className="animate-fade-in-slow">
@@ -32,7 +34,7 @@ export default function Home() {
           Magie des{" "}
           <span className="text-primary-600">textbasierten Editings</span>
         </h1>
-        <p className="mt-8 max-w-prose text-default-500 sm:text-xl ">
+        <p className="mt-8 max-w-prose text-default-500 sm:text-xl">
           Navigiere spielend durch deine Inhalte und finde genau das, was du
           suchst – dank Ton-Texter Transkriptionen. Vereinfache deine
           Arbeitsweise und behalte stets den Überblick über deine Videoprojekte.
@@ -130,7 +132,7 @@ export default function Home() {
 
       {/* Team section */}
       <div className="mx-auto mt-32 max-w-5xl sm:mt-56">
-        <div className=" px-6 lg:px-8">
+        <div className="px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
             <h2 className="mt-2 text-4xl font-bold text-default-900 sm:text-5xl">
               Das Team hinter Ton-Texter

@@ -4,12 +4,13 @@ import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     transcriptId: string;
-  };
+  }>;
 }
 
-export async function POST(request: NextRequest, { params }: PageProps) {
+export async function POST(request: NextRequest, props: PageProps) {
+  const params = await props.params;
   // Check API key
   const searchParams = request.nextUrl.searchParams;
   const apiKey = searchParams.get("key");

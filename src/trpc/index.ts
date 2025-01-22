@@ -18,7 +18,7 @@ import { privateProcedure, publicProcedure, router } from "./trpc";
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     // get current user from auth service
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
