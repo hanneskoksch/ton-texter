@@ -10,7 +10,7 @@ function TranscriptStatusAvatar({
   transcriptStatus: TranscriptStatus;
 }) {
   switch (transcriptStatus) {
-    case "PENDING":
+    case TranscriptStatus.PENDING:
       return (
         <Tooltip content="Ausstehend" placement="right">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-default-400 to-default-600">
@@ -18,7 +18,15 @@ function TranscriptStatusAvatar({
           </div>
         </Tooltip>
       );
-    case "PROCESSING":
+    case TranscriptStatus.FORWARDED:
+      return (
+        <Tooltip content="Eingereiht" placement="right">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-default-400 to-default-600">
+            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          </div>
+        </Tooltip>
+      );
+    case TranscriptStatus.PROCESSING:
       return (
         <Tooltip content="Verarbeitung" placement="right">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-default-400 to-default-600">
@@ -26,7 +34,7 @@ function TranscriptStatusAvatar({
           </div>
         </Tooltip>
       );
-    case "FAILED":
+    case TranscriptStatus.FAILED:
       return (
         <Tooltip content="Fehlgeschlagen" placement="right">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-red-400 to-red-600">
@@ -34,7 +42,7 @@ function TranscriptStatusAvatar({
           </div>
         </Tooltip>
       );
-    case "SUCCESS":
+    case TranscriptStatus.SUCCESS:
       return (
         <Tooltip content="Erfolgreich" placement="right">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-green-400 to-green-600">
@@ -42,7 +50,14 @@ function TranscriptStatusAvatar({
           </div>
         </Tooltip>
       );
+    default:
+      shouldBeUnreachable(transcriptStatus);
   }
 }
 
 export default TranscriptStatusAvatar;
+
+/**
+ * Checks if enum switch is exhaustive
+ */
+function shouldBeUnreachable(value: never) {}
