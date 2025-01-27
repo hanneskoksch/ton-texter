@@ -36,6 +36,7 @@ model Transcript {
 
 enum TranscriptStatus {
   PENDING
+  FORWARDED
   PROCESSING
   FAILED
   SUCCESS
