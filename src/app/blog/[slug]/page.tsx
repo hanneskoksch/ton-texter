@@ -1,6 +1,6 @@
 import { getBlogPosts } from "@/app/blog/blog";
 import { CustomMDX } from "@/app/blog/mdx";
-import { getURL } from "@/lib/utils";
+import { getURL } from "@/utils/utils";
 import { format } from "date-fns";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";

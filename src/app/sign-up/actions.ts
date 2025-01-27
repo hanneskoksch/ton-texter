@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import { getURL } from "@/lib/utils";
+import { getURL } from "@/utils/utils";
 
 export async function signup(formData: FormData) {
   // type-casting here for convenience

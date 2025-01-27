@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import TonTexterNavbar from "@/components/navbar/TonTexterNavbar";
-import { getURL } from "@/lib/utils";
+import { getURL } from "@/utils/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
