@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
 
@@ -43,7 +44,10 @@ export async function GET(request: NextRequest) {
       return Response.json({});
     }
 
-    // Return updated transcript
+    // Start asynchronous background tasks
+    sendQueueMetricsToCloudwatch();
+
+    // Directly return updated transcript
     return Response.json(updatedTranscript);
   } catch (error) {
     console.error("Error fetching or updating transcript:", error);

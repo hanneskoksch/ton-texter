@@ -1,11 +1,12 @@
 import { db } from "@/db";
-import { logMessage } from "@/lib/cloudwatch/utils";
+import { logMessage } from "@/lib/cloudwatch-logs/utils";
 import {
   createPresignedUploadUrl,
   createPresignedUrl,
   deleteS3Objects,
 } from "@/lib/s3/utils";
 import { createClient } from "@/lib/supabase/server";
+import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TRPCError } from "@trpc/server";
 import { randomUUID } from "crypto";
 import { z } from "zod";
@@ -215,6 +216,9 @@ export const appRouter = router({
               logging_triggering_transcript_id: newTranscript.id,
             }).toString(),
         );
+
+        // Start asynchronous background tasks
+        sendQueueMetricsToCloudwatch();
 
         return { success: true };
       } catch (error) {
