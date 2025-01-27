@@ -190,16 +190,14 @@ export const appRouter = router({
         });
 
         // Gather metrics for transcription service
-        const allPendingTranscripts = await db.transcript.findMany({
-          where: {
-            status: "PENDING",
-          },
+        const result = await db.transcript.aggregate({
+          _count: { id: true },
+          _sum: { audioDuration: true },
+          where: { status: "PENDING" },
         });
-        const allPendingTranscriptsCount = allPendingTranscripts.length;
-        const allPendingTranscriptsDuration = allPendingTranscripts.reduce(
-          (acc, curr) => acc + curr.audioDuration,
-          0,
-        );
+
+        const allPendingTranscriptsCount = result._count.id || 0;
+        const allPendingTranscriptsDuration = result._sum.audioDuration || 0;
 
         logMessage(
           `Transcription triggered ${userId}.${newTranscript.id}`,
