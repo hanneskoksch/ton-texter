@@ -12,7 +12,9 @@ export async function signup(formData: FormData) {
   const invitationCode = formData.get("invitationCode") as string;
 
   if (invitationCode !== process.env.INVITATION_CODE) {
-    return redirect("/sign-up?message=Ungültiger Einladungscode");
+    return redirect(
+      "/sign-up?message=" + encodeURIComponent("Ungültiger Einladungscode"),
+    );
   }
 
   const supabase = await createClient();
@@ -30,11 +32,17 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    return redirect("/sign-up?message=Benutzer konnte nicht erstellt werden");
+    return redirect(
+      "/sign-up?message=" +
+        encodeURIComponent("Benutzer konnte nicht erstellt werden"),
+    );
   }
 
   revalidatePath("/", "layout");
   return redirect(
-    "/sign-up?message=Bitte überprüfen Sie Ihre E-Mails, um den Anmeldevorgang fortzusetzen",
+    "/sign-up?message=" +
+      encodeURIComponent(
+        "Bitte überprüfen Sie Ihre E-Mails, um den Anmeldevorgang fortzusetzen",
+      ),
   );
 }
