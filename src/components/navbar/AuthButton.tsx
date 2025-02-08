@@ -16,7 +16,7 @@ export default function AuthButton({ isMobile }: { isMobile?: boolean }) {
       .split("; ")
       .find((row) => row.startsWith("sb-xhdqftekwkdlwzrouhul-auth-token="));
     setUser(!!isUserLoggedIn);
-  }, []);
+  });
 
   const signOut = async () => {
     logOut();
