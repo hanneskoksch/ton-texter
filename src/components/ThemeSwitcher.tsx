@@ -21,7 +21,7 @@ export default function ThemeSwitcher() {
         isIconOnly
         size="sm"
         variant={theme === "light" ? "flat" : "light"}
-        onClick={() => setTheme("light")}
+        onPress={() => setTheme("light")}
       >
         <Sun className="h-4 w-4" />
       </Button>
@@ -29,7 +29,7 @@ export default function ThemeSwitcher() {
         isIconOnly
         size="sm"
         variant={theme === "dark" ? "flat" : "light"}
-        onClick={() => setTheme("dark")}
+        onPress={() => setTheme("dark")}
       >
         <Moon className="h-4 w-4" />
       </Button>

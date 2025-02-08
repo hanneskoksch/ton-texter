@@ -148,7 +148,7 @@ const FileUpload: React.FC = () => {
         <Button
           className="m-4"
           color="primary"
-          onClick={() => document.getElementById("fileInput")?.click()}
+          onPress={() => document.getElementById("fileInput")?.click()}
         >
           Datei auswählen
         </Button>
@@ -171,7 +171,7 @@ const FileUpload: React.FC = () => {
           <Button
             color="primary"
             disabled={uploading}
-            onClick={handleUpload}
+            onPress={handleUpload}
             isLoading={uploading}
           >
             {uploading ? "Hochladen..." : "Hochladen"}

@@ -174,7 +174,7 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {
+                          onPress={() => {
                             transcriptDownload({
                               fileName: file.fileName,
                               fileExtension: ".docx",
@@ -187,7 +187,7 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {
+                          onPress={() => {
                             transcriptDownload({
                               fileName: file.fileName,
                               fileExtension: ".srt",
@@ -200,7 +200,7 @@ function Dashboard({ userId }: { userId: string }) {
                           color="primary"
                           variant="flat"
                           startContent={<Download className="h-4 w-4" />}
-                          onClick={() => {
+                          onPress={() => {
                             transcriptDownload({
                               fileName: file.fileName,
                               fileExtension: ".txt",

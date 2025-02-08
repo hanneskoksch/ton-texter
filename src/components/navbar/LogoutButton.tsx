@@ -37,7 +37,7 @@ function LogoutButton({
             color="default"
             size="sm"
             variant="flat"
-            onClick={() => setPopoverIsOpen(false)}
+            onPress={() => setPopoverIsOpen(false)}
           >
             Abbrechen
           </Button>
