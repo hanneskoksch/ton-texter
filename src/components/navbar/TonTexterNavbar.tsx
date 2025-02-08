@@ -13,7 +13,6 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 
 function TonTexterNavbar() {
   return (
@@ -41,16 +40,12 @@ function TonTexterNavbar() {
       <NavbarContent className="gap-4 sm:flex" justify="end">
         <NavbarMenuToggle className="sm:hidden" />
         <NavbarItem className="hidden gap-4 sm:flex">
-          <Suspense>
-            <AuthButton />
-          </Suspense>
+          <AuthButton />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="mt-4 space-y-4">
         <NavbarMenuItem>
-          <Suspense>
-            <AuthButton isMobile />
-          </Suspense>
+          <AuthButton isMobile />
         </NavbarMenuItem>
 
         {/* Mobile burger menu */}
