@@ -259,10 +259,15 @@ function Dashboard({ userId }: { userId: string }) {
                     </Dropdown>
                   </div>
                 </div>
-                <TranscriptProgressBar
-                  speakerDiarizationProgress={file.speakerDiarizationProgress}
-                  transcriptionProgress={file.transcriptionProgress}
-                />
+                {file.status !== TranscriptStatus.SUCCESS &&
+                  file.status !== TranscriptStatus.FAILED && (
+                    <TranscriptProgressBar
+                      speakerDiarizationProgress={
+                        file.speakerDiarizationProgress
+                      }
+                      transcriptionProgress={file.transcriptionProgress}
+                    />
+                  )}
               </li>
             ))}
         </ul>
