@@ -54,9 +54,9 @@ function Dashboard({ userId }: { userId: string }) {
       if (
         transcripts?.some(
           (transcript) =>
-            transcript.status === TranscriptStatus.PROCESSING ||
             transcript.status === TranscriptStatus.PENDING ||
             transcript.status === TranscriptStatus.FORWARDED ||
+            transcript.status === TranscriptStatus.PROCESSING ||
             transcript.status === TranscriptStatus.SPEAKER_DIARIZATION ||
             transcript.status === TranscriptStatus.TRANSCRIPTION,
         )
@@ -224,7 +224,11 @@ function Dashboard({ userId }: { userId: string }) {
                         variant="faded"
                         aria-label="Mehr Aktionen"
                         disabledKeys={
+                          file.status === TranscriptStatus.FORWARDED ||
                           file.status === TranscriptStatus.PROCESSING ||
+                          file.status ===
+                            TranscriptStatus.SPEAKER_DIARIZATION ||
+                          file.status === TranscriptStatus.TRANSCRIPTION ||
                           currentlyDeletingFile === file.id
                             ? ["delete"]
                             : []
