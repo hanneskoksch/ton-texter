@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate --no-hints",
     "format:check": "prettier --check .",
     "format": "prettier --write . --list-different",
     "database": "prisma studio"
