@@ -78,6 +78,12 @@ export async function POST(request: NextRequest, props: PageProps) {
       preview: transcriptPreview,
       speakerDiarizationProgress: speakerDiarizationProgress,
       transcriptionProgress: transcriptionProgress,
+      // Set heartbeat if transcript is still in a processing state
+      ...((transcriptStatus === TranscriptStatus.PROCESSING ||
+        transcriptStatus === TranscriptStatus.SPEAKER_DIARIZATION ||
+        transcriptStatus === TranscriptStatus.TRANSCRIPTION) && {
+        heartbeat: new Date(),
+      }),
     },
   });
 

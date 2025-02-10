@@ -34,6 +34,8 @@ model Transcript {
   user                       User             @relation(fields: [userId], references: [id])
   speakerDiarizationProgress Int              @default(0)
   transcriptionProgress      Int              @default(0)
+  heartbeat                  DateTime?
+  retryAfterError            Int              @default(0)
 }
 
 enum TranscriptStatus {
