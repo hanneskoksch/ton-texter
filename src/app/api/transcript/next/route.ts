@@ -33,13 +33,21 @@ export async function GET(request: NextRequest) {
         // If an unhealthy tran script is found, update its status to FORWARDED
         updated = await prisma.transcript.update({
           where: { id: unhealthyTranscripts[0].id },
-          data: { status: TranscriptStatus.FORWARDED },
+          data: {
+            status: TranscriptStatus.FORWARDED,
+            // Update heartbeat to catch unhealthy transcript before TranscriptStatus.PROCESSING state
+            heartbeat: new Date(),
+          },
         });
       } else if (transcript) {
         // If a transcript is found, update its status to FORWARDED
-        const updated = await prisma.transcript.update({
+        updated = await prisma.transcript.update({
           where: { id: transcript.id },
-          data: { status: TranscriptStatus.FORWARDED },
+          data: {
+            status: TranscriptStatus.FORWARDED,
+            // Update heartbeat to catch unhealthy transcript before TranscriptStatus.PROCESSING state
+            heartbeat: new Date(),
+          },
         });
       } else {
         // Return null if no transcript is found
