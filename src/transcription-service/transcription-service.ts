@@ -37,6 +37,13 @@ export const startTranscription = async ({
   );
 };
 
+const statusesToMonitorInHealthChecks = [
+  TranscriptStatus.FORWARDED,
+  TranscriptStatus.PROCESSING,
+  TranscriptStatus.SPEAKER_DIARIZATION,
+  TranscriptStatus.TRANSCRIPTION,
+];
+
 /**
  * Finds and resets unhealthy transcripts and triggers transcription again.
  * Transcripts are considered unhealthy if they have not been updated in the last 30 seconds.
@@ -53,12 +60,7 @@ export const resetUnhealthyTranscripts = async (
   const unhealthyTranscripts = await prisma.transcript.updateManyAndReturn({
     where: {
       status: {
-        in: [
-          TranscriptStatus.FORWARDED,
-          TranscriptStatus.PROCESSING,
-          TranscriptStatus.SPEAKER_DIARIZATION,
-          TranscriptStatus.TRANSCRIPTION,
-        ],
+        in: statusesToMonitorInHealthChecks,
       },
       heartbeat: {
         lt: new Date(Date.now() - 30 * 1000),
@@ -93,12 +95,7 @@ export const resetUnhealthyTranscripts = async (
     await prisma.transcript.updateManyAndReturn({
       where: {
         status: {
-          in: [
-            TranscriptStatus.FORWARDED,
-            TranscriptStatus.PROCESSING,
-            TranscriptStatus.SPEAKER_DIARIZATION,
-            TranscriptStatus.TRANSCRIPTION,
-          ],
+          in: statusesToMonitorInHealthChecks,
         },
         heartbeat: {
           lt: new Date(Date.now() - 30 * 1000),
