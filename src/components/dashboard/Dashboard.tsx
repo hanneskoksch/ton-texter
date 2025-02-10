@@ -55,7 +55,10 @@ function Dashboard({ userId }: { userId: string }) {
         transcripts?.some(
           (transcript) =>
             transcript.status === TranscriptStatus.PROCESSING ||
-            transcript.status === TranscriptStatus.PENDING,
+            transcript.status === TranscriptStatus.PENDING ||
+            transcript.status === TranscriptStatus.FORWARDED ||
+            transcript.status === TranscriptStatus.SPEAKER_DIARIZATION ||
+            transcript.status === TranscriptStatus.TRANSCRIPTION,
         )
       ) {
         utils.getUserTranscriptions.invalidate();
