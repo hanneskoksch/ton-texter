@@ -44,6 +44,19 @@ const statusesToMonitorInHealthChecks = [
   TranscriptStatus.TRANSCRIPTION,
 ];
 
+export const getUnhealthyTranscript = async () => {
+  return await db.transcript.findMany({
+    where: {
+      status: {
+        in: statusesToMonitorInHealthChecks,
+      },
+      heartbeat: {
+        lt: new Date(Date.now() - 30 * 1000),
+      },
+    },
+  });
+};
+
 /**
  * Finds and resets unhealthy transcripts and triggers transcription again.
  * Transcripts are considered unhealthy if they have not been updated in the last 30 seconds.
@@ -83,12 +96,6 @@ export const resetUnhealthyTranscripts = async (
       `Found ${unhealthyTranscripts.length} unhealthy transcripts: ${unhealthyTranscripts.map((t) => t.id)}`,
       "Warning", // Todo: Maybe change to just "Info"
     );
-
-    await startTranscription({
-      // Send data in new transcription trigger about the first unhealthy transcript
-      userId: unhealthyTranscripts[0].userId.toString(),
-      newTranscriptId: unhealthyTranscripts[0].id,
-    });
   }
 
   const unhealthyTranscriptsRetried =
