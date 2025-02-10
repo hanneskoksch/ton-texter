@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import { Download, Ghost, Loader2, MoreHorizontal, Trash2 } from "lucide-react";
 import { Key, useEffect, useState } from "react";
 import FileUpload from "../FileUpload";
+import TranscriptProgressBar from "./TranscriptProgressBar";
 import TranscriptStatusAvatar from "./TranscriptStatusAvatar";
 
 function Dashboard({ userId }: { userId: string }) {
@@ -139,7 +140,7 @@ function Dashboard({ userId }: { userId: string }) {
             .map((file) => (
               <li
                 key={file.id}
-                className="mb-4 divide-y divide-gray-200 rounded-lg bg-default-50 shadow transition hover:shadow-lg"
+                className="mb-4 rounded-lg bg-default-50 shadow transition hover:shadow-lg"
               >
                 <div className="px-2 pt-2 md:px-6 md:pt-6">
                   <Accordion isCompact>
@@ -258,6 +259,10 @@ function Dashboard({ userId }: { userId: string }) {
                     </Dropdown>
                   </div>
                 </div>
+                <TranscriptProgressBar
+                  speakerDiarizationProgress={file.speakerDiarizationProgress}
+                  transcriptionProgress={file.transcriptionProgress}
+                />
               </li>
             ))}
         </ul>
