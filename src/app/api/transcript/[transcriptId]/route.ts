@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { deleteS3OriginalAudio } from "@/lib/s3/utils";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
+import { checkApiKey } from "../security";
 
 interface PageProps {
   params: Promise<{
@@ -10,18 +11,7 @@ interface PageProps {
 }
 
 export async function POST(request: NextRequest, props: PageProps) {
-  const params = await props.params;
-  // Check API key
-  const searchParams = request.nextUrl.searchParams;
-  const apiKey = searchParams.get("key");
-
-  if (!apiKey) {
-    return new Response("No API key provided.", { status: 401 });
-  }
-
-  if (process.env.TRANSCRIPTION_SERVICE_API_KEY !== apiKey) {
-    return new Response("Invalid API key.", { status: 401 });
-  }
+  checkApiKey(request);
 
   // Parse data from request body
   let body;
@@ -48,6 +38,7 @@ export async function POST(request: NextRequest, props: PageProps) {
   const transcriptStatus = transcriptStatusString as TranscriptStatus;
 
   // Get transcript id from params
+  const params = await props.params;
   const transcriptId = params.transcriptId;
 
   // Get optional paramters from body

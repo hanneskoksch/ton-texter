@@ -3,19 +3,10 @@ import {
   startTranscription,
 } from "@/transcription-service/transcription-service";
 import { type NextRequest } from "next/server";
+import { checkApiKey } from "../security";
 
 export async function GET(request: NextRequest) {
-  // Check API key
-  const searchParams = request.nextUrl.searchParams;
-  const apiKey = searchParams.get("key");
-
-  if (!apiKey) {
-    return new Response("No API key provided.", { status: 401 });
-  }
-
-  if (process.env.TRANSCRIPTION_SERVICE_API_KEY !== apiKey) {
-    return new Response("Invalid API key.", { status: 401 });
-  }
+  checkApiKey(request);
 
   try {
     const unhealthyTranscripts = await getUnhealthyTranscript();
