@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { manageUnhealthyTranscripts } from "@/transcription-service/transcription-service";
 import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
@@ -46,6 +47,8 @@ export async function GET(request: NextRequest) {
 
     // Start asynchronous background tasks
     sendQueueMetricsToCloudwatch();
+
+    await manageUnhealthyTranscripts();
 
     // Directly return updated transcript
     return Response.json(updatedTranscript);
