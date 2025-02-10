@@ -34,6 +34,22 @@ function TranscriptStatusAvatar({
           </div>
         </Tooltip>
       );
+    case TranscriptStatus.SPEAKER_DIARIZATION:
+      return (
+        <Tooltip content="Speaker diarization" placement="right">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-default-400 to-default-600">
+            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          </div>
+        </Tooltip>
+      );
+    case TranscriptStatus.TRANSCRIPTION:
+      return (
+        <Tooltip content="Transkription" placement="right">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-default-400 to-default-600">
+            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          </div>
+        </Tooltip>
+      );
     case TranscriptStatus.FAILED:
       return (
         <Tooltip content="Fehlgeschlagen" placement="right">
