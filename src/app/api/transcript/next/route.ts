@@ -61,7 +61,6 @@ export async function GET(request: NextRequest) {
       return Response.json({});
     }
 
-    // Start asynchronous background tasks
     await sendQueueMetricsToCloudwatch();
 
     // Directly return updated transcript

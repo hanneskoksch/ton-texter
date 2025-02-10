@@ -196,8 +196,7 @@ export const appRouter = router({
           newTranscriptId: newTranscript.id,
         });
 
-        // Start asynchronous background tasks
-        sendQueueMetricsToCloudwatch();
+        await sendQueueMetricsToCloudwatch();
 
         return { success: true };
       } catch (error) {
