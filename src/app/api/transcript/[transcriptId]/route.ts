@@ -50,8 +50,11 @@ export async function POST(request: NextRequest, props: PageProps) {
   // Get transcript id from params
   const transcriptId = params.transcriptId;
 
-  // Get optional transcript preview from body
+  // Get optional paramters from body
   const transcriptPreview: string | undefined = body.preview;
+  const speakerDiarizationProgress: number | undefined =
+    body.speakerDiarizationProgress;
+  const transcriptionProgress: number | undefined = body.transcriptionProgress;
 
   // Check if transcript exists
   const file = await db.transcript.findFirst({
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest, props: PageProps) {
     return new Response("Transcript not found.", { status: 404 });
   }
 
-  // Update transcript status and optinally preview
+  // Update transcript status and optionally preview
   const updatedTranscript = await db.transcript.update({
     where: {
       id: transcriptId,
@@ -73,6 +76,8 @@ export async function POST(request: NextRequest, props: PageProps) {
     data: {
       status: transcriptStatus,
       preview: transcriptPreview,
+      speakerDiarizationProgress: speakerDiarizationProgress,
+      transcriptionProgress: transcriptionProgress,
     },
   });
 

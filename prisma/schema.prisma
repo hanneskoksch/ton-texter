@@ -26,18 +26,22 @@ model Transcript {
   displayFilename String
   audioDuration   Int
 
-  preview   String?
-  status    TranscriptStatus @default(PENDING)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  userId    String
-  user      User             @relation(fields: [userId], references: [id])
+  preview                    String?
+  status                     TranscriptStatus @default(PENDING)
+  createdAt                  DateTime         @default(now())
+  updatedAt                  DateTime         @updatedAt
+  userId                     String
+  user                       User             @relation(fields: [userId], references: [id])
+  speakerDiarizationProgress Int              @default(0)
+  transcriptionProgress      Int              @default(0)
 }
 
 enum TranscriptStatus {
   PENDING
   FORWARDED
   PROCESSING
+  SPEAKER_DIARIZATION
+  TRANSCRIPTION
   FAILED
   SUCCESS
 }
