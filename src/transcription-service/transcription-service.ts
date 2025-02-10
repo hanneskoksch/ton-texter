@@ -54,6 +54,7 @@ export const resetUnhealthyTranscripts = async (
     where: {
       status: {
         in: [
+          TranscriptStatus.FORWARDED,
           TranscriptStatus.PROCESSING,
           TranscriptStatus.SPEAKER_DIARIZATION,
           TranscriptStatus.TRANSCRIPTION,
@@ -93,6 +94,7 @@ export const resetUnhealthyTranscripts = async (
       where: {
         status: {
           in: [
+            TranscriptStatus.FORWARDED,
             TranscriptStatus.PROCESSING,
             TranscriptStatus.SPEAKER_DIARIZATION,
             TranscriptStatus.TRANSCRIPTION,
