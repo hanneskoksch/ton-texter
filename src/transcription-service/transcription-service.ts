@@ -4,7 +4,10 @@ import { Prisma, PrismaClient, TranscriptStatus } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 /**
- * Triggers the transcription service endpoint to start transcribing audio files
+ * Triggers the transcription service endpoint to start machines transcribing audio files.
+ *
+ * @param userId - The user ID that triggered the transcription (for logging purposes).
+ * @param newTranscriptId - The ID of the transcript that was created (for logging purposes).
  */
 export const startTranscription = async ({
   userId,
@@ -37,6 +40,9 @@ export const startTranscription = async ({
   );
 };
 
+/**
+ * Statuses that are considered when checking for unhealthy transcripts.
+ */
 const statusesToMonitorInHealthChecks = [
   TranscriptStatus.FORWARDED,
   TranscriptStatus.PROCESSING,
@@ -44,6 +50,11 @@ const statusesToMonitorInHealthChecks = [
   TranscriptStatus.TRANSCRIPTION,
 ];
 
+/**
+ * Finds and unhealthy transcripts.
+ * Transcripts are considered unhealthy if they have not been updated in the last 30 seconds.
+ * @returns Unhealthy transcripts.
+ */
 export const getUnhealthyTranscript = async () => {
   return await db.transcript.findMany({
     where: {
@@ -58,11 +69,14 @@ export const getUnhealthyTranscript = async () => {
 };
 
 /**
- * Finds and resets unhealthy transcripts and triggers transcription again.
+ * Finds and resets unhealthy transcripts.
  * Transcripts are considered unhealthy if they have not been updated in the last 30 seconds.
  *
- * If a transcript has been reseted and has a retryAfterError value greater than 0,
+ * If a transcript has been reset and has a retryAfterError value greater than 0,
  * it will be marked as failed and will not be retried again.
+ *
+ * @param prisma - Prisma client instance from transaction.
+ * @returns Unhealthy transcripts that have been reset.
  */
 export const resetUnhealthyTranscripts = async (
   prisma: Omit<
