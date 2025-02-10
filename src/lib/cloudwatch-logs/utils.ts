@@ -20,6 +20,15 @@ export const logMessage = async (
     ],
   };
   const command = new PutLogEventsCommand(input);
-  const response = await client.send(command);
-  console.log(response);
+  await client.send(command);
+
+  // Also log to severe cloudwatch logs to console
+  switch (logLevel) {
+    case "Warning":
+      console.warn(message);
+      break;
+    case "Error":
+      console.error(message);
+      break;
+  }
 };
