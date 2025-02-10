@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Link as LinkNextUI } from "@nextui-org/react";
+import { Button, Link as LinkNextUI } from "@heroui/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";

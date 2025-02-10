@@ -2,7 +2,7 @@
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SearchParamsMessage from "@/components/SearchParamsMessage";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input } from "@heroui/react";
 import { Suspense } from "react";
 import { login } from "./actions";
 

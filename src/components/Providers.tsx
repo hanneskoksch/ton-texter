@@ -2,7 +2,7 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { getURL } from "@/utils/utils";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
@@ -22,11 +22,11 @@ const Providers = ({ children }: PropsWithChildren) => {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <NextUIProvider>
+        <HeroUIProvider>
           <NextThemesProvider attribute="class" defaultTheme="dark">
             {children}
           </NextThemesProvider>
-        </NextUIProvider>
+        </HeroUIProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );

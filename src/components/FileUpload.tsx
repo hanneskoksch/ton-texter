@@ -1,6 +1,6 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
-import { Button, Spacer } from "@nextui-org/react";
+import { Button, Spacer } from "@heroui/react";
 import { useState } from "react";
 
 function isAudioFile(file: File) {

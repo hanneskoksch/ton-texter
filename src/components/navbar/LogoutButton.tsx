@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nextui-org/react";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 

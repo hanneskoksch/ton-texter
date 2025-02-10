@@ -17,7 +17,7 @@ import {
   ModalHeader,
   Skeleton,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { TranscriptStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { Download, Ghost, Loader2, MoreHorizontal, Trash2 } from "lucide-react";

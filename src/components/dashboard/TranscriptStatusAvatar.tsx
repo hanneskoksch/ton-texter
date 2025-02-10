@@ -1,6 +1,6 @@
 "use client";
 
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip } from "@heroui/react";
 import { TranscriptStatus } from "@prisma/client";
 import { Check, Loader2, X } from "lucide-react";
 

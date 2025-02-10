@@ -3,7 +3,7 @@
 import { CompareSlider } from "@/components/compareSlider/CompareSlider";
 import FileIcons from "@/components/FileIcons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Image as NextUiImage } from "@nextui-org/react";
+import { Image as NextUiImage } from "@heroui/react";
 import Image from "next/image";
 
 export default function Home() {
