@@ -6,6 +6,7 @@ import {
   deleteS3Objects,
 } from "@/lib/s3/utils";
 import { createClient } from "@/lib/supabase/server";
+import { startTranscription } from "@/transcription-service/transcription-service";
 import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TRPCError } from "@trpc/server";
 import { randomUUID } from "crypto";
@@ -190,32 +191,10 @@ export const appRouter = router({
           },
         });
 
-        // Gather metrics for transcription service
-        const result = await db.transcript.aggregate({
-          _count: { id: true },
-          _sum: { audioDuration: true },
-          where: { status: "PENDING" },
+        await startTranscription({
+          userId,
+          newTranscriptId: newTranscript.id,
         });
-
-        const allPendingTranscriptsCount = result._count.id || 0;
-        const allPendingTranscriptsDuration = result._sum.audioDuration || 0;
-
-        logMessage(
-          `Transcription triggered ${userId}.${newTranscript.id}`,
-          "Info",
-        );
-
-        // Start transcription
-        fetch(
-          "https://hzjgd3yz9g.execute-api.eu-central-1.amazonaws.com/dev/start_transcription?" +
-            new URLSearchParams({
-              key: process.env.TRANSCRIPTION_SERVICE_API_KEY,
-              total_duration: allPendingTranscriptsDuration.toString(),
-              total_files: allPendingTranscriptsCount.toString(),
-              logging_triggering_user_id: userId,
-              logging_triggering_transcript_id: newTranscript.id,
-            }).toString(),
-        );
 
         // Start asynchronous background tasks
         sendQueueMetricsToCloudwatch();
