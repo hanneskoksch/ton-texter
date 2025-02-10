@@ -43,7 +43,7 @@ export const startTranscription = async ({
  * If a transcript has been reseted and has a retryAfterError value greater than 0,
  * it will be marked as failed and will not be retried again.
  */
-export const manageUnhealthyTranscripts = async () => {
+export const resetUnhealthyTranscripts = async () => {
   const unhealthyTranscripts = await db.transcript.updateManyAndReturn({
     where: {
       status: {
@@ -111,4 +111,6 @@ export const manageUnhealthyTranscripts = async () => {
       "Warning", // Todo: Or maybe change to "Error"
     );
   }
+
+  return unhealthyTranscripts;
 };

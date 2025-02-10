@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { manageUnhealthyTranscripts } from "@/transcription-service/transcription-service";
+import { resetUnhealthyTranscripts } from "@/transcription-service/transcription-service";
 import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
@@ -26,17 +26,25 @@ export async function GET(request: NextRequest) {
         orderBy: { createdAt: "asc" },
       });
 
-      // Return null if no transcript is found
-      if (!transcript) {
+      const unhealthyTranscripts = await resetUnhealthyTranscripts();
+
+      let updated;
+      if (unhealthyTranscripts.length > 0) {
+        // If an unhealthy tran script is found, update its status to FORWARDED
+        updated = await prisma.transcript.update({
+          where: { id: unhealthyTranscripts[0].id },
+          data: { status: TranscriptStatus.FORWARDED },
+        });
+      } else if (transcript) {
+        // If a transcript is found, update its status to FORWARDED
+        const updated = await prisma.transcript.update({
+          where: { id: transcript.id },
+          data: { status: TranscriptStatus.FORWARDED },
+        });
+      } else {
+        // Return null if no transcript is found
         return null;
       }
-
-      // If a transcript is found, update its status to FORWARDED
-      const updated = await prisma.transcript.update({
-        where: { id: transcript.id },
-        data: { status: TranscriptStatus.FORWARDED },
-      });
-
       return updated;
     });
 
@@ -46,9 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Start asynchronous background tasks
-    sendQueueMetricsToCloudwatch();
-
-    await manageUnhealthyTranscripts();
+    await sendQueueMetricsToCloudwatch();
 
     // Directly return updated transcript
     return Response.json(updatedTranscript);
