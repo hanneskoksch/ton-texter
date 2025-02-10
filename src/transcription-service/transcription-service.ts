@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { logMessage } from "@/lib/cloudwatch-logs/utils";
-import { TranscriptStatus } from "@prisma/client";
+import { Prisma, PrismaClient, TranscriptStatus } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 /**
  * Triggers the transcription service endpoint to start transcribing audio files
@@ -43,8 +44,13 @@ export const startTranscription = async ({
  * If a transcript has been reseted and has a retryAfterError value greater than 0,
  * it will be marked as failed and will not be retried again.
  */
-export const resetUnhealthyTranscripts = async () => {
-  const unhealthyTranscripts = await db.transcript.updateManyAndReturn({
+export const resetUnhealthyTranscripts = async (
+  prisma: Omit<
+    PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+    "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
+  >,
+) => {
+  const unhealthyTranscripts = await prisma.transcript.updateManyAndReturn({
     where: {
       status: {
         in: [
@@ -56,9 +62,7 @@ export const resetUnhealthyTranscripts = async () => {
       heartbeat: {
         lt: new Date(Date.now() - 30 * 1000),
       },
-      retryAfterError: {
-        lt: 1,
-      },
+      retryAfterError: 0,
     },
     data: {
       status: TranscriptStatus.PENDING,
@@ -84,26 +88,27 @@ export const resetUnhealthyTranscripts = async () => {
     });
   }
 
-  const unhealthyTranscriptsRetried = await db.transcript.updateManyAndReturn({
-    where: {
-      status: {
-        in: [
-          TranscriptStatus.PROCESSING,
-          TranscriptStatus.SPEAKER_DIARIZATION,
-          TranscriptStatus.TRANSCRIPTION,
-        ],
+  const unhealthyTranscriptsRetried =
+    await prisma.transcript.updateManyAndReturn({
+      where: {
+        status: {
+          in: [
+            TranscriptStatus.PROCESSING,
+            TranscriptStatus.SPEAKER_DIARIZATION,
+            TranscriptStatus.TRANSCRIPTION,
+          ],
+        },
+        heartbeat: {
+          lt: new Date(Date.now() - 30 * 1000),
+        },
+        retryAfterError: {
+          gte: 1,
+        },
       },
-      heartbeat: {
-        lt: new Date(Date.now() - 30 * 1000),
+      data: {
+        status: TranscriptStatus.FAILED,
       },
-      retryAfterError: {
-        gte: 1,
-      },
-    },
-    data: {
-      status: TranscriptStatus.FAILED,
-    },
-  });
+    });
 
   if (unhealthyTranscriptsRetried.length > 0) {
     logMessage(

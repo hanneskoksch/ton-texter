@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
         orderBy: { createdAt: "asc" },
       });
 
-      const unhealthyTranscripts = await resetUnhealthyTranscripts();
+      const unhealthyTranscripts = await resetUnhealthyTranscripts(prisma);
 
       let updated;
       if (unhealthyTranscripts.length > 0) {
