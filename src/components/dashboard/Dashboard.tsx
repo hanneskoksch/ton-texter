@@ -64,7 +64,7 @@ function Dashboard({ userId }: { userId: string }) {
       ) {
         utils.getUserTranscriptions.invalidate();
       }
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(refetchIntervalId);
   }, [utils.getUserTranscriptions, transcripts]);
