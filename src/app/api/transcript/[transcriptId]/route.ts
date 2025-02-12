@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { logMessage } from "@/lib/cloudwatch-logs/utils";
 import { deleteS3OriginalAudio } from "@/lib/s3/utils";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
@@ -58,6 +59,11 @@ export async function POST(request: NextRequest, props: PageProps) {
   if (!file) {
     return new Response("Transcript not found.", { status: 404 });
   }
+
+  logMessage(
+    `POST /api/transcript/${transcriptId} status: ${transcriptStatus} sd_pgs: ${speakerDiarizationProgress} t_pgs: ${transcriptionProgress}`,
+    "Info",
+  );
 
   // Update transcript status and optionally preview
   const updatedTranscript = await db.transcript.update({
