@@ -84,13 +84,16 @@ export const resetUnhealthyTranscripts = async (
     "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
   >,
 ) => {
+  const now = new Date();
+  const nowMinus30Seconds = new Date(now.getTime() - 30 * 1000);
+
   const unhealthyTranscripts = await prisma.transcript.updateManyAndReturn({
     where: {
       status: {
         in: statusesToMonitorInHealthChecks,
       },
       heartbeat: {
-        lt: new Date(Date.now() - 30 * 1000),
+        lt: nowMinus30Seconds,
       },
       retryAfterError: 0,
     },
@@ -107,7 +110,7 @@ export const resetUnhealthyTranscripts = async (
 
   if (unhealthyTranscripts.length > 0) {
     logMessage(
-      `Found ${unhealthyTranscripts.length} unhealthy transcripts: ${unhealthyTranscripts.map((t) => t.id)}`,
+      `Found ${unhealthyTranscripts.length} unhealthy transcript(s): ${unhealthyTranscripts.map((t) => `${t.id} (${t.status}) found heartbeat: ${t.heartbeat} current time: ${now}`)}`,
       "Warning", // Todo: Maybe change to just "Info"
     );
   }
@@ -119,7 +122,7 @@ export const resetUnhealthyTranscripts = async (
           in: statusesToMonitorInHealthChecks,
         },
         heartbeat: {
-          lt: new Date(Date.now() - 30 * 1000),
+          lt: nowMinus30Seconds,
         },
         retryAfterError: {
           gte: 1,
@@ -132,7 +135,7 @@ export const resetUnhealthyTranscripts = async (
 
   if (unhealthyTranscriptsRetried.length > 0) {
     logMessage(
-      `Found ${unhealthyTranscriptsRetried.length} unhealthy retried transcripts: ${unhealthyTranscriptsRetried.map((t) => t.id)}`,
+      `Found ${unhealthyTranscripts.length} unhealthy retried transcript(s): ${unhealthyTranscripts.map((t) => `${t.id} (${t.status}) found heartbeat: ${t.heartbeat} current time: ${now}`)}`,
       "Warning", // Todo: Or maybe change to "Error"
     );
   }
