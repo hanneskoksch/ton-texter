@@ -24,6 +24,9 @@ export const logMessage = async (
 
   // Also log to severe cloudwatch logs to console
   switch (logLevel) {
+    case "Info":
+      console.log(message);
+      break;
     case "Warning":
       console.warn(message);
       break;
