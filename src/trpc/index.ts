@@ -8,6 +8,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { startTranscription } from "@/transcription-service/transcription-service";
 import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
+import { Transcript } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { randomUUID } from "crypto";
 import { z } from "zod";
@@ -74,6 +75,10 @@ export const appRouter = router({
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" });
 
+      // Delete related files from s3 storage
+      deleteS3Objects([file]);
+
+      // Then delete database entry
       await db.transcript.delete({
         where: {
           id: input.id,
@@ -81,14 +86,29 @@ export const appRouter = router({
         },
       });
 
-      // Also delete related file(s) from s3 storage
-      deleteS3Objects({
-        key: file.fileName,
-        fileExtension: file.fileExtension,
-      });
-
       return file;
     }),
+  deleteAllTranscripts: privateProcedure.mutation(async ({ ctx }) => {
+    const { userId } = ctx;
+
+    const allFiles: Transcript[] = await db.transcript.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    // Delete related files from s3 storage
+    deleteS3Objects(allFiles);
+
+    // Then delete database entries
+    const deletedFiles = await db.transcript.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    return deletedFiles.count;
+  }),
   donwloadTranscript: privateProcedure
     .input(
       z.object({

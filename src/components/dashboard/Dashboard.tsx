@@ -31,8 +31,22 @@ function Dashboard({ userId }: { userId: string }) {
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
+  const [currentlyDeletingEverything, setCurrentlyDeletingEverything] =
+    useState(false);
 
   const utils = trpc.useUtils();
+
+  const { mutate: deleteAllFiles } = trpc.deleteAllTranscripts.useMutation({
+    onSuccess: () => {
+      utils.getUserTranscriptions.invalidate();
+    },
+    onMutate() {
+      setCurrentlyDeletingEverything(true);
+    },
+    onSettled() {
+      setCurrentlyDeletingEverything(false);
+    },
+  });
 
   const { mutate: deleteFile } = trpc.deleteTranscript.useMutation({
     onSuccess: () => {
@@ -75,10 +89,20 @@ function Dashboard({ userId }: { userId: string }) {
     },
   });
 
-  const handleMoreMenuSelect = (key: Key, fileId: string) => {
+  const handleItemMoreMenuSelect = (key: Key, fileId: string) => {
     switch (key) {
       case "delete":
         deleteFile({ id: fileId });
+        return;
+      default:
+        return;
+    }
+  };
+
+  const handleMoreMenuSelect = (key: Key) => {
+    switch (key) {
+      case "delete-all":
+        deleteAllFiles();
         return;
       default:
         return;
@@ -91,8 +115,42 @@ function Dashboard({ userId }: { userId: string }) {
         <h1 className="mb-3 text-5xl font-bold text-default-900">
           Meine Transkripte
         </h1>
-
-        <Button onPress={onOpen}>Datei hochladen</Button>
+        <div className="flex gap-2">
+          <Button className="" onPress={onOpen}>
+            Datei hochladen
+          </Button>
+          <Dropdown closeOnSelect={false}>
+            <DropdownTrigger>
+              <Button isIconOnly color="default" variant="flat">
+                <MoreHorizontal className="" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              variant="faded"
+              aria-label="Mehr Aktionen"
+              onAction={(key) => handleMoreMenuSelect(key)}
+              disabledKeys={currentlyDeletingEverything ? ["delete-all"] : []}
+            >
+              <DropdownItem
+                key="delete-all"
+                className="text-danger"
+                color="danger"
+                description={
+                  "Löscht unwiderruflich alle Dateien, die nicht verarbeitet werden"
+                }
+                startContent={
+                  currentlyDeletingEverything ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )
+                }
+              >
+                Alle Dateien löschen
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {() => (
@@ -234,7 +292,9 @@ function Dashboard({ userId }: { userId: string }) {
                             ? ["delete"]
                             : []
                         }
-                        onAction={(key) => handleMoreMenuSelect(key, file.id)}
+                        onAction={(key) =>
+                          handleItemMoreMenuSelect(key, file.id)
+                        }
                       >
                         <DropdownItem
                           key="delete"
