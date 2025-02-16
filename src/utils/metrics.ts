@@ -1,15 +1,16 @@
 import { db } from "@/db";
 import { logQueueMetrics } from "@/lib/cloudwatch/utils";
+import { TranscriptStatus } from "@prisma/client";
 
 export async function sendQueueMetricsToCloudwatch() {
   try {
     const result = await db.transcript.aggregate({
       _count: { id: true },
       _sum: { audioDuration: true },
-      where: { status: "PENDING" },
+      where: { status: TranscriptStatus.PENDING },
     });
 
-    const allPendingTranscriptsCount = result._count.id || 0;
+    const allPendingTranscriptsCount = result._count.id;
     const allPendingTranscriptsDuration = result._sum.audioDuration || 0;
 
     await logQueueMetrics(
