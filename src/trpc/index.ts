@@ -218,7 +218,7 @@ export const appRouter = router({
 
         await sendQueueMetricsToCloudwatch();
 
-        return { success: true };
+        return { success: true, id: newTranscript.id };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", cause: error });
       }
