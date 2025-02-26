@@ -14,6 +14,20 @@ export const logMessage = async (
   message: string,
   logLevel: "Info" | "Warning" | "Error",
 ) => {
+  // Log to console
+  switch (logLevel) {
+    case "Info":
+      console.log(message);
+      break;
+    case "Warning":
+      console.warn(message);
+      break;
+    case "Error":
+      console.error(message);
+      break;
+  }
+
+  // Log to cloudwatch
   const input = {
     logGroupName: logGroupName,
     logStreamName: logStreamName,
@@ -26,17 +40,4 @@ export const logMessage = async (
   };
   const command = new PutLogEventsCommand(input);
   await client.send(command);
-
-  // Also log to severe cloudwatch logs to console
-  switch (logLevel) {
-    case "Info":
-      console.log(message);
-      break;
-    case "Warning":
-      console.warn(message);
-      break;
-    case "Error":
-      console.error(message);
-      break;
-  }
 };
