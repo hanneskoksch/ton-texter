@@ -1,14 +1,8 @@
 # Ton-Texter
 
-Ton-Texter is a Next.js application that allows users to upload audio files and receive transcripts in the formats DOCX, SRT, and TXT. This tool is designed to simplify the process of converting audio content into text, making it easier to work with transcriptions.
+Ton-Texter is a Next.js application that allows users to upload audio files and receive transcripts in DOCX, SRT, and TXT formats. This tool is designed to simplify the process of converting audio content to text, making it easier to work with transcriptions, especially in the context of video media, where a text-based video editing workflow (e.g. of interviews) can save valuable time. 
 
-## Participants
-
-| Name            | Abbreviation |
-| --------------- | ------------ |
-| Hannes Koksch   | hk058        |
-| Nikolas Schaber | ns144        |
-| Torben Ziegler  | tz023        |
+Relevant technologies include: Next.js, TypeScript, Prisma, tRPC, TailwindCSS, HeroUI, Supabase (auth & database), Vercel, S3
 
 ## Getting Started
 
@@ -61,5 +55,9 @@ Follow these steps to set up Ton-Texter locally:
 
 ## Related repositories
 
-- [Cloud-Transcription-Service](https://github.com/ns144/Cloud-Transcription-Service)
-- [Transcription-Application](https://github.com/ns144/Transcription-Application)
+| Service                                                      | Description                                                  | Scope                 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------- |
+| [Cloud-Transcription-Service](https://github.com/ns144/Cloud-Transcription-Service) | AWS cloud infrastructure via Terraform and Lambdas.          | Transcription Service |
+| [Transcription-Application](https://github.com/ns144/Transcription-Application) | The python application that does the transcription and the speaker diarization. | Transcription Service |
+| [Cloud-Transcription-Machine](https://github.com/ns144/Cloud-Transcription-Machine) | The EC2 machine setup.                                       | Transcription Service |
+| [Ton-Texter-JMeter-Tests](https://github.com/hanneskoksch/Ton-Texter-JMeter-Tests) | JMeter load and quick tests of the Ton-Texter application.   | End-to-end            |
