@@ -4,6 +4,10 @@ import { type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
+/**
+ * Handles a GET request to verify an email OTP and redirect the user accordingly.
+ * @param request - The incoming request object.
+ */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");

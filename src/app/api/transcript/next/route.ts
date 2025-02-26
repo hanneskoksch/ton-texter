@@ -1,10 +1,24 @@
 import { db } from "@/db";
+import { logMessage } from "@/lib/cloudwatch-logs/utils";
 import { resetUnhealthyTranscripts } from "@/transcription-service/transcription-service";
 import { sendQueueMetricsToCloudwatch } from "@/utils/metrics";
 import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
 import { checkApiKey } from "../security";
 
+/**
+ * Handles a GET request to fetch and update a pending transcript.
+ *
+ * This function:
+ * - Checks the API key for authentication.
+ * - Finds the first pending transcript and updates its status to `FORWARDED`.
+ * - If unhealthy transcripts exist, it prioritizes updating them.
+ * - Sends queue metrics to CloudWatch.
+ * - Logs any errors encountered.
+ *
+ * @param request - The incoming request object.
+ * @returns A JSON response containing the updated transcript or an empty object if none are found.
+ */
 export async function GET(request: NextRequest) {
   checkApiKey(request);
 
@@ -57,7 +71,7 @@ export async function GET(request: NextRequest) {
     // Directly return updated transcript
     return Response.json(updatedTranscript);
   } catch (error) {
-    console.error("Error fetching or updating transcript:", error);
+    logMessage("Error fetching or updating transcript:\n" + error, "Error");
     return new Response("Internal Server Error", { status: 500 });
   }
 }

@@ -9,6 +9,12 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Transcript } from "@prisma/client";
 import { logMessage } from "../cloudwatch-logs/utils";
 
+/**
+ * Generates a pre-signed URL for downloading an object from S3.
+ *
+ * @param key - The S3 object key.
+ * @returns A pre-signed URL valid for 300 seconds.
+ */
 export const createPresignedUrl = ({ key }: { key: string }) => {
   const client = createS3Client();
   const bucket = process.env.S3_BUCKET;
@@ -16,6 +22,12 @@ export const createPresignedUrl = ({ key }: { key: string }) => {
   return getSignedUrl(client, command, { expiresIn: 300 });
 };
 
+/**
+ * Generates a pre-signed URL for uploading an object to S3.
+ *
+ * @param key - The S3 object key.
+ * @returns A pre-signed URL valid for 300 seconds.
+ */
 export const createPresignedUploadUrl = ({ key }: { key: string }) => {
   const client = createS3Client();
   const bucket = process.env.S3_BUCKET;
@@ -34,10 +46,14 @@ const createS3Client = () => {
 };
 
 /**
- * Deletes objects from S3
- * @param keys - Array of keys to delete
- * @param fileExtension - Additional original audio file extensions to delete
- * (in case the transcription failed and the file has not been deleted due to the transcription done event)
+ * Deletes multiple objects from an S3 bucket.
+ *
+ * This function:
+ * - Deletes files associated with the given transcripts, including additional
+ *   file extensions (.docx, .srt, .txt).
+ * - Logs any errors encountered during deletion.
+ *
+ * @param transcripts - Array of transcript objects containing file details.
  */
 export const deleteS3Objects = async (transcripts: Transcript[]) => {
   if (!transcripts.length) return;
@@ -76,6 +92,15 @@ export const deleteS3Objects = async (transcripts: Transcript[]) => {
   }
 };
 
+/**
+ * Deletes an original audio file from an S3 bucket.
+ *
+ * This function:
+ * - Attempts to delete the specified object from S3.
+ * - Logs success or failure messages.
+ *
+ * @param key - The S3 object key of the original audio file.
+ */
 export const deleteS3OriginalAudio = async ({ key }: { key: string }) => {
   const client = createS3Client();
   const bucket = process.env.S3_BUCKET;
@@ -89,6 +114,6 @@ export const deleteS3OriginalAudio = async ({ key }: { key: string }) => {
     const response = await client.send(command);
     logMessage(`Deleted S3 object: ${response}`, "Info");
   } catch (err) {
-    console.error(err);
+    logMessage(`Failed to delete S3 object:\n${err}`, "Error");
   }
 };

@@ -1,3 +1,4 @@
+import { logMessage } from "@/lib/cloudwatch-logs/utils";
 import {
   getUnhealthyTranscript,
   startTranscription,
@@ -5,6 +6,19 @@ import {
 import { type NextRequest } from "next/server";
 import { checkApiKey } from "../security";
 
+/**
+ * Handles a GET request to check for unhealthy transcripts and start transcription.
+ *
+ * This function:
+ * - Checks the API key for authentication.
+ * - Retrieves unhealthy transcripts.
+ * - If any are found, triggers transcription for the first unhealthy transcript.
+ * - Returns a response indicating the number of unhealthy transcripts found or that none exist.
+ * - Logs any errors encountered.
+ *
+ * @param request - The incoming request object.
+ * @returns A JSON response with a message about the processing result.
+ */
 export async function GET(request: NextRequest) {
   checkApiKey(request);
 
@@ -24,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     return Response.json({ message: "No unhealthy transcripts found." });
   } catch (error) {
-    console.error("Error fetching or updating transcript:", error);
+    logMessage("Error fetching or updating transcript:\n" + error, "Error");
     return new Response("Internal Server Error", { status: 500 });
   }
 }

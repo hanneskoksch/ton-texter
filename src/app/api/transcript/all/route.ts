@@ -3,6 +3,9 @@ import { TranscriptStatus } from "@prisma/client";
 import { type NextRequest } from "next/server";
 import { checkApiKey } from "../security";
 
+/**
+ * Get all transcripts.
+ */
 export async function GET(request: NextRequest) {
   checkApiKey(request);
 

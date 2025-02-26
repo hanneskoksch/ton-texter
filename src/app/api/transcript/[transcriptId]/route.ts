@@ -11,6 +11,10 @@ interface PageProps {
   }>;
 }
 
+/**
+ * Update the status of a transcript.
+ * This endpoint is used by the worker / the transcription service.
+ */
 export async function POST(request: NextRequest, props: PageProps) {
   checkApiKey(request);
 
@@ -84,6 +88,7 @@ export async function POST(request: NextRequest, props: PageProps) {
     },
   });
 
+  // Delete original audio if transcript was successful
   if (transcriptStatus === TranscriptStatus.SUCCESS) {
     deleteS3OriginalAudio({
       key: updatedTranscript.fileNameWithExt,
