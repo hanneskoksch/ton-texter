@@ -4,6 +4,10 @@ Ton-Texter is a Next.js application that allows users to upload audio files and 
 
 Relevant technologies include: Next.js, TypeScript, Prisma, tRPC, TailwindCSS, HeroUI, Supabase (auth & database), Vercel, S3
 
+The following figure gives an overview of our entire architecture. This respository is used to setup Next.JS:
+
+![SystemEngineering_NextJS](https://github.com/user-attachments/assets/2acc70a3-30a9-4da7-a447-f0294c9271d0)
+
 ## Getting Started
 
 Visit the live development of [Ton-Texter](https://ton-texter.de/), or:
